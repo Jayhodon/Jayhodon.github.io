@@ -604,7 +604,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><strong>一旦状态改变就不会再发生变化</strong>（两种状态改变：成功或失败）</li>
 </ul>
 <h5 id="2-Promise的方法："><a href="#2-Promise的方法：" class="headerlink" title="2.Promise的方法："></a>2.Promise的方法：</h5><blockquote>
-<p>then方法: 这个方法是定义在原型对象Promise.prototype上的，它的作用是为Promise实例添加状态改变时的回调函数。它返回的是一个新的Promise实例，注意，不是原来的那个Promise实例，因此可以采用链式写法，即then方法后面再调用一个then方法。<br>Promise实例生成后，可用then方法分别指定两种状态回调函数，then方法可用接受两个回调函数作为参数：<br>（1）  Promise对象状态改为Resolved时调用（必须）<br>（2） Promise对象状态改为Rejected时调用（可选）<br>（3） 基本用法：</p>
+<p>then方法: 这个方法是定义在原型对象Promise.prototype上的，它的作用是为Promise实例添加状态改变时的回调函数。它返回的是一个新的Promise实例，注意，不是原来的那个Promise实例，因此可以采用链式写法，即then方法后面再调用一个then方法。<br> Promise实例生成后，可用then方法分别指定两种状态回调函数，then方法可用接受两个回调函数作为参数：<br> （1）  Promise对象状态改为Resolved时调用（必须）<br> （2） Promise对象状态改为Rejected时调用（可选）<br> （3） 基本用法：</p>
 </blockquote>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span>ms<span class="token punctuation">)</span> <span class="token entity" title="&#123;">&amp;#123;</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token entity" title="&#123;">&amp;#123;</span>
@@ -1333,7 +1333,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p>1）、cookie如果不设置有效期，那么就是临时存储（存储在内存中），是会话级别的，会话结束后，cookie也就失效了，如果设置了有效期，那么cookie存储在硬盘里，有效期到了，就自动消失了。</p>
 <p>2）、localStorage的生命周期是永久的，关闭页面或浏览器之后localStorage中的数据也不会消失。localStorage除非主动删除数据，否则数据永远不会消失。</p>
 <p>3）、sessionStorage仅在当前会话下有效。sessionStorage引入了一个“浏览器窗口”的概念，sessionStorage是在同源的窗口中始终存在的数据。只要这个浏览器窗口没有关闭，即使刷新页面或者进入同源另一个页面，数据依然存在。但是sessionStorage在关闭了浏览器窗口后就会被销毁。同时独立的打开同一个窗口同一个页面，sessionStorage也是不一样的。</p>
-<p>可以简单的理解为：sessionStorage，没有设置有效期的cookie。</p>
+<p> 可以简单的理解为：sessionStorage，没有设置有效期的cookie。</p>
 <p>如果说把cookie的有效期设置为永远永远，永久，那么就是localStorage。</p>
 <p>cookie没有设置有效期，那么就是sessionStorage                  </p>
 </blockquote>
