@@ -604,7 +604,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><strong>一旦状态改变就不会再发生变化</strong>（两种状态改变：成功或失败）</li>
 </ul>
 <h5 id="2-Promise的方法："><a href="#2-Promise的方法：" class="headerlink" title="2.Promise的方法："></a>2.Promise的方法：</h5><blockquote>
-<p>then方法: 这个方法是定义在原型对象Promise.prototype上的，它的作用是为Promise实例添加状态改变时的回调函数。它返回的是一个新的Promise实例，注意，不是原来的那个Promise实例，因此可以采用链式写法，即then方法后面再调用一个then方法。<br> Promise实例生成后，可用then方法分别指定两种状态回调函数，then方法可用接受两个回调函数作为参数：<br> （1）  Promise对象状态改为Resolved时调用（必须）<br> （2） Promise对象状态改为Rejected时调用（可选）<br> （3） 基本用法：</p>
+<p>then方法: 这个方法是定义在原型对象Promise.prototype上的，它的作用是为Promise实例添加状态改变时的回调函数。它返回的是一个新的Promise实例，注意，不是原来的那个Promise实例，因此可以采用链式写法，即then方法后面再调用一个then方法。<br>Promise实例生成后，可用then方法分别指定两种状态回调函数，then方法可用接受两个回调函数作为参数：<br>（1）  Promise对象状态改为Resolved时调用（必须）<br>（2） Promise对象状态改为Rejected时调用（可选）<br>（3） 基本用法：</p>
 </blockquote>
 <pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">sleep</span><span class="token punctuation">(</span>ms<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -987,7 +987,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>如果是 node11 后的版本，会输出timeout1=&gt;timeout2=&gt;next tick=&gt;timeout3=&gt;timeout4</p>
 <p>如果是 node11 前的版本，会输出timeout1=&gt;timeout2=&gt;timeout3=&gt;timeout4=&gt;next tick</p>
 <h4 id="node-和-浏览器-eventLoop的主要区别："><a href="#node-和-浏览器-eventLoop的主要区别：" class="headerlink" title="node 和 浏览器 eventLoop的主要区别："></a>node 和 浏览器 eventLoop的主要区别：</h4><p>两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的。</p>
-<h4 id="了解更多："><a href="#了解更多：" class="headerlink" title="了解更多："></a>了解更多：</h4><p>彻底吃透 JavaScript 执行机制：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903955286196237">https://juejin.cn/post/6844903955286196237</a></p>
+<h4 id="了解更多："><a href="#了解更多：" class="headerlink" title="了解更多："></a>了解更多：</h4><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903955286196237">彻底吃透 JavaScript 执行机制</a></p>
 <h3 id="闭包："><a href="#闭包：" class="headerlink" title="闭包："></a>闭包：</h3><p>官方的各种定义引用:</p>
 <blockquote>
 <p>MDN: 一个函数和对其周围状态（lexical environment，词法环境）的引用捆绑在一起（或者说函数被引用包围），这样的组合就是闭包（closure）。也就是说，闭包让你可以在一个内层函数中访问到其外层函数的作用域。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。</p>
@@ -1214,9 +1214,9 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p>http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源。</p>
 </blockquote>
 <p>第一次发起http请求：</p>
-<p><img src="C:\Users\。\Desktop\个人博文\http缓存-1.jpg" alt="http缓存-1"></p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-1.jpg" alt="http缓存-1"></p>
 <p>非第一次发起http请求：</p>
-<p><img src="C:\Users\。\Desktop\个人博文\http缓存-2.jpg" alt="http缓存-2"></p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-2.jpg" alt="http缓存-2"></p>
 <h4 id="1、http缓存的分类："><a href="#1、http缓存的分类：" class="headerlink" title="1、http缓存的分类："></a>1、http缓存的分类：</h4><p> 根据是否需要重新向服务器发起请求来分类，可分为(强制缓存，协商缓存) 根据是否可以被单个或者多个用户使用来分类，可分为(私有缓存，共享缓存) 强制缓存如果生效，不需要再和服务器发生交互，而协商缓存不管是否生效，都需要与服务端发生交互。</p>
 <p><strong>强制缓存</strong><br>强制缓存在缓存数据未失效的情况下（即Cache-Control的max-age没有过期或者Expires的缓存时间没有过期），那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，http状态码为200。这种方式页面的加载速度是最快的，性能也是很好的，但是在这期间，如果服务器端的资源修改了，页面上是拿不到的，因为它不会再向服务器发请求了。</p>
 <p><strong>协商缓存</strong><br>当第一次请求时服务器返回的响应头中没有Cache-Control和Expires或者Cache-Control和Expires过期还或者它的属性设置为no-cache时(即不走强缓存)，那么浏览器第二次请求时就会与服务器进行协商，与服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态码，告诉浏览器可以使用缓存中的数据，这样就减少了服务器的数据传输压力。如果数据有更新就会返回200状态码，服务器就会返回更新后的资源并且将缓存信息一起返回。跟协商缓存相关的header头属性有（ETag/If-Not-Match 、Last-Modified/If-Modified-Since）请求头和响应头需要成对出现</p>
@@ -1258,7 +1258,11 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <pre class=" language-swift"><code class="language-swift"><span class="token builtin">Cache</span><span class="token operator">-</span><span class="token builtin">Control</span><span class="token punctuation">:</span> <span class="token builtin">max</span><span class="token operator">-</span>age<span class="token operator">=</span><span class="token number">31536000</span>
 </code></pre>
 <p>过期机制中，最重要的指令是 “<code>max-age=</code>“，表示资源能够被缓存（保持新鲜）的最大时间。</p>
-<h4 id="4、http报头-amp-amp-状态码"><a href="#4、http报头-amp-amp-状态码" class="headerlink" title="4、http报头&amp;&amp;状态码"></a>4、http报头&amp;&amp;状态码</h4><p><img src="C:\Users\。\Desktop\个人博文\http缓存-3.jpg" alt="http缓存-3"></p>
+<h4 id="4、http报头-amp-amp-状态码"><a href="#4、http报头-amp-amp-状态码" class="headerlink" title="4、http报头&amp;&amp;状态码"></a>4、http报头&amp;&amp;状态码</h4><blockquote>
+<p>HTTP请求报文由请求行、请求头部、空行和请求数据4个部分组成，下图是请求报文的一般格式。</p>
+<p>HTTP响应也由三个部分组成，分别是：状态行、消息报头、响应正文。</p>
+</blockquote>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-3.jpg" alt="http缓存-3"></p>
 <table>
 <thead>
 <tr>
@@ -1287,6 +1291,15 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <td>服务端错误 500</td>
 </tr>
 </tbody></table>
+<h4 id="5、HTTP与HTTPS有什么区别？"><a href="#5、HTTP与HTTPS有什么区别？" class="headerlink" title="5、HTTP与HTTPS有什么区别？"></a>5、HTTP与HTTPS有什么区别？</h4><p>HTTP协议传输的数据都是未加密的，也就是明文的，因此使用HTTP协议传输隐私信息非常不安全，为了保证这些隐私数据能加密传输，于是网景公司设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS。</p>
+<p>简单来说，HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全。</p>
+<p>HTTPS和HTTP的区别主要如下：</p>
+<blockquote>
+<p>1、https协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</p>
+<p>2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
+<p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
+<p>4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
+</blockquote>
 <h3 id="WebStorage："><a href="#WebStorage：" class="headerlink" title="WebStorage："></a>WebStorage：</h3><p>Web Storage的目的是为了克服由cookie带来的一些限制，当数据需要被严格控制在客户端上时，无须持续地将数据发回服务器。Web Storage的两个主要目标是：</p>
 <ul>
 <li>提供一种在cookie之外存储会话数据的途径。</li>
@@ -1333,7 +1346,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p>1）、cookie如果不设置有效期，那么就是临时存储（存储在内存中），是会话级别的，会话结束后，cookie也就失效了，如果设置了有效期，那么cookie存储在硬盘里，有效期到了，就自动消失了。</p>
 <p>2）、localStorage的生命周期是永久的，关闭页面或浏览器之后localStorage中的数据也不会消失。localStorage除非主动删除数据，否则数据永远不会消失。</p>
 <p>3）、sessionStorage仅在当前会话下有效。sessionStorage引入了一个“浏览器窗口”的概念，sessionStorage是在同源的窗口中始终存在的数据。只要这个浏览器窗口没有关闭，即使刷新页面或者进入同源另一个页面，数据依然存在。但是sessionStorage在关闭了浏览器窗口后就会被销毁。同时独立的打开同一个窗口同一个页面，sessionStorage也是不一样的。</p>
-<p> 可以简单的理解为：sessionStorage，没有设置有效期的cookie。</p>
+<p>可以简单的理解为：sessionStorage，没有设置有效期的cookie。</p>
 <p>如果说把cookie的有效期设置为永远永远，永久，那么就是localStorage。</p>
 <p>cookie没有设置有效期，那么就是sessionStorage                  </p>
 </blockquote>
@@ -1378,9 +1391,10 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <pre class=" language-js"><code class="language-js">document<span class="token punctuation">.</span>cookie <span class="token operator">=</span> <span class="token string">"key=value; path=path; domain=domain; max-age=max-age-in-seconds; expires=date-in-GMTString-format; secure"</span><span class="token punctuation">;</span>
 </code></pre>
 <p>JS 中设置 Cookie 和 HTTP 方式相比较，少了对 <strong>HttpOnly</strong> 的控制，是因为 JS 不能读写HttpOnly Cookie。</p>
-<h2 id="浏览器安全相关"><a href="#浏览器安全相关" class="headerlink" title="浏览器安全相关"></a>浏览器安全相关</h2><h3 id="盗用cookie的手段"><a href="#盗用cookie的手段" class="headerlink" title="盗用cookie的手段"></a>盗用cookie的手段</h3><p>上面的演示我是手动从合法用户使用的浏览器中拿到cookie的值，在别的浏览器中来冒用合法用户访问系统；黑客自然不能手动拿你浏览器中的cookie值，除非黑客就是你身边的人，那他就不是黑客了，是盗贼；</p>
+<h2 id="浏览器安全相关"><a href="#浏览器安全相关" class="headerlink" title="浏览器安全相关"></a>浏览器安全相关</h2><h3 id="盗用cookie的手段"><a href="#盗用cookie的手段" class="headerlink" title="盗用cookie的手段"></a>盗用cookie的手段</h3><p>在别的浏览器中来冒用合法用户访问系统；黑客自然不能手动拿你浏览器中的cookie值，除非黑客就是你身边的人，那他就不是黑客了，是盗贼；</p>
 <p>黑客都是靠技术手段获取别人的东西，例如：利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页中，然后自动从用户浏览器中获取cookie的值，此技术手段被称为<a target="_blank" rel="noopener" href="https://blog.csdn.net/zemprogram/article/details/109451863"><strong>XSS攻击</strong></a>；</p>
 <p><strong>如果cookie中设置了HttpOnly属性，且为true，那么通过js脚本将无法读取到cookie信息，这样就能有效的防止XSS攻击，防止cookie内容被盗窃。</strong></p>
+<h3 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h3><p>　　 在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.<br>        Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。<br>        Syn攻击是一个典型的DDOS攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903955286196237">【THE LAST TIME】彻底吃透 JavaScript 执行机制</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903984335945736">【THE LAST TIME】一文吃透所有JS原型相关知识点</a></p>
 <p><a target="_blank" rel="noopener" href="https://imququ.com/post/host-only-cookie.html">你所不知道的HostOnly Cookie</a></p>
@@ -1658,6 +1672,14 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
+                    </a>
+                    
                 </div>
                 
             </div>
