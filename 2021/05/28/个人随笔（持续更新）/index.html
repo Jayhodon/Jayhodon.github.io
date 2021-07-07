@@ -1158,7 +1158,33 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <h4 id="ES6-模块和Common-js-模块的差异："><a href="#ES6-模块和Common-js-模块的差异：" class="headerlink" title="ES6 模块和Common js 模块的差异："></a>ES6 模块和Common js 模块的差异：</h4><p>1、CommonJS 输出的是一个值的拷贝；ES6 模块输出的是值的引用；</p>
 <p>2、CommonJS 模块是运行时加载；ES6模块是编译时输出接口；</p>
 <p>由于ES6 模块是编译时输出接口，所以可以做到 tree shaking；</p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p>​    <strong>flex容器属性:</strong></p>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h4 id="CSS-优先规则"><a href="#CSS-优先规则" class="headerlink" title="CSS 优先规则"></a>CSS 优先规则</h4><blockquote>
+<p>优先级关系：内联样式 &gt; ID 选择器 &gt; 类选择器 = 属性选择器 = 伪类选择器 &gt; 标签选择器 = 伪元素选择器</p>
+</blockquote>
+<h4 id="css定义的权重"><a href="#css定义的权重" class="headerlink" title="css定义的权重"></a>css定义的权重</h4><pre class=" language-css"><code class="language-css">// 以下是权重的规则：标签的权重为<span class="token number">1</span>，class的权重为<span class="token number">10</span>，id的权重为<span class="token number">100</span>，以下/// 例子是演示各种定义的权重值：
+
+<span class="token comment" spellcheck="true">/*权重为1*/</span>
+<span class="token selector">div</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*权重为10*/</span>
+<span class="token selector"><span class="token class">.class1</span></span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*权重为100*/</span>
+<span class="token selector"><span class="token id">#id1</span></span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*权重为100+1=101*/</span>
+<span class="token selector"><span class="token id">#id1</span> div</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*权重为10+1=11*/</span>
+<span class="token selector"><span class="token class">.class1</span> div</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*权重为10+10+1=21*/</span>
+<span class="token selector"><span class="token class">.class1</span> <span class="token class">.class2</span> div</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+// 如果权重相同，则最后定义的样式会起作用，但是应该避免这种情况出现
+</code></pre>
+<h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p>​    <strong>flex容器属性:</strong></p>
 <ul>
 <li>flex-direction:决定项目的排列方向。</li>
 <li>flex-wrap:即一条轴线排不下时如何换行。</li>
@@ -1167,13 +1193,172 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <li>align-items:定义项目在交叉轴上如何对齐。</li>
 <li>align-content:定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。(换行会产生多轴)</li>
 </ul>
-<h4 id="在flex布局下实现水平垂直居中："><a href="#在flex布局下实现水平垂直居中：" class="headerlink" title="在flex布局下实现水平垂直居中："></a>在flex布局下实现水平垂直居中：</h4><pre class=" language-css"><code class="language-css"> <span class="token selector"><span class="token id">#box</span></span><span class="token punctuation">{</span>
-     <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
+<h4 id="盒子水平垂直居中的五种方法："><a href="#盒子水平垂直居中的五种方法：" class="headerlink" title="盒子水平垂直居中的五种方法："></a>盒子水平垂直居中的五种方法：</h4><p>相对定位： 先让子盒子的左上角居中然后在向左和向上移动子盒子的宽和高的一半。缺点是需要知道子盒子具体的宽和高</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+<span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+<span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">25</span>px<span class="token punctuation">;</span>
+<span class="token property">margin-top</span><span class="token punctuation">:</span> - <span class="token number">25</span>px<span class="token punctuation">;</span>
+</code></pre>
+<p>绝对定位：设置子盒子的上、下、左、右都为0，然后再用margin: auto;来设置居中。不需要知道盒子具体的宽和高，但必须要有固定的宽和高。</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token property">right</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token property">margin</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+</code></pre>
+<p>相对定位+CSS3的translate：同一，先让盒子的左上角居中（left，top 50%），然后再借助translate让子盒子分别向左和向上移动盒子的一半。不需要知道盒子具体的宽和高，但不是所有浏览器都兼容。</p>
+<pre class=" language-css"><code class="language-css"><span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+<span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+<span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translate</span><span class="token punctuation">(</span>-<span class="token number">50%</span> -<span class="token number">50%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>display: flex：利用flex布局让子盒子居中，同样也存在兼容性问题</p>
+<pre class=" language-css"><code class="language-css"> <span class="token selector"><span class="token id">#box</span></span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
     <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
     <span class="token property">background</span><span class="token punctuation">:</span><span class="token hexcode">#eee</span><span class="token punctuation">;</span>
     <span class="token property">display</span><span class="token punctuation">:</span>flex<span class="token punctuation">;</span>
     <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
     <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>利用JavaScript，获取分别获取大盒子和子盒子的宽和高，然后再通过计算让子盒子居中</p>
+<h4 id="两边固定-中间自适应-（圣杯布局和双飞翼布局）"><a href="#两边固定-中间自适应-（圣杯布局和双飞翼布局）" class="headerlink" title="两边固定 中间自适应 （圣杯布局和双飞翼布局）"></a>两边固定 中间自适应 （圣杯布局和双飞翼布局）</h4><p><strong>圣杯布局结构</strong>： </p>
+<blockquote>
+<p>main是中间部分 必须放在文档流的最起前边 优先渲染</p>
+<p>好处：重要的内容放在文档流前面可以优先渲染</p>
+<p>原理：利用相对定位、浮动、负边距布局，而不添加额外标签</p>
+</blockquote>
+<ul>
+<li></li>
+</ul>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>contaer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>main<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>right<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.contaer</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/*3， 给父盒子添加padding  把main挤过来 */</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+        
+<span class="token selector"><span class="token class">.left</span>,
+<span class="token class">.right</span> </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/*1， 给左右盒子添加左浮动 */</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* 4，给左右盒子添加相对于自己的定位 */</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+        
+<span class="token selector"><span class="token class">.left</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/*2， 让盒子上去 */</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">100%</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* 让盒子定位在左边 */</span>
+    <span class="token property">left</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.right</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 2，让盒子上去 */</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/*4. 让盒子定位在右边 */</span>
+    <span class="token property">right</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+        
+<span class="token selector"><span class="token class">.main</span> </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> blueviolet<span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+    <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>1，给左中右设置左浮动 但是 mian部分的宽度为100% 所以左右元素不会上去</p>
+<p>2，给left 一个margin-left = -100% right 的margin-left : -200px (这里是right盒子的宽度)</p>
+<p>3，这时由于main的左右部分被挡住 只好给contaer padding值把main挤出来</p>
+<p>4，这样做之后左右盒子也被挤过来了 所以需要给两个盒子添加定位 相对于自己 把盒子定在左右两边</p>
+</blockquote>
+<p>也可以通过flex布局：</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.contaer</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 给父盒子设置flex */</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.main</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 中间部分  丰乐乡：1  让盒子占据剩下的所有剩余空间 */</span>
+    <span class="token property">flex</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> blueviolet<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.left</span>,
+<span class="token class">.right</span> </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.left</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 让左侧盒子放在前边  但不是最先渲染 */</span>css
+    <span class="token property">order</span><span class="token punctuation">:</span> -<span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>双飞翼布局</strong>：</p>
+<blockquote>
+<p>去掉了圣杯布局中的定位和padding 但是需要在main加入一个p标签 后给p标签margin。对圣杯布局（使用相对定位，对以后布局有局限性）的改进，消除相对定位布局</p>
+<p>原理：主体元素上设置左右边距，预留两翼位置。左右两栏使用浮动和负边距归位，消除相对定位。</p>
+</blockquote>
+<p>结构：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>contaer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>main<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>main<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>left<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>right<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>right<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>样式：</p>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.left</span>,
+<span class="token class">.right</span> </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/* 给左右盒子添加左浮动 */</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.left</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 让盒子上去 */</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">100%</span><span class="token punctuation">;</span>
+    
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.right</span> </span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/* 让盒子上去 */</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
+    
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.main</span> </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> blueviolet<span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/* 给p添加margin*/</span>
+<span class="token selector">p </span><span class="token punctuation">{</span>
+    <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>双飞翼布局和圣杯布局的区别</strong>：</p>
+<blockquote>
+<p>除了结构上的差别 圣杯布局中 当页面很小的时候 main 会被挤下来 但是双飞翼布局不会 flex布局也不会</p>
+</blockquote>
+<h4 id="创建一个三角形的原理"><a href="#创建一个三角形的原理" class="headerlink" title="创建一个三角形的原理"></a>创建一个三角形的原理</h4><pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token id">#demo</span> </span><span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token property">border-width</span><span class="token punctuation">:</span> <span class="token number">20</span>px<span class="token punctuation">;</span>
+  <span class="token property">border-style</span><span class="token punctuation">:</span> solid<span class="token punctuation">;</span>
+  <span class="token property">border-color</span><span class="token punctuation">:</span> transparent transparent red transparent<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><h3 id="MVC-和-MVVM-区别"><a href="#MVC-和-MVVM-区别" class="headerlink" title="MVC 和 MVVM 区别"></a>MVC 和 MVVM 区别</h3><h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p>MVC 全名是 Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范</p>
@@ -1192,7 +1377,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <blockquote>
 <p>注意：Vue 并没有完全遵循 MVVM 的思想 这一点官网自己也有说明。严格的 MVVM 要求 View 不能和 Model 直接通信，而 Vue 提供了$refs 这个属性，让 Model 可以直接操作 View，违反了这一规定，所以说 Vue 没有完全遵循 MVVM。</p>
 </blockquote>
-<h3 id="Vue-组件通讯有哪几种方式"><a href="#Vue-组件通讯有哪几种方式" class="headerlink" title="Vue 组件通讯有哪几种方式"></a>Vue 组件通讯有哪几种方式</h3><blockquote>
+<h3 id="Vue相关"><a href="#Vue相关" class="headerlink" title="Vue相关"></a>Vue相关</h3><h4 id="Vue-组件通讯有哪几种方式"><a href="#Vue-组件通讯有哪几种方式" class="headerlink" title="Vue 组件通讯有哪几种方式"></a>Vue 组件通讯有哪几种方式</h4><blockquote>
 <ol>
 <li><p>props 和$emit 父组件向子组件传递数据是通过 prop 传递的，子组件传递数据给父组件是通过$emit 触发事件来做到的</p>
 </li>
@@ -1210,7 +1395,8 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 </li>
 </ol>
 </blockquote>
-<h3 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h3><blockquote>
+<h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\Vue生命周期.jpg" alt="Vue生命周期"></p>
+<blockquote>
 <p><strong>beforeCreate</strong> 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。在当前阶段 data、methods、computed 以及 watch 上的数据和方法都不能被访问</p>
 <p><strong>created</strong> 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。这里没有$el,如果非要想与 Dom 进行交互，可以通过 vm.$nextTick 来访问 Dom</p>
 <p><strong>beforeMount</strong> 在挂载开始之前被调用：相关的 render 函数首次被调用。</p>
@@ -1222,7 +1408,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p><strong>activated</strong> keep-alive 专属，组件被激活时调用</p>
 <p><strong>deactivated</strong> keep-alive 专属，组件被销毁时调用</p>
 </blockquote>
-<p><strong>异步请求在哪一步发起？</strong></p>
+<p>异步请求在哪一步发起？**</p>
 <blockquote>
 <p>可以在钩子函数 created、beforeMount、mounted 中进行异步请求，因为在这三个钩子函数中，data 已经创建，可以将服务端端返回的数据进行赋值。</p>
 <p>如果异步请求不需要依赖 Dom 推荐在 created 钩子函数中调用异步请求，因为在 created 钩子函数中调用异步请求有以下优点：</p>
@@ -1231,27 +1417,26 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <li>ssr  不支持 beforeMount 、mounted 钩子函数，所以放在 created 中有助于一致性；</li>
 </ul>
 </blockquote>
-<p><strong>Vue 的父子组件生命周期钩子函数执行顺序</strong></p>
+<p>Vue 的父子组件生命周期钩子函数执行顺序**</p>
 <blockquote>
-<p>加载渲染过程:</p>
+<p><strong>加载渲染过程:</strong></p>
 <p>父 beforeCreate-&gt;父 created-&gt;父 beforeMount-&gt;子 beforeCreate-&gt;子 created-&gt;子 beforeMount-&gt;子 mounted-&gt;父 mounted</p>
-<p>子组件更新过程:</p>
+<p><strong>子组件更新过程:</strong></p>
 <p>父 beforeUpdate-&gt;子 beforeUpdate-&gt;子 updated-&gt;父 updated</p>
-<p>父组件更新过程:</p>
+<p><strong>父组件更新过程:</strong></p>
 <p>父 beforeUpdate-&gt;父 updated</p>
-<p>销毁过程:</p>
+<p><strong>销毁过程:</strong></p>
 <p>父 beforeDestroy-&gt;子 beforeDestroy-&gt;子 destroyed-&gt;父 destroyed</p>
 </blockquote>
-<h3 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令</h3><p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\vue内置指令.jpg" alt="vue内置指令"></p>
-<h3 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h3><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令<img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\vue内置指令.jpg" alt="vue内置指令"></h4><h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
 <blockquote>
 <p>注意：在子组件直接用 v-model 绑定父组件传过来的 prop 这样是不规范的写法 开发环境会报警告</p>
 </blockquote>
 <p>如果实在要改变父组件的 prop 值 可以再 data 里面定义一个变量 并用 prop 的值初始化它 之后用$emit 通知父组件去修改。</p>
-<h3 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h3><p>computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
+<h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
 <p>计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
-<h3 id="v-model-原理"><a href="#v-model-原理" class="headerlink" title="v-model 原理"></a>v-model 原理</h3><p>v-model 其实就是语法糖</p>
+<h4 id="v-model-原理"><a href="#v-model-原理" class="headerlink" title="v-model 原理"></a>v-model 原理</h4><p>v-model 其实就是语法糖</p>
 <p>v-model 在内部为不同的输入元素使用不同的 property 并抛出不同的事件：</p>
 <blockquote>
 <p>text 和 textarea 元素使用 value property 和 input 事件；</p>
@@ -1282,7 +1467,7 @@ Vue.component('currency-input', {
  props: ['value'],
 })
 </code></pre>
-<h3 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h3><blockquote>
+<h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
 <p>1.工厂模式 - 传入参数即可创建实例</p>
 <p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
 <p>2.单例模式 - 整个程序有且仅有一个实例</p>
@@ -1292,7 +1477,7 @@ Vue.component('currency-input', {
 <p>5.装饰模式: (@装饰器的用法)</p>
 <p>6.策略模式 策略模式指对象有某个行为,但是在不同的场景中,该行为有不同的实现方案-比如选项的合并策略</p>
 </blockquote>
-<h3 id="Vue3-0-和-2-0-的响应式原理区别"><a href="#Vue3-0-和-2-0-的响应式原理区别" class="headerlink" title="Vue3.0 和 2.0 的响应式原理区别"></a>Vue3.0 和 2.0 的响应式原理区别</h3><h3 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h3><h4 id="vue-router-中常用的路由模式实现原理吗"><a href="#vue-router-中常用的路由模式实现原理吗" class="headerlink" title="vue-router 中常用的路由模式实现原理吗"></a>vue-router 中常用的路由模式实现原理吗</h4><h5 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a><strong>hash 模式</strong></h5><ol>
+<h4 id="Vue3-0-和-2-0-的响应式原理区别"><a href="#Vue3-0-和-2-0-的响应式原理区别" class="headerlink" title="Vue3.0 和 2.0 的响应式原理区别"></a>Vue3.0 和 2.0 的响应式原理区别</h4><h3 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h3><h4 id="vue-router-中常用的路由模式实现原理吗"><a href="#vue-router-中常用的路由模式实现原理吗" class="headerlink" title="vue-router 中常用的路由模式实现原理吗"></a>vue-router 中常用的路由模式实现原理吗</h4><h5 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a><strong>hash 模式</strong></h5><ol>
 <li>location.hash 的值实际就是 URL 中#后面的东西 它的特点在于：hash 虽然出现 URL 中，但不会被包含在 HTTP 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面。</li>
 <li>可以为 hash 的改变添加监听事件</li>
 </ol>
