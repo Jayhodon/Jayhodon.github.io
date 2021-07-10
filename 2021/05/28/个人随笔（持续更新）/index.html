@@ -474,7 +474,7 @@
 <p>1、Ajax直接请求普通文件存在跨域无权限访问的问题，不管是静态页面、动态页面、web服务，只要是跨域请求，一律不准。</p>
 <p>2、不过我们发现，web页面调用js文件则不受跨域的影响（不仅如此，我们还发现凡是拥有“src”这个属性的标签都拥有跨域的能力，比如&lt;\script&gt;、&lt;\img&gt;、&lt;\iframe&gt;）。</p>
 <p>3、于是可以判断，当前阶段如果想通过纯web端跨域访问数据就只有一种可能，那就是在远程服务器上设法把数据装进js格式的文件里，供客户端调用和进一步处理。</p>
-<p>4、恰巧我们知道有一种叫做JSON的纯字符数据格式可以简洁的描述复杂数据，更妙的是JSON还被js原生支持，所以在客户端几乎可以随心所欲的处理这种格式的数据。</p>
+<p>4、恰巧我们知道有一种叫做JSON的<strong>纯字符数据格式</strong>可以简洁的描述复杂数据，更妙的是JSON还被js原生支持，所以在客户端几乎可以随心所欲的处理这种格式的数据。</p>
 <p>5、这样，解决方案就呼之欲出了，web服务端通过与调用脚本一模一样的方式，来调用跨域服务器上动态生成的js格式文件，显而易见，服务器之所以要动态生成JSON文件，目的就在于把客户端需要的数据装进去。</p>
 <p>6、客户端在对JSON文件调用成功之后，也就获得了自己所需的数据，剩下的就是按照自己需求进行处理和展现了，这种获取远程数据的方式看起来很像ajax，但其实并不一样。</p>
 <p>7、为了便于客户端使用数据，逐渐形成了一种非正式传输协议，简称<strong>JSONP</strong>。<u>该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名包裹在JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。</u></p>
@@ -579,7 +579,112 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>当每创建一个Person构造函数时，在Person构造函数中，为每一个对象都添加了一个run方法，也就是说构造函数每执行一次就会创建一个新的run方法。</p>
 <p>一个还好，如果创建了一百个实例，一千个甚至上万个呢，这时候就体现出原型的好处了，我们可以把run方法放到构造函数的prototype上，这时候只需要创建一个，而且每一个实例都可以访问到。</p>
 <p>prototype相当于所有实例对象可以访问的一个公共容器，实例对象的<code>__prorunto__</code>指向构造函数的<code>prototype</code>，从而实现<strong>继承</strong>。</p>
+<p><strong>经典图：</strong></p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\原型经典图.jpg" alt="原型经典图"></p>
 <h4 id="了解更多相关："><a href="#了解更多相关：" class="headerlink" title="了解更多相关："></a>了解更多相关：</h4><p>ES5继承实现、ES6类实现、typeof&amp;&amp;instanceof原理：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903984335945736">https://juejin.cn/post/6844903984335945736</a></p>
+<h3 id="This"><a href="#This" class="headerlink" title="This:"></a>This:</h3><p><strong>1. 默认绑定与隐式绑定</strong></p>
+<p>让我们看看下面这个例子：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> 
+<span class="token keyword">var</span> bar <span class="token operator">=</span> <span class="token string">"bar1"</span><span class="token punctuation">;</span> 
+<span class="token keyword">var</span> o2 <span class="token operator">=</span> <span class="token punctuation">{</span>bar<span class="token punctuation">:</span> <span class="token string">"bar2"</span><span class="token punctuation">,</span> foo<span class="token punctuation">:</span> foo<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+<span class="token keyword">var</span> o3 <span class="token operator">=</span> <span class="token punctuation">{</span>bar<span class="token punctuation">:</span> <span class="token string">"bar3"</span><span class="token punctuation">,</span> foo<span class="token punctuation">:</span> foo<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">// "bar1" – 默认绑定</span>
+o2<span class="token punctuation">.</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// "bar2" – 隐式绑定</span>
+o3<span class="token punctuation">.</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// "bar3" – 隐式绑定</span>
+</code></pre>
+<p>foo()这种调用方法，就是默认绑定。如果在非严格模式下，this就是全局对象，浏览器当中就是window。而如果在严格模式（use strict）下，this就会是undefined。</p>
+<p>之所以这是默认绑定，因为foo的调用不属于任何人，前面没有任何限定条件。这是最简单的绑定。</p>
+<p>o2.foo()和o3.foo()这两种调用方法，都是隐式绑定。Foo是作为o2和o3的方法而调用的，那么谁调用foo，this就指向谁。在上面的例子中，o2.foo()中的this指向o2，因此this.bar就是o2当中的bar: “bar2”；同理，o3.foo()打印出来的就是o3中的”bar3”。</p>
+<p><strong>2. 显式绑定</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>bar<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> 
+<span class="token keyword">var</span> bar <span class="token operator">=</span> <span class="token string">"bar1"</span><span class="token punctuation">;</span> 
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>bar<span class="token punctuation">:</span> <span class="token string">"bar2"</span><span class="token punctuation">}</span><span class="token punctuation">;</span> 
+
+<span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// "bar1"   默认绑定</span>
+foo<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// "bar2"  显式绑定，使用obj作为"this" </span>
+</code></pre>
+<p>如果foo是通过call、apply或者bind调用的，那么这种调用就是显式绑定。这种绑定中,this的指向就是这三个函数中传递的第一个参数。</p>
+<p><strong>3. 关键字new绑定</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">this</span><span class="token punctuation">.</span>baz <span class="token operator">=</span> <span class="token string">"baz"</span><span class="token punctuation">;</span> 
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>bar <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> baz<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> 
+<span class="token keyword">var</span> bar <span class="token operator">=</span> <span class="token string">"bar"</span><span class="token punctuation">;</span> 
+<span class="token keyword">var</span> baz <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+</code></pre>
+<p>如果把new这个关键字放在一个函数调用的前面，JS编译器会做这四件事情：</p>
+<blockquote>
+<ol>
+<li>创建一个新的空的对象</li>
+<li>把这个对象链接到原型对象上</li>
+<li>这个对象被绑定为this</li>
+<li>如果这个函数不返回任何东西，那么就会默认return this</li>
+</ol>
+</blockquote>
+<p>上面的例子，最终会输出undefined undefined。这是因为baz这个变量并没有bar这个属性，而baz此时只被定义，没有被赋值，因此baz也是undefined。</p>
+<p><strong>4. 箭头函数</strong></p>
+<p>箭头函数会无视以上所有的规则，this的值就是函数创建时候所在的lexical scope中的this，而和调用方式无关。可以对比下面两个例子：</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// 输出undefined</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+  <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// 输出10</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在上面没有使用箭头函数的例子当中，setTimeout内部的函数是被global调用的，而global没有age这个属性，因此输出undefined。</p>
+<p>第二个例子使用了箭头函数，this就会使用lexical scope中的this，就是Person，因此输出10。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">'Nicolas'</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Smiley'</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>sayName<span class="token operator">=</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>sayName<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token operator">*</span><span class="token comment" spellcheck="true">// 第二次输出*</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+person<span class="token punctuation">.</span><span class="token function">sayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token operator">*</span><span class="token comment" spellcheck="true">// 第一次输出*</span>
+</code></pre>
+<p>第一次输出的是Person, Smiley。第二次输出的结果是window，Nicolas。尽管setTimeout是在构造函数中定义的，但是调用的时候，是在window中调用。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"Smiley"</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>sayName <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> sayNameCopy <span class="token operator">=</span> person<span class="token punctuation">.</span>sayName<span class="token punctuation">;</span>
+<span class="token function">sayNameCopy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>答案是window和undefined。因为，这个时候符合默认绑定的规则。</p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\this指向.jpg" alt="this指向"></p>
+<p><strong>5. 绑定优先级</strong></p>
+<p>如果多重绑定规格都适用，那么绑定规则的优先级顺序是这样的：</p>
+<blockquote>
+<ol>
+<li>箭头函数</li>
+<li>关键字new调</li>
+<li>显式绑定</li>
+<li>隐式绑定</li>
+<li>默认绑定</li>
+</ol>
+</blockquote>
+<p>箭头函数优先级最高，会无视2-5绑定规则。而默认绑定优先级最低，只有其他绑定都不使用的时候，才会使用默认绑定。</p>
 <h3 id="Promise："><a href="#Promise：" class="headerlink" title="Promise："></a>Promise：</h3><blockquote>
 <p>Promise是异步编程的一种解决方案，它比传统的解决方案–回调函数和事件–更合理且更加强大，它最早是由社区提出并实现，后面ES6将其写进了语言标准，统一了用法，也提供了Promise。</p>
 </blockquote>
@@ -688,7 +793,7 @@ Promise<span class="token punctuation">.</span><span class="token function">race
 <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>log<span class="token punctuation">)</span>
 <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>console<span class="token punctuation">.</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h4 id="关于Promise-的问题："><a href="#关于Promise-的问题：" class="headerlink" title="关于Promise 的问题："></a>关于Promise 的问题：</h4><p>1.async await：</p>
+<h4 id="关于Promise-的问题："><a href="#关于Promise-的问题：" class="headerlink" title="关于Promise 的问题："></a>关于Promise 的问题：</h4><p><strong>1.async await：</strong></p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> a<span class="token punctuation">;</span>
 <span class="token keyword">const</span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'p1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -724,7 +829,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>输出 after1 不奇怪。</p>
 <p>await a 时，a 是必须等待 Promise 的状态从 pending 到 fullfilled 才会继续往下执行，可 a 的状态是一直得不到更改的，所以无法执行下面的逻辑。只要在 await a 上面加一行 resolve() 就能让后面的 after 2 得到输出</p>
 </blockquote>
-<p>2.如何限制并行 Promise？</p>
+<p><strong>2..如何限制并行 Promise？</strong></p>
 <p>要做到这一点，我们需要以某种方式限制<code>Promise.all</code>。假设你有许多并发请求要执行。 如果使用 <code>Promise.all</code> 是不好的（特别是在API受到速率限制时）。 因此，我们需要一个方法来限制 Promise 个数， 我们称其为<code>promiseAllThrottled</code>。</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// simulate 10 async tasks that takes 5 seconds to complete.</span>
 <span class="token keyword">const</span> requests <span class="token operator">=</span> <span class="token function">Array</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
@@ -786,6 +891,52 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <blockquote>
 <p>Promise在初始化时，传入的函数是同步执行的，然后注册 then 回调。注册完之后，继续往下执行同步代码，在这之前，then 中回调不会执行。同步代码块执行完毕后，才会在事件循环中检测是否有可用的 promise 回调，如果有，那么执行，如果没有，继续下一个事件循环</p>
 </blockquote>
+<h3 id="事件模型："><a href="#事件模型：" class="headerlink" title="事件模型："></a>事件模型：</h3><p>事件模型可以分为三种：</p>
+<p><strong>原始事件模型（DOM0级）</strong></p>
+<p>事件绑定监听函数比较简单, 有两种方式：</p>
+<ol>
+<li>HTML代码中直接绑定</li>
+</ol>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fun()<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<ol start="2">
+<li>通过JS代码绑定</li>
+</ol>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'.btn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+btn<span class="token punctuation">.</span>onclick <span class="token operator">=</span> fun<span class="token punctuation">;</span>
+</code></pre>
+<p>DOM0级事件具有很好的跨浏览器优势，会以最快的速度绑定，但由于绑定速度太快，可能页面还未完全加载出来，以至于事件可能无法正常运行。<strong>只支持冒泡，不支持捕获</strong>。同一个类型的事件只能绑定一次，当希望为同一个元素绑定多个同类型事件的时候是不被允许的，后绑定的事件会覆盖之前的事件。</p>
+<p>删除 DOM0 级事件处理程序只要将对应事件属性置为null即可</p>
+<p><strong>标准事件模型（DOM2级）</strong></p>
+<p>在该事件模型中，一次事件共有三个过程:</p>
+<blockquote>
+<p>事件捕获阶段：事件从document一直向下传播到目标元素, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</p>
+<p>事件处理阶段：事件到达目标元素, 触发目标元素的监听函数</p>
+<p>事件冒泡阶段：事件从目标元素冒泡到document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</p>
+</blockquote>
+<ol>
+<li>事件绑定监听函数的方式如下:</li>
+</ol>
+<pre class=" language-js"><code class="language-js"><span class="token function">addEventListener</span><span class="token punctuation">(</span>eventType<span class="token punctuation">,</span> handler<span class="token punctuation">,</span> useCapture<span class="token punctuation">)</span>
+</code></pre>
+<ol start="2">
+<li>事件移除监听函数的方式如下:</li>
+</ol>
+<pre class=" language-js"><code class="language-js"><span class="token function">removeEventListener</span><span class="token punctuation">(</span>eventType<span class="token punctuation">,</span> handler<span class="token punctuation">,</span> useCapture<span class="token punctuation">)</span>
+</code></pre>
+<p>可以在一个<code>DOM</code>元素上绑定多个事件处理器，各自并不会冲突</p>
+<p><strong>IE事件模型（基本不用）</strong></p>
+<p>IE事件模型共有两个过程:</p>
+<blockquote>
+<p>事件处理阶段：事件到达目标元素, 触发目标元素的监听函数。</p>
+<p>事件冒泡阶段：事件从目标元素冒泡到document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</p>
+</blockquote>
+<p>事件绑定监听函数的方式如下:</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">attachEvent</span><span class="token punctuation">(</span>eventType<span class="token punctuation">,</span> handler<span class="token punctuation">)</span>
+</code></pre>
+<p>事件移除监听函数的方式如下:</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">detachEvent</span><span class="token punctuation">(</span>eventType<span class="token punctuation">,</span> handler<span class="token punctuation">)</span>
+</code></pre>
 <h3 id="事件循环："><a href="#事件循环：" class="headerlink" title="事件循环："></a>事件循环：</h3><h4 id="浏览器中的事件循环："><a href="#浏览器中的事件循环：" class="headerlink" title="浏览器中的事件循环："></a>浏览器中的事件循环：</h4><blockquote>
 <p>JavaScript 是单线程的语言，所谓单线程无非就是同步队列和异步队列，js代码是自上向下执行的，在主线程中立即执行的就是同步任务，比如简单的逻辑操作及函数，而异步任务不会立马立马执行，会挪步放到到异步队列中，而不同的异步操作添加到任务队列的时机也不同，比如onclick（事件）, setTimeout（计时器）, ajax ，promise处理的方式都不同，总的说就是<strong>等待主线程中任务全部完成后，再回来把异步队列中任务放到主程序中运行，这样反复的循环，就是事件循环。</strong></p>
 <p>这些异步操作是由浏览器内核来执行的,浏览器内核上包含 3 种 webAPI,分别是 DOM Binding(DOM绑定)、network(网络请求)、timer(定时器)模块</p>
@@ -1161,7 +1312,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h4 id="CSS-优先规则"><a href="#CSS-优先规则" class="headerlink" title="CSS 优先规则"></a>CSS 优先规则</h4><blockquote>
 <p>优先级关系：内联样式 &gt; ID 选择器 &gt; 类选择器 = 属性选择器 = 伪类选择器 &gt; 标签选择器 = 伪元素选择器</p>
 </blockquote>
-<h4 id="css定义的权重"><a href="#css定义的权重" class="headerlink" title="css定义的权重"></a>css定义的权重</h4><pre class=" language-css"><code class="language-css">// 以下是权重的规则：标签的权重为<span class="token number">1</span>，class的权重为<span class="token number">10</span>，id的权重为<span class="token number">100</span>，以下/// 例子是演示各种定义的权重值：
+<h4 id="CSS定义的权重"><a href="#CSS定义的权重" class="headerlink" title="CSS定义的权重"></a>CSS定义的权重</h4><pre class=" language-css"><code class="language-css">// 以下是权重的规则：标签的权重为<span class="token number">1</span>，class的权重为<span class="token number">10</span>，id的权重为<span class="token number">100</span>，以下/// 例子是演示各种定义的权重值：
 
 <span class="token comment" spellcheck="true">/*权重为1*/</span>
 <span class="token selector">div</span><span class="token punctuation">{</span>
@@ -1184,6 +1335,13 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 
 // 如果权重相同，则最后定义的样式会起作用，但是应该避免这种情况出现
 </code></pre>
+<h4 id="CSS-单位-px、em、rem、rpx、vh、vw-的解释比较"><a href="#CSS-单位-px、em、rem、rpx、vh、vw-的解释比较" class="headerlink" title="CSS 单位 px、em、rem、rpx、vh、vw 的解释比较"></a>CSS 单位 px、em、rem、rpx、vh、vw 的解释比较</h4><blockquote>
+<ol>
+<li>px也就是像素，第一印象它是绝对长度，是定死的，所以想要响应式布局和自适应布局不要用它。但其实”绝对“，”定死“这些并不准确，它的大小也是会随着屏幕变化的。</li>
+<li>rem使用更方便且用途更普遍，所以我们先来看rem。非常简单，设定根元素<html>的font-size属性，默认为16px，那么1rem = 16px。设置为20px，那么1rem = 20px。为了简化计算，我们想令1rem = 10px，就设定根元素font-size为10px或者62.5%（16*62.5%=10）。用 rem 有什么好处？可以实现响应式布局了！响应式布局指的是元素大小能根据屏幕大小随时变化，因为 rem 布局里所有大小跟着根元素变化，所以只要在屏幕大小变化的时候改变根元素font-size就行了。</li>
+<li>rpx是微信小程序为了解决自适应屏幕尺寸设计的单位，它规定任何屏幕的宽都是750rpx。vw是css3新出的单位，规定任何屏幕宽都是100vw，高100vh，这里的屏幕指的是视口，即浏览器窗口，不受分辨率和dpr影响，还是很方便的。</li>
+</ol>
+</blockquote>
 <h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p>​    <strong>flex容器属性:</strong></p>
 <ul>
 <li>flex-direction:决定项目的排列方向。</li>
