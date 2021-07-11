@@ -429,9 +429,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95-javaScript/">
+                                <span class="chip bg-color">算法 javaScript</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -464,8 +468,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="算法相关"><a href="#算法相关" class="headerlink" title="算法相关"></a>算法相关</h1><h2 id="1-反抖节流："><a href="#1-反抖节流：" class="headerlink" title="1. 反抖节流："></a>1. 反抖节流：</h2><pre class=" language-html"><code class="language-html">
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+                <h1 id="算法相关"><a href="#算法相关" class="headerlink" title="算法相关"></a>算法相关</h1><h2 id="1-反抖节流："><a href="#1-反抖节流：" class="headerlink" title="1. 反抖节流："></a>1. 反抖节流：</h2><pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>点击了<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>count<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>次<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>debounce<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> debounce <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>throttle<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> throttle <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
@@ -507,7 +510,16 @@
     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
 </code></pre>
-<h2 id="2-深浅拷贝"><a href="#2-深浅拷贝" class="headerlink" title="2. 深浅拷贝"></a>2. 深浅拷贝</h2><pre class=" language-js"><code class="language-js">        <span class="token comment" spellcheck="true">//浅拷贝</span>
+<h2 id="2-深浅拷贝"><a href="#2-深浅拷贝" class="headerlink" title="2. 深浅拷贝"></a>2. 深浅拷贝</h2><blockquote>
+<ol>
+<li>深拷贝和浅拷贝值针对 Object 和 Array 这样的复杂类型 </li>
+<li> a 和 b 指向了同一块内存，所以修改其中任意一个值，另外一个值也会随 之变化，这是浅拷贝 </li>
+<li>a 和 b 指向同一块内存，但是修改其中任意一个值，另外一个调用的变量， 不会受到影响，这是深拷贝 </li>
+<li> 浅拷贝:“Object.assign()”方法用于将所有可枚举的属性的值从一个或 多个源对象复制到目标对象，它将返回目标对象 </li>
+<li> 深拷贝：JSON.parse( )和 JSON.stringify( )给了我们一个基本的解决办 法。但是函数不能被正确处理</li>
+</ol>
+</blockquote>
+<pre class=" language-js"><code class="language-js">        <span class="token comment" spellcheck="true">//浅拷贝</span>
         <span class="token keyword">function</span> <span class="token function">shallowCopy</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">{</span>
             <span class="token keyword">var</span> target <span class="token operator">=</span> obj<span class="token punctuation">.</span>constructor <span class="token operator">==</span> Array<span class="token operator">?</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
             <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -663,6 +675,34 @@
 <span class="token punctuation">)</span>
 </code></pre>
 <p>axios拦截器</p>
+<h2 id="4-十种经典排序算法"><a href="#4-十种经典排序算法" class="headerlink" title="4. 十种经典排序算法"></a>4. 十种经典排序算法</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6921496910080114702">转自：你能手撕10种经典排序算法吗？</a></p>
+<h2 id="5-图片懒加载"><a href="#5-图片懒加载" class="headerlink" title="5. 图片懒加载"></a>5. 图片懒加载</h2><p>图片懒加载理解：</p>
+<p>​        由于商城图片过多时，就会给图片加一个懒加载的缓冲效 果。当图片进入可视化区域的时候才会加载，否则图片只是一个空标签。这样可 以优化页面渲染速度，提升用户体验。 </p>
+<p>思路：</p>
+<p>​        将页面中的所有 img 属性 src 用 data-src 代替，当页面滚动至此图 片出现在可视区域时，用 js 取到该图片的 data-src 值赋给 src。 </p>
+<p>所用知识点： </p>
+<blockquote>
+<p>​        浏览器可视区域的宽高：</p>
+<p>​        js :  document.body.clientWidth/clientHeight </p>
+<p>​        jquery: var windHeight = $(window).width()/$(window).height(); </p>
+<p>​        获取滚动条相对于顶部的高度:</p>
+<p>​         js : document.body.scrollTop;</p>
+<p>​         jquery : var scrollTop=$(window).scrollTop; </p>
+<p>​        获得元素对于浏览器顶部的高度:</p>
+<p>​         js : DOM 元素.offsetTop; </p>
+<p>​         jquery: var imgTop=$(‘img’).offset().top </p>
+<p>​        判断元素是否出现在浏览器的可视化区域内: </p>
+<p>​        元素相对于顶部的高度 - 浏览器可视化区域的高度 &lt; 小于滚动条 到顶部的高度 </p>
+<p>​        成立就代表出现 : 不成立就没出现 </p>
+<p>​        怎样排除首屏的图片 </p>
+<p>​        元素到顶部距离 - 浏览器的可视化高度 &gt; 0 排除已加载的图片 $(this).attr(‘src’) != $(this).attr(‘data-src’) //排除已加载 的图片</p>
+</blockquote>
+<p><strong>offsetWidth/offsetHeight、clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别？</strong></p>
+<blockquote>
+<p>offfsetWidth、offsetHeight 返回值包含 content+padding+border，效 果与 e.getBoundingClientRect（）相同 </p>
+<p>clientWidth、clientHieight 返回值值包含 content+padding，如果有滚 动条，也不包含滚动条 </p>
+<p>scrollWidth、scrollHeight 返回值包含 content+padding+溢出内容的尺 寸</p>
+</blockquote>
 
                 
             </div>
@@ -726,7 +766,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95-javaScript/">
+                                    <span class="chip bg-color">算法 javaScript</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -929,6 +973,14 @@
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95-javaScript/">
+                        <span class="chip bg-color">算法 javaScript</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
