@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="个人随笔（持续更新）, Jayhodon&#39;s Blog">
+    <meta name="keywords" content="Jayhodon&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>个人随笔（持续更新） | Jayhodon&#39;s Blog</title>
+    <title>Jayhodon&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">个人随笔（持续更新）</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -429,13 +429,9 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E9%9D%A2%E7%BB%8F/">
-                                <span class="chip bg-color">面经</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -447,7 +443,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-05-28
+                    2021-07-01
                 </div>
                 
 
@@ -468,7 +464,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="个人随笔（持续更新）"><a href="#个人随笔（持续更新）" class="headerlink" title="个人随笔（持续更新）"></a>个人随笔（持续更新）</h1><p>该博文是博主本人自己归纳整合的一些面经以及一些零零散散的基础知识点，一方面方便自己以后复习查看，另一方面也是做一个简单的分享。</p>
+                <p>title: 个人随笔（持续更新）<br>date: 2021-05-28 18:07:56<br>tags: 面经</p>
+<h1 id="个人随笔（持续更新）"><a href="#个人随笔（持续更新）" class="headerlink" title="个人随笔（持续更新）"></a>个人随笔（持续更新）</h1><p>该博文是博主本人自己归纳整合的一些面经以及一些零零散散的基础知识点，一方面方便自己以后复习查看，另一方面也是做一个简单的分享。</p>
 <h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript:"></a>JavaScript:</h2><h3 id="Jsonp原理："><a href="#Jsonp原理：" class="headerlink" title="Jsonp原理："></a>Jsonp原理：</h3><p>​    Jsonp的全称为：json with padding ，意为填充式的json。</p>
 <blockquote>
 <p>1、Ajax直接请求普通文件存在跨域无权限访问的问题，不管是静态页面、动态页面、web服务，只要是跨域请求，一律不准。</p>
@@ -602,6 +599,27 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>让实例化对象中的 this 指向对象，并执行函数体 </li>
 <li>判断实例化对象的返回值类型</li>
 </ol>
+<h4 id="类型的判断方法"><a href="#类型的判断方法" class="headerlink" title="类型的判断方法"></a>类型的判断方法</h4><p><strong>1、typeof</strong></p>
+<blockquote>
+<p>未定义、未初始化：返回 <code>&quot;undefined&quot;</code></p>
+<p>布尔值：返回 <code>&quot;boolean&quot;</code></p>
+<p>字符串：返回 <code>&quot;string&quot;</code></p>
+<p>数值(包括NAN)：返回 <code>&quot;number&quot;</code></p>
+<p>对象、null：返回 <code>&quot;object&quot;</code>， null 表示空对象指针</p>
+<p>函数：返回 <code>&quot;function&quot;</code></p>
+<p><strong>注意</strong>：<code>typeof</code>可以判断基本类型，无法判断对象的类型或者null</p>
+</blockquote>
+<p><strong>2、instanceof</strong></p>
+<blockquote>
+<p>如果变量是引用类型，可以使用instanceof判断，检测基本类型时，会返回false。</p>
+<p>原理：判断变量的原型链上是否有构造函数的prototype属性</p>
+<p><strong>注意：空对象{}的判断问题</strong>        //true</p>
+</blockquote>
+<p><strong>3、Object.prototype.toString</strong></p>
+<blockquote>
+<p>所有的数据类型都可以使用此方法进行检测，且非常精准。如：</p>
+<p>Object.prototype.toString.call(obj) === ‘[object Object]’</p>
+</blockquote>
 <h4 id="了解更多相关："><a href="#了解更多相关：" class="headerlink" title="了解更多相关："></a>了解更多相关：</h4><p>ES5继承实现、ES6类实现、typeof&amp;&amp;instanceof原理：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903984335945736">https://juejin.cn/post/6844903984335945736</a></p>
 <h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h3 id="This"><a href="#This" class="headerlink" title="This:"></a>This:</h3><p><strong>1. 默认绑定与隐式绑定</strong></p>
 <p>让我们看看下面这个例子：</p>
@@ -1608,7 +1626,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p>注:</p>
 <ol>
 <li>将 height 设置为 line-height 的整数倍,防止超出的文字露出。</li>
-<li> 给 p::after 添加渐变背景可避免文字只显示一半。 </li>
+<li>给 p::after 添加渐变背景可避免文字只显示一半。 </li>
 <li>由于 ie6-7 不显示 content 内容，所以要添加标签兼容 ie6-7，兼容 ie8 需要将 ：：after 替换成 ：after</li>
 </ol>
 <h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><h3 id="MVC-和-MVVM-区别"><a href="#MVC-和-MVVM-区别" class="headerlink" title="MVC 和 MVVM 区别"></a>MVC 和 MVVM 区别</h3><h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p>MVC 全名是 Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范</p>
@@ -1717,6 +1735,45 @@ Vue.component('currency-input', {
  props: ['value'],
 })
 </code></pre>
+<h4 id="Vue数据双向绑定原理"><a href="#Vue数据双向绑定原理" class="headerlink" title="Vue数据双向绑定原理"></a>Vue数据双向绑定原理</h4><p>vue的响应式基本原理：</p>
+<blockquote>
+<p>1、vue会遍历此data中对象所有的属性，</p>
+<p>2、并使用Object.defineProperty把这些属性全部转为getter/setter，</p>
+<p>3、而每个组件实例都有watcher对象，</p>
+<p>4、它会在组件渲染的过程中把属性记录为依赖，</p>
+<p>5、之后当依赖项的 setter被调用时，会通知watcher重新计算，从而致使它关联的组件得以更新。</p>
+</blockquote>
+<p>vue的响应式原理设计三个重要对象：Observer，Watcher，Dep。</p>
+<blockquote>
+<p>Observer对象：vue中的数据对象在初始化过程中转换为Observer对象。</p>
+<p>Watcher对象：将模板和Observer对象结合在一起生成Watcher实例，Watcher是订阅者中的订阅者。</p>
+<p>Dep对象：Watcher对象和Observer对象之间纽带，每一个Observer都有一个Dep实例，用来存储订阅者Watcher。</p>
+</blockquote>
+<p>当属性变化会执行主题对象Observer的dep.notify方法， 这个方法会遍历订阅者Watcher列表向其发送消息， Watcher会执行run方法去更新视图。模板编译过程中的指令和数据绑定都会生成Watcher实例，实例中的watch属性也会生成Watcher实例。</p>
+<p>总的来说就是：</p>
+<blockquote>
+<p>1、在生命周期的initState方法中将data，prop，method，computed，watch中的数据劫持， 通过observe方法与Object.defineProperty方法将相关对象转为换Observer对象。</p>
+<p>2、然后在initRender方法中解析模板，通过Watcher对象，Dep对象与观察者模式将模板中的 指令与对象的数据建立依赖关系，使用全局对象Dep.target实现依赖收集。</p>
+<p>3、当数据变化时，setter被调用，触发Object.defineProperty方法中的dep.notify方法， 遍历该数据依赖列表，执行器update方法通知Watcher进行视图更新。</p>
+<p>vue是无法检测到对象属性的添加和删除，但是可以使用全局Vue.set方法（或vm.$set实例方法）。</p>
+<p>vue无法检测利用索引设置数组，但是可以使用全局Vue.set方法（或vm.$set实例方法）。</p>
+<p>无法检测直接修改数组长度，但是可以使用splice</p>
+</blockquote>
+<p>使用Object.defineProperty实现监听变量:</p>
+<pre><code>
+</code></pre>
+<p>使用ES6的proxy实现监听变量:</p>
+<pre><code>
+</code></pre>
+<p>区别：</p>
+<blockquote>
+<p>1、语法层面上</p>
+<p>​    defineProperty只能响应首次渲染时候的属性，</p>
+<p>​    Proxy需要的是整体监听，不需要关心里面有什么属性，而且Proxy的配置项有13种，可以做更细致的事情，这是之前的defineProperty无法达到的。</p>
+<p>2、兼容层面上</p>
+<p>​    vue2.x之所以只能兼容到IE8就是因为defineProperty无法兼容IE8,其他浏览器也会存在轻微兼容问题。</p>
+<p>​    proxy的话除了IE，其他浏览器都兼容，这次vue3还是使用了它，说明vue3直接放弃了IE的兼容考虑。</p>
+</blockquote>
 <h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
 <p>1.工厂模式 - 传入参数即可创建实例</p>
 <p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
@@ -1755,6 +1812,51 @@ Vue.component('currency-input', {
 <h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><blockquote>
 <p><strong>webpack</strong> 是一个用于现代 JavaScript 应用程序的 <em>静态模块打包工具</em>。当 webpack 处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个 <em>bundle</em>。</p>
 </blockquote>
+<h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><blockquote>
+<p>webpack Proxy , 即wepack提供的代理服务，将客户端发送的请求转发给其他服务器。目的是为了解决开发模式下的跨域问题。想要实现代理首先需要一个中间服务器，webpack中提供服务器的工具为webpack-dev-server。webpack-dev-server是webpack官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能集成在了一起。【只适用在开发阶段】</p>
+</blockquote>
+<p>在webpack配置对象属性中通过devServer属性提供，配置如下</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// ./webpack.config.js</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ...</span>
+    devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        contentBase<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        compress<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        port<span class="token punctuation">:</span> <span class="token number">8080</span><span class="token punctuation">,</span>
+        proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token string">'/api'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                target<span class="token punctuation">:</span> <span class="token string">'http://www.baidu.com/'</span><span class="token punctuation">,</span>
+                pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">'^/api'</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//// 如果接口本身没有/api需要通过pathRewrite来重写了地址,这里把/api转成''</span>
+                changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>     <span class="token comment" spellcheck="true">// target是域名的话，需要这个参数，</span>
+                secure<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>          <span class="token comment" spellcheck="true">// 设置支持https协议的代理</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// ...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>devServer里面proxy则是关于代理的配置，该属性为对象的形式，对象中每一个属性即一个代理的规则匹配。</p>
+<blockquote>
+<p>target：代理的API地址，就是需要跨域的API地址。<br>pathRewrite：路径重写，也就是说会修改最终请求的API路径。<br>secure：默认情况下不接收转发到https的服务器上，如果希望支持，可设置为false<br>changOrigin：默认是false：请求头中host仍然是浏览器发送过来的host；如果设置成true：发送请求头中host会设置成target</p>
+</blockquote>
+<p>proxy工作原理实质上是利用http-proxy-middleware这个http代理中间件，实现请求转发给其他服务器</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> proxy <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http-proxy-middleware'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/api'</span><span class="token punctuation">,</span> <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>target<span class="token punctuation">:</span> <span class="token string">'http://www.example.org'</span><span class="token punctuation">,</span> changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// http://localhost:8080/api/foo/bar -> http://www.example.org/api/foo/bar</span>
+</code></pre>
+<p>总的来说就是：</p>
+<p>在开发阶段，webpack-dev-server 会启动一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 localhost 的一个端口上，而后端服务又是运行在另外一个地址上；</p>
+<p>所以在开发阶段中，由于浏览器同源策略的原因，当本地访问后端就会出现跨域请求的问题。</p>
+<p>通过设置webpack proxy实现代理请求后，相当于浏览器与服务端添加一个代理者</p>
+<p>当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终由代理服务器将数据响应给本地。</p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">Webpack相关试题</a></p>
 <h2 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h2><blockquote>
 <p>Typescript是强类型的Javascript超集，支持ES6语法，支持面向对象编程的概念，如类、接口、继承、泛型等。Typescript并不直接在浏览器上运行，需要编译器编译成纯Javascript来运行。</p>
@@ -2028,7 +2130,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Jayhodon.github.io/2021/05/28/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/">https://Jayhodon.github.io/2021/05/28/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</a>
+                    <a href="https://Jayhodon.github.io/2021/07/01/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/">https://Jayhodon.github.io/2021/07/01/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -2065,11 +2167,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E9%9D%A2%E7%BB%8F/">
-                                    <span class="chip bg-color">面经</span>
-                                </a>
-                            
+                            <span class="chip bg-color">No tag</span>
                         </div>
                     
                 </div>
@@ -2243,6 +2341,51 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
+                <a href="/2021/07/10/%E7%AE%97%E6%B3%95%E7%9B%B8%E5%85%B3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="算法相关">
+                        
+                        <span class="card-title">算法相关</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Jayhodon
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95-javaScript/">
+                        <span class="chip bg-color">算法 javaScript</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2021/06/21/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">
                     <div class="card-image">
                         
@@ -2259,9 +2402,9 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -2275,52 +2418,6 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
                     
                     <a href="/tags/%E5%89%8D%E7%AB%AF/">
                         <span class="chip bg-color">前端</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/05/28/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="个人随笔（持续更新）">
-                        
-                        <span class="card-title">个人随笔（持续更新）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-28
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Jayhodon
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E9%9D%A2%E7%BB%8F/">
-                        <span class="chip bg-color">面经</span>
                     </a>
                     
                 </div>
