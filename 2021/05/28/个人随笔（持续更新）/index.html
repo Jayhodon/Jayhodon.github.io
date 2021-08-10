@@ -1654,9 +1654,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 </li>
 <li><p>$parent,$children 获取当前组件的父组件和当前组件的子组件</p>
 </li>
-<li><p>$attrs 和$listeners A-&gt;B-&gt;C。Vue 2.4 开始提供了$attrs 和$listeners 来解决这个问题</p>
-</li>
-<li><p>父组件中通过 provide 来提供变量，然后在子组件中通过 inject 来注入变量。(官方不推荐在实际业务中使用，但是写组件库时很常用)</p>
+<li><p>父组件中通过 provide 来提供变量，然后在子组件中通过 inject 来注入变量。(官方不推荐在实际业务中使用，但是写组件库时很常用，用于跨级通讯)</p>
 </li>
 <li><p>$refs 获取组件实例</p>
 </li>
@@ -1666,6 +1664,179 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 </li>
 </ol>
 </blockquote>
+<p><strong>props &amp; $emit:</strong></p>
+<pre class=" language-vue"><code class="language-vue"><Son @changeData="changeData"></Son>
+
+<script>
+ import Son from '@/components/son'
+ export default{
+   name:'Father',
+   components:{Son},
+   methods:{
+     changeData(name){
+       console.log(name) //来自子组件的数据
+     }
+   }
+ }
+</script>
+</code></pre>
+<pre class=" language-vue"><code class="language-vue"><el-button @click="handleEmit">通知父组件需要更改数据了</el-button>
+
+<script>
+ export default{
+   name:'Son',
+   methods:{
+     handleEmit(){
+       this.$emit('changeData','这是来自子组件的数据')
+     }
+   }
+ }
+</script>
+</code></pre>
+<p><strong>$parent &amp; $children：</strong></p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>子组件</div>
+</template>
+
+<script>
+export default{
+  name:"Son",
+  data(){
+    return{
+      sonData: '子组件的数据'
+    }
+  },
+  methods:{
+    sonHandle(){
+      console.log('子组件的方法')
+    }
+  },
+  created(){
+    console.log(this.$parent)
+    console.log(this.$parent.fatherData) //父组件的数据
+    this.$parent.fantherHandle() //父组件的方法
+  }
+}
+</script>
+</code></pre>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <Son>父组件</Son>
+  </div>
+</template>
+
+<script>
+import Son from './son.vue'
+
+export default{
+  name: 'father',
+  components:{
+    Son
+  },
+  data(){
+    return{
+      fatherData: '父组件的数据'
+    }
+  },
+  methods:{
+    fantherHandle(){
+      console.log('父组件的方法')
+    }
+  },
+  mounted(){
+    console.log(this.$children)
+    console.log(this.$children[0].sonTitle) //子组件的数据
+    this.$children[0].sonHandle() //子组件的方法
+  }
+}
+</script>
+</code></pre>
+<p>这里要注意父组件要在mounted（）这个生命周期对子组件进行取值因为在这时候子组件才完成了 created 与 mounted，并且获取到的数据是一个数组的形式。</p>
+<p><strong>provide $ inject：</strong></p>
+<pre class=" language-vue"><code class="language-vue">/*父组件*/
+export default{
+ provide: {
+   return{
+     provideData: '父组件的数据'
+   }
+ }
+}
+</code></pre>
+<pre class=" language-vue"><code class="language-vue">/*子组件*/
+export default{
+  inject: ['provideData'],
+  created () {
+    console.log(this.provideName) //"父组件的数据"
+  }
+}
+</code></pre>
+<p><strong>$refs：</strong></p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <Son ref="son"></Son>
+  </div>
+</template>
+
+<script>
+import Son from './son.vue'
+
+export default{
+  name: 'father',
+  components:{
+    Son
+  },
+  mounted(){
+    console.log(this.$refs.son) /*组件实例*/
+  }
+}
+</script>
+</code></pre>
+<p><strong>envetBus：</strong></p>
+<p>需要先创建一个公共的eventBus.js，并将Vue实例暴露出去</p>
+<pre class=" language-vue"><code class="language-vue">import Vue from "vue"
+export default new Vue()
+</code></pre>
+<p> 在需要组件通信的组件A中引入eventBus.js，并通过$emit发布回调事件</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>
+    <div>组件A</div>
+    <el-button @click="changeData">修改数据A</el-button>
+  </div>
+</template
+
+<script>
+import { EventBus } from "../bus.js"
+export default{
+  data(){
+    return{}
+  },
+  methods:{
+    changeData(){
+      EventBus.$emit("editData", '这是修改后的数据')
+    }
+  }
+}
+</script>
+</code></pre>
+<p>组件B中同样引入eventBus.js文件，并通过$on监听事件回调</p>
+<pre class=" language-vue"><code class="language-vue"><template>
+  <div>组件B</div>
+</template
+
+<script>
+import { EventBus } from "../bus.js"
+export default{
+  data(){
+    return{}
+  },
+  mounted:{
+    EventBus.$on('editData',(data)=>{
+      console.log(data) 
+    })
+  }
+}
+</script>
+</code></pre>
 <h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\Vue生命周期.jpg" alt="Vue生命周期"></p>
 <blockquote>
 <p><strong>beforeCreate</strong> 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。在当前阶段 data、methods、computed 以及 watch 上的数据和方法都不能被访问</p>
@@ -1812,6 +1983,11 @@ Vue.component('currency-input', {
 <p>Module：允许将单一的 Store 拆分为多个 store 且同时保存在单一的状态树中。</p>
 </blockquote>
 <h4 id="Vuex-页面刷新数据丢失怎么解决"><a href="#Vuex-页面刷新数据丢失怎么解决" class="headerlink" title="Vuex 页面刷新数据丢失怎么解决"></a>Vuex 页面刷新数据丢失怎么解决</h4><p>​    需要做 vuex 数据持久化 一般使用本地存储的方案来保存数据 可以自己设计存储方案 也可以使用第三方插件。推荐使用 vuex-persist 插件，它就是为 Vuex 持久化存储而生的一个插件。不需要你手动存取 storage ，而是直接将状态保存至 cookie 或者 localStorage 中</p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><blockquote>
+<p>类组件可以使用其他特性，如状态 state 和生命周期钩子。</p>
+<p>当组件只是接收 props 渲染到页面时，就是无状态组件，就属于函数组件，也被称为哑组件或展示组件。</p>
+<p>函数组件的性能比类组件的性能要高，因为类组件使用的时候要实例化，而函数组件直接执行函数取返回结果即可。为了提高性能，尽量使用函数组件。</p>
+</blockquote>
 <h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><blockquote>
 <p><strong>webpack</strong> 是一个用于现代 JavaScript 应用程序的 <em>静态模块打包工具</em>。当 webpack 处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个 <em>bundle</em>。</p>
 </blockquote>
@@ -1898,13 +2074,11 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <p>http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源。常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。</p>
 <p>http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源。</p>
 </blockquote>
-<p>第一次发起http请求：</p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-1.jpg" alt="http缓存-1"></p>
-<p>非第一次发起http请求：</p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-2.jpg" alt="http缓存-2"></p>
 <h4 id="1、http缓存的分类："><a href="#1、http缓存的分类：" class="headerlink" title="1、http缓存的分类："></a>1、http缓存的分类：</h4><p> 根据是否需要重新向服务器发起请求来分类，可分为(强制缓存，协商缓存) 根据是否可以被单个或者多个用户使用来分类，可分为(私有缓存，共享缓存) 强制缓存如果生效，不需要再和服务器发生交互，而协商缓存不管是否生效，都需要与服务端发生交互。</p>
 <p><strong>强制缓存</strong><br>强制缓存在缓存数据未失效的情况下（即Cache-Control的max-age没有过期或者Expires的缓存时间没有过期），那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，http状态码为200。这种方式页面的加载速度是最快的，性能也是很好的，但是在这期间，如果服务器端的资源修改了，页面上是拿不到的，因为它不会再向服务器发请求了。</p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-强制.jpg" alt="http缓存-强制"></p>
 <p><strong>协商缓存</strong><br>当第一次请求时服务器返回的响应头中没有Cache-Control和Expires或者Cache-Control和Expires过期还或者它的属性设置为no-cache时(即不走强缓存)，那么浏览器第二次请求时就会与服务器进行协商，与服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态码，告诉浏览器可以使用缓存中的数据，这样就减少了服务器的数据传输压力。如果数据有更新就会返回200状态码，服务器就会返回更新后的资源并且将缓存信息一起返回。跟协商缓存相关的header头属性有（ETag/If-Not-Match 、Last-Modified/If-Modified-Since）请求头和响应头需要成对出现</p>
+<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-协商.jpg" alt="http缓存-协商"></p>
 <h4 id="2、如何使用HTTP缓存-？"><a href="#2、如何使用HTTP缓存-？" class="headerlink" title="2、如何使用HTTP缓存 ？"></a>2、如何使用HTTP缓存 ？</h4><p>一般需要缓存的资源有html页面和其他静态资源：<br><strong>html页面缓存的设置主要是在标签中嵌入标签，这种方式只对页面有效，对页面上的资源无效,静态资源的缓存一般是在web服务器上配置的</strong></p>
 <ol>
 <li>html页面禁用缓存的设置如下：</li>
@@ -2001,6 +2175,12 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
 <p>4、http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
 </blockquote>
+<h3 id="GET和POST的区别"><a href="#GET和POST的区别" class="headerlink" title="GET和POST的区别"></a>GET和POST的区别</h3><blockquote>
+<p>GET在浏览器回退时是无害的，而POST会再次提交请求。<br>GET产生的URL地址可以被Bookmark，而POST不可以。<br>GET请求会被浏览器主动cache，而POST不会，除非手动设置。<br>GET请求只能进行url编码，而POST支持多种编码方式。<br>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。<br>GET请求在URL中传送的参数是有长度限制的，而POST么有。<br>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。<br>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。<br>GET参数通过URL传递，POST放在Request body中。</p>
+</blockquote>
+<p>首先从安全性讲，get和post都一样，没啥所谓的哪个更安全<br>get请求参数在url地址上，直接暴露，post请求的参数放body部分，按F12也直接暴露了，所以没啥安全性可言。</p>
+<p>GET参数通过URL传递，POST放在Request body中”这个其实也不准，post请求也可以没body，也可以在url传递呢？</p>
+<p><strong>GET和POST有一个重大区别</strong><br>GET产生一个TCP数据包；POST产生两个TCP数据包。也就是说：<br>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；<br>而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</p>
 <h3 id="WebStorage："><a href="#WebStorage：" class="headerlink" title="WebStorage："></a>WebStorage：</h3><p>Web Storage的目的是为了克服由cookie带来的一些限制，当数据需要被严格控制在客户端上时，无须持续地将数据发回服务器。Web Storage的两个主要目标是：</p>
 <ul>
 <li>提供一种在cookie之外存储会话数据的途径。</li>
