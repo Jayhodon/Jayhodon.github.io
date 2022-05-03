@@ -580,7 +580,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>一个还好，如果创建了一百个实例，一千个甚至上万个呢，这时候就体现出原型的好处了，我们可以把run方法放到构造函数的prototype上，这时候只需要创建一个，而且每一个实例都可以访问到。</p>
 <p>prototype相当于所有实例对象可以访问的一个公共容器，实例对象的<code>__prorunto__</code>指向构造函数的<code>prototype</code>，从而实现<strong>继承</strong>。</p>
 <p><strong>经典图：</strong></p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\原型经典图.jpg" alt="原型经典图"></p>
+<p><img src="../../../../img/classic-prototype.jpg" alt="原型经典图"></p>
 <h4 id="如何准确判断一个变量是数组类型"><a href="#如何准确判断一个变量是数组类型" class="headerlink" title="如何准确判断一个变量是数组类型?"></a>如何准确判断一个变量是数组类型?</h4><p>instanceof 用于判断引用类型属于哪个构造函数的方法 </p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true </span>
@@ -714,7 +714,7 @@ person<span class="token punctuation">.</span><span class="token function">sayNa
 <span class="token function">sayNameCopy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>答案是window和undefined。因为，这个时候符合默认绑定的规则。</p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\this指向.jpg" alt="this指向"></p>
+<p><img src="../../../../img/this.jpg" alt="this指向"></p>
 <p><strong>5. 绑定优先级</strong></p>
 <p>如果多重绑定规格都适用，那么绑定规则的优先级顺序是这样的：</p>
 <blockquote>
@@ -1402,8 +1402,8 @@ div&amp;<span class="token hexcode">#123</span><span class="token punctuation">;
 <li>rpx是微信小程序为了解决自适应屏幕尺寸设计的单位，它规定任何屏幕的宽都是750rpx。vw是css3新出的单位，规定任何屏幕宽都是100vw，高100vh，就是是将窗口大小平分为 100 份;这里的屏幕指的是视口，即浏览器窗口，不受分辨率和dpr影响，还是很方便的。</li>
 </ol>
 </blockquote>
-<h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\flex-容器属性.jpg" alt="flex-容器属性"></p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\flex-项目属性.jpg" alt="flex-项目属性"></p>
+<h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p><img src="../../../../img/flex-container.jpg" alt="flex-容器属性"></p>
+<p><img src="../../../../img/flex-project.jpg" alt="flex-项目属性"></p>
 <h4 id="盒子水平垂直居中的五种方法："><a href="#盒子水平垂直居中的五种方法：" class="headerlink" title="盒子水平垂直居中的五种方法："></a>盒子水平垂直居中的五种方法：</h4><p>相对定位： 先让子盒子的左上角居中然后在向左和向上移动子盒子的宽和高的一半。缺点是需要知道子盒子具体的宽和高</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
 <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
@@ -1837,7 +1837,7 @@ div：after&amp;<span class="token hexcode">#123</span><span class="token punctu
 <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
-<h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\Vue生命周期.jpg" alt="Vue生命周期"></p>
+<h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="../../../../img/vue-life.jpg" alt="Vue生命周期"></p>
 <blockquote>
 <p><strong>beforeCreate</strong> 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。在当前阶段 data、methods、computed 以及 watch 上的数据和方法都不能被访问</p>
 <p><strong>created</strong> 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。这里没有$el,如果非要想与 Dom 进行交互，可以通过 vm.$nextTick 来访问 Dom</p>
@@ -1870,7 +1870,7 @@ div：after&amp;<span class="token hexcode">#123</span><span class="token punctu
 <p><strong>销毁过程:</strong></p>
 <p>父 beforeDestroy-&gt;子 beforeDestroy-&gt;子 destroyed-&gt;父 destroyed</p>
 </blockquote>
-<h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令<img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\vue内置指令.jpg" alt="vue内置指令"></h4><h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令<img src="../../../../img/vue-command.jpg" alt="vue内置指令"></h4><h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
 <blockquote>
 <p>注意：在子组件直接用 v-model 绑定父组件传过来的 prop 这样是不规范的写法 开发环境会报警告</p>
 </blockquote>
@@ -2220,11 +2220,12 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <p>http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源。常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。</p>
 <p>http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源。</p>
 </blockquote>
+<p><img src="../../../../img/http-cache-2.jpg" alt="http-cache-2"></p>
 <h4 id="1、http缓存的分类："><a href="#1、http缓存的分类：" class="headerlink" title="1、http缓存的分类："></a>1、http缓存的分类：</h4><p> 根据是否需要重新向服务器发起请求来分类，可分为(强制缓存，协商缓存) 根据是否可以被单个或者多个用户使用来分类，可分为(私有缓存，共享缓存) 强制缓存如果生效，不需要再和服务器发生交互，而协商缓存不管是否生效，都需要与服务端发生交互。</p>
 <p><strong>强制缓存</strong><br>强制缓存在缓存数据未失效的情况下（即Cache-Control的max-age没有过期或者Expires的缓存时间没有过期），那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，http状态码为200。这种方式页面的加载速度是最快的，性能也是很好的，但是在这期间，如果服务器端的资源修改了，页面上是拿不到的，因为它不会再向服务器发请求了。</p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-强制.jpg" alt="http缓存-强制"></p>
+<p><img src="../../../../img/http-force-cache.jpg" alt="http缓存-强制"></p>
 <p><strong>协商缓存</strong><br>当第一次请求时服务器返回的响应头中没有Cache-Control和Expires或者Cache-Control和Expires过期还或者它的属性设置为no-cache时(即不走强缓存)，那么浏览器第二次请求时就会与服务器进行协商，与服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态码，告诉浏览器可以使用缓存中的数据，这样就减少了服务器的数据传输压力。如果数据有更新就会返回200状态码，服务器就会返回更新后的资源并且将缓存信息一起返回。跟协商缓存相关的header头属性有（ETag/If-Not-Match 、Last-Modified/If-Modified-Since）请求头和响应头需要成对出现</p>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-协商.jpg" alt="http缓存-协商"></p>
+<p><img src="../../../../img/http-negotiation-cache.jpg" alt="http缓存-协商"></p>
 <h4 id="2、如何使用HTTP缓存-？"><a href="#2、如何使用HTTP缓存-？" class="headerlink" title="2、如何使用HTTP缓存 ？"></a>2、如何使用HTTP缓存 ？</h4><p>一般需要缓存的资源有html页面和其他静态资源：<br><strong>html页面缓存的设置主要是在标签中嵌入标签，这种方式只对页面有效，对页面上的资源无效,静态资源的缓存一般是在web服务器上配置的</strong></p>
 <ol>
 <li>html页面禁用缓存的设置如下：</li>
@@ -2271,7 +2272,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p>HTTP请求报文由请求行、请求头部、空行和请求数据4个部分组成，下图是请求报文的一般格式。</p>
 <p>HTTP响应也由三个部分组成，分别是：状态行、消息报头、响应正文。</p>
 </blockquote>
-<p><img src="C:\Users\。\Desktop\个人博文\个人随笔（持续更新）\http缓存-3.jpg" alt="http缓存-3"></p>
+<p><img src="../../../../img/http-cache-3.jpg" alt="http缓存-3"></p>
 <table>
 <thead>
 <tr>
