@@ -526,7 +526,7 @@
 <p>注意，域名查询时有可能是经过了CDN调度器的（如果有cdn存储功能的话）</p>
 <p>而且，需要知道dns解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑<code>dns-prefetch</code>优化</p>
 <h3 id="tcp-ip请求"><a href="#tcp-ip请求" class="headerlink" title="tcp/ip请求"></a>tcp/ip请求</h3><p>http的本质就是 tcp/ip 请求,且tcp/ip协议是传输层面向连接的一个安全可靠的连接协议。tcp将http长报文划分为短报文，通过三次握手与服务端建立连接，进行可靠传输，这里需要了解3次握手规则建立连接以及断开连接时的四次挥手。</p>
-<h4 id="TCP报文格式"><a href="#TCP报文格式" class="headerlink" title="TCP报文格式"></a>TCP报文格式</h4><p>![tcp报文格式]../../../../img/tcp-message-format.jpg)</p>
+<h4 id="TCP报文格式"><a href="#TCP报文格式" class="headerlink" title="TCP报文格式"></a>TCP报文格式</h4><p><img src="../../../../img/tcp-message-format.jpg" alt="tcp报文格式"></p>
 <blockquote>
 <p>序号：Seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。确认序号：Ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效，Ack=Seq+1。</p>
 <p>标志位：共6个，即URG、ACK、PSH、RST、SYN、FIN等，具体含义如下：</p>
@@ -546,7 +546,7 @@
 </blockquote>
 <p>具体过程如下:</p>
 <p>建立一个TCP连接时，需要客户端和服务端总共发送3个包以确认连接的建立。</p>
-<p>![3次握手]../../../../img/tcp-handshake.jpg)</p>
+<p><img src="../../../../img/tcp-handshake.jpg" alt="3次握手"></p>
 <blockquote>
 <p>第一次握手：建立连接时,客户端发送syn包(syn=j)到服务器,并进入SYN_SEND状态,等待服务器确认； </p>
 <p>SYN：同步序列编号(Synchronize Sequence Numbers)</p>
@@ -565,7 +565,7 @@
 <p>主动方：我已经关闭了向你那边的主动通道了，只能被动接收了<br>被动方：收到通道关闭的信息，但是我的工作可能还没完成<br>被动方：ok 我的工作完成了，我这边向你的主动通道也关闭了<br>主动方：最后收到数据，之后双方无法通信</p>
 </blockquote>
 <p>具体过程如下:</p>
-<p>![4次挥手]../../../../img/tcp-wave.jpg)</p>
+<p><img src="../../../../img/tcp-wave.jpg" alt="4次挥手"></p>
 <p>​    由于TCP连接时全双工的，因此，每个方向都必须要单独进行关闭，这一原则是当一方完成数据发送任务后，发送一个FIN来终止这一方向的连接，收到一个FIN只是意味着这一方向上没有数据流动了，即不会再收到数据了，但是在这个TCP连接上仍然能够发送数据，直到这一方向也发送了FIN。首先进行关闭的一方将执行主动关闭，而另一方则执行被动关闭，上图描述的即是如此。</p>
 <blockquote>
 <p>第一次挥手：Client发送一个FIN，用来关闭Client到Server的数据传送，Client进入FIN_WAIT_1状态。</p>
@@ -573,7 +573,7 @@
 <p>第三次挥手：Server发送一个FIN，用来关闭Server到Client的数据传送，Server进入LAST_ACK状态。</p>
 <p>第四次挥手：Client收到FIN后，Client进入TIME_WAIT状态，接着发送一个ACK给Server，确认序号为收到序号+1，Server进入CLOSED状态，完成四次挥手。</p>
 </blockquote>
-<p>​    上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，具体流程如下图：![tcp4次挥手-同时]../../../../img/tcp-wave-meanwhile.jpg)</p>
+<p>​    上面是一方主动关闭，另一方被动关闭的情况，实际中还会出现同时发起主动关闭的情况，具体流程如下图：<img src="../../../../img/tcp-wave-meanwhile.jpg" alt="tcp4次挥手-同时"></p>
 <p>​    如果有大量的连接，每次在连接、关闭时都要三次握手，四次挥手，会很明显会造成性能低下，因此，HTTP有一种叫做keep connection的机制，它可以在传输数据后仍然保持连接，当客户端再次获取数据时，直接使用刚刚空闲下的连接而无需再次握手</p>
 <p><strong>为什么连接的时候是三次握手，关闭的时候却是四次握手？</strong></p>
 <blockquote>
