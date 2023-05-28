@@ -468,8 +468,10 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="个人随笔（持续更新）"><a href="#个人随笔（持续更新）" class="headerlink" title="个人随笔（持续更新）"></a>个人随笔（持续更新）</h1><p>该博文是博主本人自己归纳整合的一些面经以及一些零零散散的基础知识点，一方面方便自己以后复习查看，另一方面也是做一个简单的分享。</p>
-<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript:"></a>JavaScript:</h2><h3 id="Jsonp原理："><a href="#Jsonp原理：" class="headerlink" title="Jsonp原理："></a>Jsonp原理：</h3><p>​    Jsonp的全称为：json with padding ，意为填充式的json。</p>
+                <blockquote>
+<p>该博文是博主本人自己归纳整合的一些面经以及一些零零散散的基础知识点，一方面方便自己以后复习查看，另一方面也是做一个简单的分享。</p>
+</blockquote>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript:"></a>JavaScript:</h2><h3 id="Jsonp原理："><a href="#Jsonp原理：" class="headerlink" title="Jsonp原理："></a>Jsonp原理：</h3><p> Jsonp的全称为：json with padding ，意为填充式的json。</p>
 <blockquote>
 <p>1、Ajax直接请求普通文件存在跨域无权限访问的问题，不管是静态页面、动态页面、web服务，只要是跨域请求，一律不准。</p>
 <p>2、不过我们发现，web页面调用js文件则不受跨域的影响（不仅如此，我们还发现凡是拥有“src”这个属性的标签都拥有跨域的能力，比如&lt;\script&gt;、&lt;\img&gt;、&lt;\iframe&gt;）。</p>
@@ -528,7 +530,7 @@
         jsonpCallback<span class="token punctuation">:</span><span class="token string">"flightHandler"</span><span class="token punctuation">,</span>
         <span class="token comment" spellcheck="true">//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据</span>
         success<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>json<span class="token punctuation">)</span><span class="token punctuation">{</span>
-                    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'您查询到航班信息：票价： '</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>price <span class="token operator">+</span> <span class="token string">' 元，余票： '</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>tickets <span class="token operator">+</span> <span class="token string">' 张。'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'您查询到航班信息：票价： '</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>price <span class="token operator">+</span> <span class="token string">' 元，余票： '</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>tickets <span class="token operator">+</span> <span class="token string">' 张。'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                  <span class="token punctuation">}</span><span class="token punctuation">,</span>             
         error<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>                 
                     <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'fail'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>             
@@ -540,7 +542,7 @@
 <h4 id="ajax和jsonp的区别："><a href="#ajax和jsonp的区别：" class="headerlink" title="ajax和jsonp的区别："></a>ajax和jsonp的区别：</h4><p>1、ajax和jsonp这两种技术在调用方式上看起来很像，目的也一样，都是请求一个url，然后把服务器返回的数据进行处理，因此jQuery把jsonp作为ajax的一种形式进行了封装。</p>
 <p>2、但ajax和jsonp其实本质上是不同的东西，ajax的核心是通过XmlHttpRequest获取非本页内容，而jsonp的核心则是动态添加。</p>
 <h3 id="原型与原型链："><a href="#原型与原型链：" class="headerlink" title="原型与原型链："></a>原型与原型链：</h3><p>ES6之前中并没有引入类（class）的概念，JavaScript并非通过类而是直接通过构造函数来创建实</p>
-<p><img src="/../images/prototype.png" alt="原型与原型链"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/prototype.png" alt="原型与原型链"></p>
 <h4 id="原型（prototype）"><a href="#原型（prototype）" class="headerlink" title="原型（prototype）"></a>原型（<code>prototype</code>）</h4><ul>
 <li><p>JS所有的函数都有prototype属性，只有函数才有</p>
 </li>
@@ -580,7 +582,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>一个还好，如果创建了一百个实例，一千个甚至上万个呢，这时候就体现出原型的好处了，我们可以把run方法放到构造函数的prototype上，这时候只需要创建一个，而且每一个实例都可以访问到。</p>
 <p>prototype相当于所有实例对象可以访问的一个公共容器，实例对象的<code>__prorunto__</code>指向构造函数的<code>prototype</code>，从而实现<strong>继承</strong>。</p>
 <p><strong>经典图：</strong></p>
-<p><img src="/../images/classic-prototype.jpg" alt="原型经典图"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/classic-prototype.jpg" alt="原型经典图"></p>
 <h4 id="如何准确判断一个变量是数组类型"><a href="#如何准确判断一个变量是数组类型" class="headerlink" title="如何准确判断一个变量是数组类型?"></a>如何准确判断一个变量是数组类型?</h4><p>instanceof 用于判断引用类型属于哪个构造函数的方法 </p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true </span>
@@ -590,8 +592,7 @@ arr <span class="token keyword">instanceof</span> <span class="token class-name"
 <p>但是有一个弊端，只要出现在一条原型链上的，都会返回 true（每个函数都有 prototype，每个对象都有一个内部属性__proto__，其指向它的原型对象。原 型对象也是一个对象，所以也有__proto__） </p>
 <p>这个时候要用实例__proto__.constructor 更加严谨 </p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr instanseof Array<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true console.log(arr.__proto__.constructor === Array) //true</span>
-</code></pre>
-<pre class=" language-js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span> <span class="token punctuation">)</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> arr <span class="token keyword">instanceof</span> <span class="token class-name">Array</span> <span class="token punctuation">)</span> 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> arr<span class="token punctuation">.</span>construct <span class="token operator">==</span> Array<span class="token punctuation">)</span> 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span> Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span> arr <span class="token punctuation">)</span><span class="token punctuation">)</span>
 </code></pre>
@@ -677,8 +678,7 @@ foo<span class="token punctuation">.</span><span class="token function">call</sp
   <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
   <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
   <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">// 输出10</span>
@@ -698,7 +698,7 @@ foo<span class="token punctuation">.</span><span class="token function">call</sp
     <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>sayName<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token operator">*</span><span class="token comment" spellcheck="true">// 第二次输出*</span>
 <span class="token punctuation">}</span>
 <span class="token keyword">var</span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-person<span class="token punctuation">.</span><span class="token function">sayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token operator">*</span><span class="token comment" spellcheck="true">// 第一次输出*</span>
+person<span class="token punctuation">.</span><span class="token function">sayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token operator">*</span><span class="token comment" spellcheck="true">// 第一次输出*</span>
 </code></pre>
 <p>第一次输出的是Person, Smiley。第二次输出的结果是window，Nicolas。尽管setTimeout是在构造函数中定义的，但是调用的时候，是在window中调用。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -714,7 +714,7 @@ person<span class="token punctuation">.</span><span class="token function">sayNa
 <span class="token function">sayNameCopy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>答案是window和undefined。因为，这个时候符合默认绑定的规则。</p>
-<p><img src="/../images/this.jpg" alt="this指向"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/this.jpg" alt="this指向"></p>
 <p><strong>5. 绑定优先级</strong></p>
 <p>如果多重绑定规格都适用，那么绑定规则的优先级顺序是这样的：</p>
 <blockquote>
@@ -1351,9 +1351,12 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <h4 id="ES6-模块和Common-js-模块的差异："><a href="#ES6-模块和Common-js-模块的差异：" class="headerlink" title="ES6 模块和Common js 模块的差异："></a>ES6 模块和Common js 模块的差异：</h4><p>1、CommonJS 输出的是一个值的拷贝；ES6 模块输出的是值的引用；</p>
 <p>2、CommonJS 模块是运行时加载；ES6模块是编译时输出接口；</p>
 <p>由于ES6 模块是编译时输出接口，所以可以做到 tree shaking；</p>
+<h4 id="import-和-require-导入的区别"><a href="#import-和-require-导入的区别" class="headerlink" title="import 和 require 导入的区别"></a><strong>import 和 require 导入的区别</strong></h4><p>import 的ES6 标准模块：是编译时调用，所以必须放在文件开头，是解构过程。</p>
+<p>require 是 AMD规范引入方式：是运行时调用，所以require理论上可以运用在代码的任何地方，是赋值过程。</p>
+<p>其实require的结果就是对象、数字、字符串、函数等，再把require的结果赋值给某个变量。</p>
 <h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h4 id="CSS-优先规则"><a href="#CSS-优先规则" class="headerlink" title="CSS 优先规则"></a>CSS 优先规则</h4><p><strong>选择器:</strong></p>
-<p>ID 选择器 (#ID)     Class 选择器 (.class 名)    标签选择器 (标签)     通配符 (*)</p>
-<p>相邻选择器 (div+p)     子选择器 (div&gt;p)     后代选择器 (div p)     多个选择器 (div,p,a,ul)</p>
+<p>ID 选择器 (#ID)  Class 选择器 (.class 名)  标签选择器 (标签)  通配符 (*)</p>
+<p>相邻选择器 (div+p)   子选择器 (div&gt;p)  后代选择器 (div p)   多个选择器 (div,p,a,ul)</p>
 <p>伪类选择器 (a:hover) </p>
 <p><strong>伪类选择器和伪元素的区别:</strong> </p>
 <p>伪类用于向某些选择器添加特殊效果 (单冒号)</p>
@@ -1402,8 +1405,8 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <li>rpx是微信小程序为了解决自适应屏幕尺寸设计的单位，它规定任何屏幕的宽都是750rpx。vw是css3新出的单位，规定任何屏幕宽都是100vw，高100vh，就是是将窗口大小平分为 100 份;这里的屏幕指的是视口，即浏览器窗口，不受分辨率和dpr影响，还是很方便的。</li>
 </ol>
 </blockquote>
-<h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p><img src="/../images/flex-container.jpg" alt="flex-容器属性"></p>
-<p><img src="/../images/flex-project.jpg" alt="flex-项目属性"></p>
+<h4 id="Flex布局"><a href="#Flex布局" class="headerlink" title="Flex布局"></a><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局</a></h4><p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/flex-container.jpg" alt="flex-容器属性"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/flex-project.jpg" alt="flex-项目属性"></p>
 <h4 id="盒子水平垂直居中的五种方法："><a href="#盒子水平垂直居中的五种方法：" class="headerlink" title="盒子水平垂直居中的五种方法："></a>盒子水平垂直居中的五种方法：</h4><p>相对定位： 先让子盒子的左上角居中然后在向左和向上移动子盒子的宽和高的一半。缺点是需要知道子盒子具体的宽和高</p>
 <pre class=" language-css"><code class="language-css"><span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
 <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
@@ -1425,11 +1428,11 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p>display: flex：利用flex布局让子盒子居中，同样也存在兼容性问题</p>
 <pre class=" language-css"><code class="language-css"> <span class="token selector"><span class="token id">#box</span></span><span class="token punctuation">{</span>
     <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
-    <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
-    <span class="token property">background</span><span class="token punctuation">:</span><span class="token hexcode">#eee</span><span class="token punctuation">;</span>
-    <span class="token property">display</span><span class="token punctuation">:</span>flex<span class="token punctuation">;</span>
-    <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
-    <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">100%</span><span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span><span class="token hexcode">#eee</span><span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span>flex<span class="token punctuation">;</span>
+  <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>利用JavaScript，获取分别获取大盒子和子盒子的宽和高，然后再通过计算让子盒子居中</p>
@@ -1447,43 +1450,42 @@ require（<span class="token punctuation">[</span>module<span class="token punct
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>right<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-</code></pre>
-<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.contaer</span> </span><span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/*3， 给父盒子添加padding  把main挤过来 */</span>
-    <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+.contaer {
+    /*3， 给父盒子添加padding  把main挤过来 */
+    padding: 0 200px;
+}
         
-<span class="token selector"><span class="token class">.left</span>,
-<span class="token class">.right</span> </span><span class="token punctuation">{</span>
-    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
-    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
-    <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">/*1， 给左右盒子添加左浮动 */</span>
-    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">/* 4，给左右盒子添加相对于自己的定位 */</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+.left,
+.right {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    /*1， 给左右盒子添加左浮动 */
+    float: left;
+    /* 4，给左右盒子添加相对于自己的定位 */
+    position: relative;
+}
         
-<span class="token selector"><span class="token class">.left</span> </span><span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/*2， 让盒子上去 */</span>
-    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">100%</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">/* 让盒子定位在左边 */</span>
-    <span class="token property">left</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token selector"><span class="token class">.right</span> </span><span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/* 2，让盒子上去 */</span>
-    <span class="token property">margin-left</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">/*4. 让盒子定位在右边 */</span>
-    <span class="token property">right</span><span class="token punctuation">:</span> -<span class="token number">200</span>px<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+.left {
+    /*2， 让盒子上去 */
+    margin-left: -100%;
+    /* 让盒子定位在左边 */
+    left: -200px;
+}
+.right {
+    /* 2，让盒子上去 */
+    margin-left: -200px;
+    /*4. 让盒子定位在右边 */
+    right: -200px;
+}
         
-<span class="token selector"><span class="token class">.main</span> </span><span class="token punctuation">{</span>
-    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
-    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
-    <span class="token property">background-color</span><span class="token punctuation">:</span> blueviolet<span class="token punctuation">;</span>
-    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
-    <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+.main {
+    width: 100%;
+    height: 200px;
+    background-color: blueviolet;
+    float: left;
+    text-align: center;
+}
 </code></pre>
 <blockquote>
 <p>1，给左中右设置左浮动 但是 mian部分的宽度为100% 所以左右元素不会上去</p>
@@ -1578,15 +1580,15 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p>优点：代码较少，简单方便   缺点：不能配合定位使用 </p>
 <p>3.：after 方法（作用于浮动元素的父元素）</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.clearfix</span><span class="token pseudo-element">:after</span></span><span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
-    <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token property">clear</span><span class="token punctuation">:</span>both<span class="token punctuation">;</span>
-    <span class="token property">visibility</span><span class="token punctuation">:</span>hidden<span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token property">clear</span><span class="token punctuation">:</span>both<span class="token punctuation">;</span>
+  <span class="token property">visibility</span><span class="token punctuation">:</span>hidden<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">/* 为兼容 IE6,IE7，因为 ie6,ie7 不能用 after 伪类 */</span>
 <span class="token selector"><span class="token class">.clearfix</span></span><span class="token punctuation">{</span>
-    <span class="token property">zoom</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token property">zoom</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>优点：结构和语义化完全正确   缺点：复用方式不当，会造成代码量增加</p>
@@ -1603,25 +1605,25 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <span class="token property">overflow</span> <span class="token punctuation">:</span> hidden <span class="token punctuation">;</span>
 </code></pre>
 <p>适用范围 : 因使用了 Webkit 的 CSS 扩展属性,该方法适用于 Webkit 浏览器 以及移动端 注: </p>
-<p>​    -webkit-line-clamp 用来限制在一个块元素显示的文本的行数,为了实现 该效果,它需要组合其它的 webkit 属性。 </p>
-<p>​    常见结合属性： </p>
-<p>​    display：-webkit-box； 必须结合的属性，将对象作为弹性伸缩盒 子模式显示。 </p>
-<p>​    -webkit-box-orient 必须结合的属性，设置或减缩伸缩盒对象的子 元素排列方式。 <strong>溢出显示的另外一种显示方式</strong> </p>
+<p> -webkit-line-clamp 用来限制在一个块元素显示的文本的行数,为了实现 该效果,它需要组合其它的 webkit 属性。 </p>
+<p> 常见结合属性： </p>
+<p> display：-webkit-box； 必须结合的属性，将对象作为弹性伸缩盒 子模式显示。 </p>
+<p> -webkit-box-orient 必须结合的属性，设置或减缩伸缩盒对象的子 元素排列方式。 <strong>溢出显示的另外一种显示方式</strong> </p>
 <p>实现方式：</p>
 <pre class=" language-css"><code class="language-css"><span class="token selector">div</span><span class="token punctuation">{</span> 
-    position：relative； 
-    line-height：<span class="token number">20</span>px； 
-    max-height：<span class="token number">40</span>px； 
-    overflow：hidden； 
+  position：relative； 
+  line-height：<span class="token number">20</span>px； 
+  max-height：<span class="token number">40</span>px； 
+  overflow：hidden； 
 <span class="token punctuation">}</span> 
 <span class="token selector">div：after</span><span class="token punctuation">{</span> 
-    <span class="token property">content</span> <span class="token punctuation">:</span> “<span class="token number">...</span>”<span class="token punctuation">;</span> 
-    <span class="token property">position</span> <span class="token punctuation">:</span> absolute <span class="token punctuation">;</span> 
-    <span class="token property">bottom</span> <span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">;</span> 
-    <span class="token property">right</span> <span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">;</span> 
-    <span class="token property">padding-left</span> <span class="token punctuation">:</span> <span class="token number">40</span>px <span class="token punctuation">;</span>  
-    <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-webkit-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-    <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-o-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-moz-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">content</span> <span class="token punctuation">:</span> “<span class="token number">...</span>”<span class="token punctuation">;</span> 
+  <span class="token property">position</span> <span class="token punctuation">:</span> absolute <span class="token punctuation">;</span> 
+  <span class="token property">bottom</span> <span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">;</span> 
+  <span class="token property">right</span> <span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">;</span> 
+  <span class="token property">padding-left</span> <span class="token punctuation">:</span> <span class="token number">40</span>px <span class="token punctuation">;</span>  
+  <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-webkit-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-o-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">-moz-linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token property">background</span> <span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>left , transparent , <span class="token hexcode">#fff</span> <span class="token number">55%</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span> 
 </code></pre>
@@ -1679,8 +1681,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
    <span class="token punctuation">}</span>
  <span class="token punctuation">}</span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
-</code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>el<span class="token operator">-</span>button @click<span class="token operator">=</span><span class="token string">"handleEmit"</span><span class="token operator">></span>通知父组件需要更改数据了<span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>button<span class="token operator">></span>
+<span class="token operator">&lt;</span>el<span class="token operator">-</span>button @click<span class="token operator">=</span><span class="token string">"handleEmit"</span><span class="token operator">></span>通知父组件需要更改数据了<span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>button<span class="token operator">></span>
 
 <span class="token operator">&lt;</span>script<span class="token operator">></span>
  <span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
@@ -1761,8 +1762,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
    <span class="token punctuation">}</span>
  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/*子组件*/</span>
+<span class="token comment" spellcheck="true">/*子组件*/</span>
 <span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
   inject<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'provideData'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   created <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1837,7 +1837,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <span class="token punctuation">}</span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
-<h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="/../images/vue-life.jpg" alt="Vue生命周期"></p>
+<h4 id="Vue-的生命周期方法有哪些-一般在哪一步发请求"><a href="#Vue-的生命周期方法有哪些-一般在哪一步发请求" class="headerlink" title="Vue 的生命周期方法有哪些 一般在哪一步发请求"></a>Vue 的生命周期方法有哪些 一般在哪一步发请求</h4><p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/vue-life.jpg" alt="Vue生命周期"></p>
 <blockquote>
 <p><strong>beforeCreate</strong> 在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。在当前阶段 data、methods、computed 以及 watch 上的数据和方法都不能被访问</p>
 <p><strong>created</strong> 实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。这里没有$el,如果非要想与 Dom 进行交互，可以通过 vm.$nextTick 来访问 Dom</p>
@@ -1870,7 +1870,7 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p><strong>销毁过程:</strong></p>
 <p>父 beforeDestroy-&gt;子 beforeDestroy-&gt;子 destroyed-&gt;父 destroyed</p>
 </blockquote>
-<h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令<img src="/../images/vue-command.jpg" alt="vue内置指令"></h4><h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令<img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/vue-command.jpg" alt="vue内置指令"></h4><h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
 <blockquote>
 <p>注意：在子组件直接用 v-model 绑定父组件传过来的 prop 这样是不规范的写法 开发环境会报警告</p>
 </blockquote>
@@ -1949,7 +1949,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>使用Object.defineProperty实现监听变量:</p>
 <p>实现步骤：</p>
 <p>Observer：</p>
-<p>​    用来劫持并监听所有属性，如果有变动的，就通知订阅者。</p>
+<p> 用来劫持并监听所有属性，如果有变动的，就通知订阅者。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Observer</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>data <span class="token operator">=</span> data<span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">walk</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -2009,7 +2009,7 @@ Dep<span class="token punctuation">.</span>prototype <span class="token operator
 Dep<span class="token punctuation">.</span>target <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Watcher：</p>
-<p>​    可以收到属性的变化通知并执行相应的函数，从而更新视图。</p>
+<p> 可以收到属性的变化通知并执行相应的函数，从而更新视图。</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">Watcher</span><span class="token punctuation">(</span>vm<span class="token punctuation">,</span> exp<span class="token punctuation">,</span> cb<span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>cb <span class="token operator">=</span> cb<span class="token punctuation">;</span>
     <span class="token keyword">this</span><span class="token punctuation">.</span>vm <span class="token operator">=</span> vm<span class="token punctuation">;</span>
@@ -2048,7 +2048,7 @@ Watcher<span class="token punctuation">.</span>prototype <span class="token oper
     <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>完整版参考自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/6893712.html">vue的双向绑定原理及实现</a>        <a target="_blank" rel="noopener" href="https://github.com/canfoo/self-vue/tree/master/v3">源 码</a></p>
+<p>完整版参考自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/6893712.html">vue的双向绑定原理及实现</a>    <a target="_blank" rel="noopener" href="https://github.com/canfoo/self-vue/tree/master/v3">源 码</a></p>
 <p>使用ES6的proxy简单实现监听变量:</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span>
  msg<span class="token punctuation">:</span> <span class="token punctuation">{</span>
@@ -2087,12 +2087,12 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <p>区别：</p>
 <blockquote>
 <p>1、语法层面上</p>
-<p>​    defineProperty只能响应首次渲染时候的属性，</p>
-<p>​    defineProperty无法一次性监听所有属性，必须通过遍历或者递归的方式来实现且无法监听新增的属性，对于数组defineProperty则需要劫持数组方法。</p>
-<p>​    Proxy需要的是整体监听，不需要关心里面有什么属性，而且Proxy的配置项有13种，可以做更细致的事情，这是之前的defineProperty无法达到的。</p>
+<p>defineProperty只能响应首次渲染时候的属性，</p>
+<p>defineProperty无法一次性监听所有属性，必须通过遍历或者递归的方式来实现且无法监听新增的属性，对于数组defineProperty则需要劫持数组方法。</p>
+<p>Proxy需要的是整体监听，不需要关心里面有什么属性，而且Proxy的配置项有13种，可以做更细致的事情，这是之前的defineProperty无法达到的。</p>
 <p>2、兼容层面上</p>
-<p>​    vue2.x之所以只能兼容到IE8就是因为defineProperty无法兼容IE8,其他浏览器也会存在轻微兼容问题。</p>
-<p>​    proxy的话除了IE，其他浏览器都兼容，这次vue3还是使用了它，说明vue3直接放弃了IE的兼容考虑。</p>
+<p>vue2.x之所以只能兼容到IE8就是因为defineProperty无法兼容IE8,其他浏览器也会存在轻微兼容问题。</p>
+<p>proxy的话除了IE，其他浏览器都兼容，这次vue3还是使用了它，说明vue3直接放弃了IE的兼容考虑。</p>
 </blockquote>
 <h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
 <p>1.工厂模式 - 传入参数即可创建实例</p>
@@ -2128,61 +2128,12 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <p>Action：用于提交 mutation，而不是直接变更状态，可以包含任意异步操作。</p>
 <p>Module：允许将单一的 Store 拆分为多个 store 且同时保存在单一的状态树中。</p>
 </blockquote>
-<h4 id="Vuex-页面刷新数据丢失怎么解决"><a href="#Vuex-页面刷新数据丢失怎么解决" class="headerlink" title="Vuex 页面刷新数据丢失怎么解决"></a>Vuex 页面刷新数据丢失怎么解决</h4><p>​    需要做 vuex 数据持久化 一般使用本地存储的方案来保存数据 可以自己设计存储方案 也可以使用第三方插件。推荐使用 vuex-persist 插件，它就是为 Vuex 持久化存储而生的一个插件。不需要你手动存取 storage ，而是直接将状态保存至 cookie 或者 localStorage 中</p>
+<h4 id="Vuex-页面刷新数据丢失怎么解决"><a href="#Vuex-页面刷新数据丢失怎么解决" class="headerlink" title="Vuex 页面刷新数据丢失怎么解决"></a>Vuex 页面刷新数据丢失怎么解决</h4><p> 需要做 vuex 数据持久化 一般使用本地存储的方案来保存数据 可以自己设计存储方案 也可以使用第三方插件。推荐使用 vuex-persist 插件，它就是为 Vuex 持久化存储而生的一个插件。不需要你手动存取 storage ，而是直接将状态保存至 cookie 或者 localStorage 中</p>
 <h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><blockquote>
 <p>类组件可以使用其他特性，如状态 state 和生命周期钩子。</p>
 <p>当组件只是接收 props 渲染到页面时，就是无状态组件，就属于函数组件，也被称为哑组件或展示组件。</p>
 <p>函数组件的性能比类组件的性能要高，因为类组件使用的时候要实例化，而函数组件直接执行函数取返回结果即可。为了提高性能，尽量使用函数组件。</p>
 </blockquote>
-<h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><blockquote>
-<p><strong>webpack</strong> 是一个用于现代 JavaScript 应用程序的 <em>静态模块打包工具</em>。当 webpack 处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块，并生成一个或多个 <em>bundle</em>。</p>
-</blockquote>
-<h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><blockquote>
-<p>webpack Proxy , 即wepack提供的代理服务，将客户端发送的请求转发给其他服务器。目的是为了解决开发模式下的跨域问题。想要实现代理首先需要一个中间服务器，webpack中提供服务器的工具为webpack-dev-server。webpack-dev-server是webpack官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能集成在了一起。【只适用在开发阶段】</p>
-</blockquote>
-<p>在webpack配置对象属性中通过devServer属性提供，配置如下</p>
-<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// ./webpack.config.js</span>
-<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
-
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ...</span>
-    devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-        contentBase<span class="token punctuation">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-        compress<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
-        port<span class="token punctuation">:</span> <span class="token number">8080</span><span class="token punctuation">,</span>
-        proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-            <span class="token string">'/api'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-                target<span class="token punctuation">:</span> <span class="token string">'http://www.baidu.com/'</span><span class="token punctuation">,</span>
-                pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">'^/api'</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//// 如果接口本身没有/api需要通过pathRewrite来重写了地址,这里把/api转成''</span>
-                changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>     <span class="token comment" spellcheck="true">// target是域名的话，需要这个参数，</span>
-                secure<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>          <span class="token comment" spellcheck="true">// 设置支持https协议的代理</span>
-              <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">// ...</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>devServer里面proxy则是关于代理的配置，该属性为对象的形式，对象中每一个属性即一个代理的规则匹配。</p>
-<blockquote>
-<p>target：代理的API地址，就是需要跨域的API地址。<br>pathRewrite：路径重写，也就是说会修改最终请求的API路径。<br>secure：默认情况下不接收转发到https的服务器上，如果希望支持，可设置为false<br>changOrigin：默认是false：请求头中host仍然是浏览器发送过来的host；如果设置成true：发送请求头中host会设置成target</p>
-</blockquote>
-<p>proxy工作原理实质上是利用http-proxy-middleware这个http代理中间件，实现请求转发给其他服务器</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> proxy <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http-proxy-middleware'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'/api'</span><span class="token punctuation">,</span> <span class="token function">proxy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>target<span class="token punctuation">:</span> <span class="token string">'http://www.example.org'</span><span class="token punctuation">,</span> changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">// http://localhost:8080/api/foo/bar -> http://www.example.org/api/foo/bar</span>
-</code></pre>
-<p>总的来说就是：</p>
-<p>在开发阶段，webpack-dev-server 会启动一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 localhost 的一个端口上，而后端服务又是运行在另外一个地址上；</p>
-<p>所以在开发阶段中，由于浏览器同源策略的原因，当本地访问后端就会出现跨域请求的问题。</p>
-<p>通过设置webpack proxy实现代理请求后，相当于浏览器与服务端添加一个代理者</p>
-<p>当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终由代理服务器将数据响应给本地。</p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">Webpack相关试题</a></p>
 <h2 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h2><blockquote>
 <p>Typescript是强类型的Javascript超集，支持ES6语法，支持面向对象编程的概念，如类、接口、继承、泛型等。Typescript并不直接在浏览器上运行，需要编译器编译成纯Javascript来运行。</p>
 </blockquote>
@@ -2207,12 +2158,12 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 </code></pre>
 <p>类：</p>
 <pre class=" language-tsx"><code class="language-tsx">class createObj<T> {
-    name: T
+  name: T
 }
 </code></pre>
 <p>接口：</p>
 <pre class=" language-tsx"><code class="language-tsx">interface IF<T> {
-    name: T
+  name: T
 }
 </code></pre>
 <p>相关<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c8aaba6e8ce0">试题</a></p>
@@ -2220,12 +2171,12 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <p>http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源。常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。</p>
 <p>http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源。</p>
 </blockquote>
-<p><img src="/../images/http-cache-2.jpg" alt="http-cache-2"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/http-cache-2.jpg" alt="http-cache-2"></p>
 <h4 id="1、http缓存的分类："><a href="#1、http缓存的分类：" class="headerlink" title="1、http缓存的分类："></a>1、http缓存的分类：</h4><p> 根据是否需要重新向服务器发起请求来分类，可分为(强制缓存，协商缓存) 根据是否可以被单个或者多个用户使用来分类，可分为(私有缓存，共享缓存) 强制缓存如果生效，不需要再和服务器发生交互，而协商缓存不管是否生效，都需要与服务端发生交互。</p>
 <p><strong>强制缓存</strong><br>强制缓存在缓存数据未失效的情况下（即Cache-Control的max-age没有过期或者Expires的缓存时间没有过期），那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，http状态码为200。这种方式页面的加载速度是最快的，性能也是很好的，但是在这期间，如果服务器端的资源修改了，页面上是拿不到的，因为它不会再向服务器发请求了。</p>
-<p><img src="/../images/http-force-cache.jpg" alt="http缓存-强制"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/http-force-cache.jpg" alt="http缓存-强制"></p>
 <p><strong>协商缓存</strong><br>当第一次请求时服务器返回的响应头中没有Cache-Control和Expires或者Cache-Control和Expires过期还或者它的属性设置为no-cache时(即不走强缓存)，那么浏览器第二次请求时就会与服务器进行协商，与服务器端对比判断资源是否进行了修改更新。如果服务器端的资源没有修改，那么就会返回304状态码，告诉浏览器可以使用缓存中的数据，这样就减少了服务器的数据传输压力。如果数据有更新就会返回200状态码，服务器就会返回更新后的资源并且将缓存信息一起返回。跟协商缓存相关的header头属性有（ETag/If-Not-Match 、Last-Modified/If-Modified-Since）请求头和响应头需要成对出现</p>
-<p><img src="/../images/http-negotiation-cache.jpg" alt="http缓存-协商"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/http-negotiation-cache.jpg" alt="http缓存-协商"></p>
 <h4 id="2、如何使用HTTP缓存-？"><a href="#2、如何使用HTTP缓存-？" class="headerlink" title="2、如何使用HTTP缓存 ？"></a>2、如何使用HTTP缓存 ？</h4><p>一般需要缓存的资源有html页面和其他静态资源：<br><strong>html页面缓存的设置主要是在标签中嵌入标签，这种方式只对页面有效，对页面上的资源无效,静态资源的缓存一般是在web服务器上配置的</strong></p>
 <ol>
 <li>html页面禁用缓存的设置如下：</li>
@@ -2272,7 +2223,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p>HTTP请求报文由请求行、请求头部、空行和请求数据4个部分组成，下图是请求报文的一般格式。</p>
 <p>HTTP响应也由三个部分组成，分别是：状态行、消息报头、响应正文。</p>
 </blockquote>
-<p><img src="/../images/http-cache-3.jpg" alt="http缓存-3"></p>
+<p><img src="/../images/%E4%B8%AA%E4%BA%BA%E9%9A%8F%E7%AC%94%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/http-cache-3.jpg" alt="http缓存-3"></p>
 <table>
 <thead>
 <tr>
@@ -2404,8 +2355,8 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 </code></pre>
 <p>它们之间用英文分号和空格（”; “）连接，示例：</p>
 <pre class=" language-http"><code class="language-http">Set-Cookie:
-    key=value; 
-    path=path;
+  key=value; 
+  path=path;
     domain=domain;
     max-age=max-age-in-seconds;
     expires=date-in-GMTString-format;
@@ -2422,7 +2373,7 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <h2 id="浏览器安全相关"><a href="#浏览器安全相关" class="headerlink" title="浏览器安全相关"></a>浏览器安全相关</h2><h3 id="盗用cookie的手段"><a href="#盗用cookie的手段" class="headerlink" title="盗用cookie的手段"></a>盗用cookie的手段</h3><p>在别的浏览器中来冒用合法用户访问系统；黑客自然不能手动拿你浏览器中的cookie值，除非黑客就是你身边的人，那他就不是黑客了，是盗贼；</p>
 <p>黑客都是靠技术手段获取别人的东西，例如：利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页中，然后自动从用户浏览器中获取cookie的值，此技术手段被称为<a target="_blank" rel="noopener" href="https://blog.csdn.net/zemprogram/article/details/109451863"><strong>XSS攻击</strong></a>；</p>
 <p><strong>如果cookie中设置了HttpOnly属性，且为true，那么通过js脚本将无法读取到cookie信息，这样就能有效的防止XSS攻击，防止cookie内容被盗窃。</strong></p>
-<h3 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h3><p>　　 在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.<br>        Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。<br>        Syn攻击是一个典型的DDOS攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.</p>
+<h3 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h3><p>　　 在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.<br>    Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。<br>    Syn攻击是一个典型的DDOS攻击。检测SYN攻击非常的方便，当你在服务器上看到大量的半连接状态时，特别是源IP地址是随机的，基本上可以断定这是一次SYN攻击.</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903955286196237">【THE LAST TIME】彻底吃透 JavaScript 执行机制</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903984335945736">【THE LAST TIME】一文吃透所有JS原型相关知识点</a></p>
 <p><a target="_blank" rel="noopener" href="https://imququ.com/post/host-only-cookie.html">你所不知道的HostOnly Cookie</a></p>
@@ -2433,7 +2384,6 @@ Cache<span class="token operator">-</span>Control<span class="token operator">:<
 <p><a target="_blank" rel="noopener" href="https://typescript.bootcss.com/">TypeScript 中文手册</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c8aaba6e8ce0">TypeScript-相关试题</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27575925/article/details/113758050">深度剖析JavaScript ES5/ AMD/ CMD/ COMMONJS/ ES6模块化</a></p>
-<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">「吐血整理」再来一打Webpack面试题</a></p>
 
                 
             </div>
