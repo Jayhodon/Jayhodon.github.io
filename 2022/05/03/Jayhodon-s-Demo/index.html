@@ -481,6 +481,33 @@
 </li>
 </ol>
 <p><img src="/../images/Jayhodon-s-Demo/baseToImg_3.jpg" alt="Save"></p>
+<h3 id="Css-content-visibility属性-虚拟滚动"><a href="#Css-content-visibility属性-虚拟滚动" class="headerlink" title="Css: content-visibility属性 [虚拟滚动]"></a>Css: content-visibility属性 [虚拟滚动]</h3><blockquote>
+<p>content-visibility是一个css属性，它控制一个元素是否呈现其内容，能让用户潜在地控制元素的呈现。用户可以使用它跳过元素的呈现(包括布局和绘制)，直到用户需要为止，让页面的初始渲染得到极大的提升。</p>
+</blockquote>
+<p><strong>content-visibility</strong> 属性有三个可选值:</p>
+<blockquote>
+<ul>
+<li><p>visible: 默认值。对布局和呈现不会产生什么影响。</p>
+</li>
+<li><p>hidden: 元素跳过其内容的呈现。用户代理功能（例如，在页面中查找，按Tab键顺序导航等）不可访问已跳过的内容，也不能选择或聚焦。类似于对其内容设置了display: none属性。</p>
+</li>
+<li><p>auto: 对于用户可见区域的元素，浏览器会正常渲染其内容；对于不可见区域的元素，浏览器会暂时跳过其内容的呈现，等到其处于用户可见区域时，浏览器在渲染其内容。</p>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>ps</strong>: content-visibility是chrome85今年新增的特性，所以目前兼容性还不高，但是相信兼容性的问题在不久的将来会得到解决。</li>
+</ul>
+<p>​    当元素的部分内容如<code>&lt;img /&gt;</code>标签这种，元素的高度是有图片内容决定的，因此在这种情况下，如果使用<code>content-visibility</code>，则可见视图外的img初始未渲染，高度为0，随着滚动条向下滑动，页面高度增加，会导致滚动条的滚动有问题。</p>
+<p>​    为了解决此问题，如果在已知元素高度的情况下，可以使用<code>contains-intrinsic-size</code>属性，为上面的card添加：<code>contains-intrinsic-size：312px;</code>，这会给内容附一个初始高度值。（如果高度不固定也可以附一个大致的初始高度值，会使滚动条问题相对减少）。</p>
+<pre class=" language-css"><code class="language-css">    <span class="token selector">&lt;style type="text/css">
+      <span class="token class">.card</span> </span><span class="token punctuation">{</span>
+        <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+        <span class="token property">content-visibility</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+        <span class="token property">contain-intrinsic-size</span><span class="token punctuation">:</span> <span class="token number">312</span>px<span class="token punctuation">;</span> // 添加此行
+      <span class="token punctuation">}</span>
+    &lt;/style>
+</code></pre>
 
                 
             </div>
@@ -722,13 +749,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2022/05/28/Webpack%E7%9B%B8%E5%85%B3/">
+                <a href="/2022/05/29/JavaScript-Codes/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Webpack相关">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="实用性前端代码片段【Note】">
                         
-                        <span class="card-title">Webpack相关</span>
+                        <span class="card-title">实用性前端代码片段【Note】</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -739,7 +766,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-28
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-29
                         </span>
                         <span class="publish-author">
                             
@@ -752,8 +779,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/webpack/">
-                        <span class="chip bg-color">webpack</span>
+                    <a href="/tags/JavaScript/">
+                        <span class="chip bg-color">JavaScript</span>
                     </a>
                     
                 </div>
