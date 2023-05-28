@@ -969,7 +969,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </li>
 </ul>
 <h5 id="Module-与-Module-子类"><a href="#Module-与-Module-子类" class="headerlink" title="Module 与 Module 子类"></a><code>Module</code> 与 <code>Module</code> 子类</h5><p>​        从上文可以看出，webpack 构建阶段的核心流程基本上都围绕着 <code>module</code> 展开，相信接触过、用过 Webpack 的读者对 <code>module</code> 应该已经有一个感性认知，但是实现上 <code>module</code> 的逻辑是非常复杂繁重的。</p>
-<p>​        以 <a href="mailto:&#119;&#x65;&#x62;&#x70;&#x61;&#x63;&#107;&#x40;&#x35;&#46;&#50;&#x36;&#x2e;&#x33;">&#119;&#x65;&#x62;&#x70;&#x61;&#x63;&#107;&#x40;&#x35;&#46;&#50;&#x36;&#x2e;&#x33;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
+<p>​        以 <a href="mailto:&#119;&#x65;&#98;&#x70;&#x61;&#99;&#x6b;&#64;&#53;&#46;&#x32;&#x36;&#x2e;&#51;">&#119;&#x65;&#98;&#x70;&#x61;&#99;&#x6b;&#64;&#53;&#46;&#x32;&#x36;&#x2e;&#51;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
 <p>​        要一个一个捋清楚这些类的作用实在太累了，我们需要抓住本质：<code>module</code> 的作用是什么？</p>
 <p>​        <code>module</code> 是 webpack 资源处理的基本单位，可以认为 webpack 对资源的路径解析、读入、转译、分析、打包输出，所有操作都是围绕着 module 展开的。有很多文章会说 <strong>module = 文件</strong>， 其实这种说法并不准确，比如子类 <code>AsyncModuleRuntimeModule</code> 就只是一段内置的代码，是一种资源而不能简单等价于实际文件。</p>
 <p>​        Webpack 扩展性很强，包括模块的处理逻辑上，比如说入口文件是一个普通的 js，此时首先创建 NormalModule 对象，在解析 AST 时发现这个文件里还包含了异步加载语句。</p>
@@ -1081,6 +1081,7 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 <p>​        当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终由代理服务器将数据响应给本地。</p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">Webpack相关试题</a></p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>「 Tecvan: 一文吃透 Webpack 核心原理  」</li>
 <li><a target="_blank" rel="noopener" href="https://github.com/Cosen95/blog/issues/48">面试官：webpack原理都不会？</a></li>
 <li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/61047">细说 webpack 之流程篇 </a></li>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904094281236487">「吐血整理」再来一打Webpack面试题</a></li>
