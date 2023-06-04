@@ -108,17 +108,6 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>Contact</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
     <a href="/friends" class="waves-effect waves-light">
       
       <i class="fas fa-address-book" style="zoom: 0.6;"></i>
@@ -205,17 +194,6 @@
 			    <i class="fa-fw fas fa-user-circle"></i>
 			
 			About
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			Contact
 		</a>
           
         </li>
@@ -431,6 +409,10 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                <span class="chip bg-color">前端</span>
+                            </a>
+                        
                             <a href="/tags/webpack/">
                                 <span class="chip bg-color">webpack</span>
                             </a>
@@ -439,6 +421,19 @@
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                前端
+                            </a>
+                        
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/" class="post-category">
+                                个人知识库
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -969,7 +964,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </li>
 </ul>
 <h5 id="Module-与-Module-子类"><a href="#Module-与-Module-子类" class="headerlink" title="Module 与 Module 子类"></a><code>Module</code> 与 <code>Module</code> 子类</h5><p>​        从上文可以看出，webpack 构建阶段的核心流程基本上都围绕着 <code>module</code> 展开，相信接触过、用过 Webpack 的读者对 <code>module</code> 应该已经有一个感性认知，但是实现上 <code>module</code> 的逻辑是非常复杂繁重的。</p>
-<p>​        以 <a href="mailto:&#119;&#x65;&#98;&#x70;&#x61;&#99;&#x6b;&#64;&#53;&#46;&#x32;&#x36;&#x2e;&#51;">&#119;&#x65;&#98;&#x70;&#x61;&#99;&#x6b;&#64;&#53;&#46;&#x32;&#x36;&#x2e;&#51;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
+<p>​        以 <a href="mailto:&#119;&#101;&#98;&#x70;&#x61;&#x63;&#107;&#x40;&#x35;&#46;&#x32;&#54;&#x2e;&#51;">&#119;&#101;&#98;&#x70;&#x61;&#x63;&#107;&#x40;&#x35;&#46;&#x32;&#54;&#x2e;&#51;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
 <p>​        要一个一个捋清楚这些类的作用实在太累了，我们需要抓住本质：<code>module</code> 的作用是什么？</p>
 <p>​        <code>module</code> 是 webpack 资源处理的基本单位，可以认为 webpack 对资源的路径解析、读入、转译、分析、打包输出，所有操作都是围绕着 module 展开的。有很多文章会说 <strong>module = 文件</strong>， 其实这种说法并不准确，比如子类 <code>AsyncModuleRuntimeModule</code> 就只是一段内置的代码，是一种资源而不能简单等价于实际文件。</p>
 <p>​        Webpack 扩展性很强，包括模块的处理逻辑上，比如说入口文件是一个普通的 js，此时首先创建 NormalModule 对象，在解析 AST 时发现这个文件里还包含了异步加载语句。</p>
@@ -1149,6 +1144,10 @@ app<span class="token punctuation">.</span><span class="token function">listen</
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
+                            
+                                <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                                    <span class="chip bg-color">前端</span>
+                                </a>
                             
                                 <a href="/tags/webpack/">
                                     <span class="chip bg-color">webpack</span>
@@ -1349,8 +1348,16 @@ app<span class="token punctuation">.</span><span class="token function">listen</
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Jayhodon
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/" class="post-category">
+                                    个人知识库
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -1358,6 +1365,10 @@ app<span class="token punctuation">.</span><span class="token function">listen</
 
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
+                    </a>
                     
                     <a href="/tags/webpack/">
                         <span class="chip bg-color">webpack</span>
@@ -1395,14 +1406,26 @@ app<span class="token punctuation">.</span><span class="token function">listen</
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Jayhodon
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            <a href="/categories/%E5%89%8D%E7%AB%AF/Demo/" class="post-category">
+                                    Demo
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
+                    </a>
                     
                     <a href="/tags/hexo/">
                         <span class="chip bg-color">hexo</span>
