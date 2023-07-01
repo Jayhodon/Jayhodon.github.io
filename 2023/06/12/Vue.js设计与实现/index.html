@@ -782,255 +782,255 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </ol>
 </blockquote>
 <p><strong>props &amp; $emit:</strong></p>
-<pre class=" language-vue"><code class="language-vue"><Son @changeData="changeData"></Son>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>Son @changeData<span class="token operator">=</span><span class="token string">"changeData"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Son<span class="token operator">></span>
 
-<script>
- import Son from '@/components/son'
- export default{
-   name:'Father',
-   components:{Son},
-   methods:{
-     changeData(name){
-       console.log(name) //来自子组件的数据
-     }
-   }
- }
-</script>
-<el-button @click="handleEmit">通知父组件需要更改数据了</el-button>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+ <span class="token keyword">import</span> Son <span class="token keyword">from</span> <span class="token string">'@/components/son'</span>
+ <span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+   name<span class="token punctuation">:</span><span class="token string">'Father'</span><span class="token punctuation">,</span>
+   components<span class="token punctuation">:</span><span class="token punctuation">{</span>Son<span class="token punctuation">}</span><span class="token punctuation">,</span>
+   methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+     <span class="token function">changeData</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">{</span>
+       console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//来自子组件的数据</span>
+     <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span>el<span class="token operator">-</span>button @click<span class="token operator">=</span><span class="token string">"handleEmit"</span><span class="token operator">></span>通知父组件需要更改数据了<span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>button<span class="token operator">></span>
 
-<script>
- export default{
-   name:'Son',
-   methods:{
-     handleEmit(){
-       this.$emit('changeData','这是来自子组件的数据')
-     }
-   }
- }
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+ <span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+   name<span class="token punctuation">:</span><span class="token string">'Son'</span><span class="token punctuation">,</span>
+   methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+     <span class="token function">handleEmit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+       <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'changeData'</span><span class="token punctuation">,</span><span class="token string">'这是来自子组件的数据'</span><span class="token punctuation">)</span>
+     <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p><strong>$parent &amp; $children：</strong></p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>子组件</div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>子组件<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-export default{
-  name:"Son",
-  data(){
-    return{
-      sonData: '子组件的数据'
-    }
-  },
-  methods:{
-    sonHandle(){
-      console.log('子组件的方法')
-    }
-  },
-  created(){
-    console.log(this.$parent)
-    console.log(this.$parent.fatherData) //父组件的数据
-    this.$parent.fantherHandle() //父组件的方法
-  }
-}
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span><span class="token string">"Son"</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">{</span>
+      sonData<span class="token punctuation">:</span> <span class="token string">'子组件的数据'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    <span class="token function">sonHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'子组件的方法'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$parent<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$parent<span class="token punctuation">.</span>fatherData<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//父组件的数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$parent<span class="token punctuation">.</span><span class="token function">fantherHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//父组件的方法</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>
-    <Son>父组件</Son>
-  </div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>Son<span class="token operator">></span>父组件<span class="token operator">&lt;</span><span class="token operator">/</span>Son<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-import Son from './son.vue'
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> Son <span class="token keyword">from</span> <span class="token string">'./son.vue'</span>
 
-export default{
-  name: 'father',
-  components:{
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'father'</span><span class="token punctuation">,</span>
+  components<span class="token punctuation">:</span><span class="token punctuation">{</span>
     Son
-  },
-  data(){
-    return{
-      fatherData: '父组件的数据'
-    }
-  },
-  methods:{
-    fantherHandle(){
-      console.log('父组件的方法')
-    }
-  },
-  mounted(){
-    console.log(this.$children)
-    console.log(this.$children[0].sonTitle) //子组件的数据
-    this.$children[0].sonHandle() //子组件的方法
-  }
-}
-</script>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">{</span>
+      fatherData<span class="token punctuation">:</span> <span class="token string">'父组件的数据'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    <span class="token function">fantherHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'父组件的方法'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$children<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>sonTitle<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//子组件的数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">sonHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//子组件的方法</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p>这里要注意父组件要在mounted（）这个生命周期对子组件进行取值因为在这时候子组件才完成了 created 与 mounted，并且获取到的数据是一个数组的形式。</p>
 <p><strong>provide $ inject：</strong></p>
-<pre class=" language-vue"><code class="language-vue">/*父组件*/
-export default{
- provide: {
-   return{
-     provideData: '父组件的数据'
-   }
- }
-}
-/*子组件*/
-export default{
-  inject: ['provideData'],
-  created () {
-    console.log(this.provideName) //"父组件的数据"
-  }
-}
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/*父组件*/</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+ provide<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span><span class="token punctuation">{</span>
+     provideData<span class="token punctuation">:</span> <span class="token string">'父组件的数据'</span>
+   <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*子组件*/</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  inject<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'provideData'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  created <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>provideName<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//"父组件的数据"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p><strong>$refs：</strong></p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>
-    <Son ref="son"></Son>
-  </div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>Son ref<span class="token operator">=</span><span class="token string">"son"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Son<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-import Son from './son.vue'
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> Son <span class="token keyword">from</span> <span class="token string">'./son.vue'</span>
 
-export default{
-  name: 'father',
-  components:{
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'father'</span><span class="token punctuation">,</span>
+  components<span class="token punctuation">:</span><span class="token punctuation">{</span>
     Son
-  },
-  mounted(){
-    console.log(this.$refs.son) /*组件实例*/
-  }
-}
-</script>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>son<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">/*组件实例*/</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p><strong>envetBus：</strong></p>
 <p>需要先创建一个公共的eventBus.js，并将Vue实例暴露出去</p>
-<pre class=" language-vue"><code class="language-vue">import Vue from "vue"
-export default new Vue()
+<pre class=" language-js"><code class="language-js"><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">"vue"</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
 <p> 在需要组件通信的组件A中引入eventBus.js，并通过$emit发布回调事件</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>
-    <div>组件A</div>
-    <el-button @click="changeData">修改数据A</el-button>
-  </div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>组件A<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>el<span class="token operator">-</span>button @click<span class="token operator">=</span><span class="token string">"changeData"</span><span class="token operator">></span>修改数据A<span class="token operator">&lt;</span><span class="token operator">/</span>el<span class="token operator">-</span>button<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-import { EventBus } from "../bus.js"
-export default{
-  data(){
-    return{}
-  },
-  methods:{
-    changeData(){
-      EventBus.$emit("editData", '这是修改后的数据')
-    }
-  }
-}
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> EventBus <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../bus.js"</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    <span class="token function">changeData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      EventBus<span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">"editData"</span><span class="token punctuation">,</span> <span class="token string">'这是修改后的数据'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p>组件B中同样引入eventBus.js文件，并通过$on监听事件回调</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>组件B</div>
-</template
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>组件B<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template
 
-<script>
-import { EventBus } from "../bus.js"
-export default{
-  data(){
-    return{}
-  },
-  mounted:{
-    EventBus.$on('editData',(data)=>{
-      console.log(data) 
-    })
-  }
-}
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> EventBus <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"../bus.js"</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span><span class="token punctuation">{</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  mounted<span class="token punctuation">:</span><span class="token punctuation">{</span>
+    EventBus<span class="token punctuation">.</span><span class="token function">$on</span><span class="token punctuation">(</span><span class="token string">'editData'</span><span class="token punctuation">,</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> 
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <h4 id="父子组件通讯"><a href="#父子组件通讯" class="headerlink" title="父子组件通讯"></a>父子组件通讯</h4><p>在 Vue 中，父子组件之间可以通过 props 和事件来进行通信。</p>
 <ol>
 <li><p>父组件向子组件传递数据：通过在父组件中使用 props 将数据传递给子组件。子组件可以在其模板中通过使用 props 来接收父组件传递的数据。</p>
 <p>父组件：</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <ChildComponent :message="parentMessage" />
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>ChildComponent <span class="token punctuation">:</span>message<span class="token operator">=</span><span class="token string">"parentMessage"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-import ChildComponent from './ChildComponent.vue';
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> ChildComponent <span class="token keyword">from</span> <span class="token string">'./ChildComponent.vue'</span><span class="token punctuation">;</span>
 
-export default {
-  data() {
-    return {
-      parentMessage: 'Hello from parent',
-    };
-  },
-  components: {
-    ChildComponent,
-  },
-};
-</script>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      parentMessage<span class="token punctuation">:</span> <span class="token string">'Hello from parent'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    ChildComponent<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p>子组件：</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>{{ message }}</div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token punctuation">{</span><span class="token punctuation">{</span> message <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-export default {
-  props: ['message'],
-};
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  props<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'message'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 </li>
 <li><p>子组件通过触发事件改变父组件的值：子组件可以通过 $emit 方法触发自定义事件，从而通知父组件进行相应的操作。</p>
 <p>父组件：</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <div>
-    <ChildComponent :counter="counter" @increment="handleIncrement" />
-    <p>Counter: {{ counter }}</p>
-  </div>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>ChildComponent <span class="token punctuation">:</span>counter<span class="token operator">=</span><span class="token string">"counter"</span> @increment<span class="token operator">=</span><span class="token string">"handleIncrement"</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>p<span class="token operator">></span>Counter<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> counter <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-import ChildComponent from './ChildComponent.vue';
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">import</span> ChildComponent <span class="token keyword">from</span> <span class="token string">'./ChildComponent.vue'</span><span class="token punctuation">;</span>
 
-export default {
-  data() {
-    return {
-      counter: 0,
-    };
-  },
-  components: {
-    ChildComponent,
-  },
-  methods: {
-    handleIncrement() {
-      this.counter++;
-    },
-  },
-};
-</script>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      counter<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  components<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    ChildComponent<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">handleIncrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>counter<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 <p>子组件：</p>
-<pre class=" language-vue"><code class="language-vue"><template>
-  <button @click="handleClick">Increment</button>
-</template>
+<pre class=" language-js"><code class="language-js"><span class="token operator">&lt;</span>template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>button @click<span class="token operator">=</span><span class="token string">"handleClick"</span><span class="token operator">></span>Increment<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">></span>
 
-<script>
-export default {
-  props: ['counter'],
-  methods: {
-    handleClick() {
-      this.$emit('increment');
-    },
-  },
-};
-</script>
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  props<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'counter'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">handleClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'increment'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
 </code></pre>
 </li>
 </ol>
