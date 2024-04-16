@@ -495,12 +495,12 @@
 </ul>
 <p>​    当元素的部分内容如<code>&lt;img /&gt;</code>标签这种，元素的高度是有图片内容决定的，因此在这种情况下，如果使用<code>content-visibility</code>，则可见视图外的img初始未渲染，高度为0，随着滚动条向下滑动，页面高度增加，会导致滚动条的滚动有问题。</p>
 <p>​    为了解决此问题，如果在已知元素高度的情况下，可以使用<code>contains-intrinsic-size</code>属性，为上面的card添加：<code>contains-intrinsic-size：312px;</code>，这会给内容附一个初始高度值。（如果高度不固定也可以附一个大致的初始高度值，会使滚动条问题相对减少）。</p>
-<pre class=" language-css"><code class="language-css">    &lt;style type=<span class="token string">"text/css"</span>>
-      <span class="token number">.</span>card &amp;<span class="token hexcode">#123</span><span class="token punctuation">;</span>
+<pre class=" language-css"><code class="language-css">    <span class="token selector">&lt;style type="text/css">
+      <span class="token class">.card</span> </span><span class="token punctuation">{</span>
         <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
         <span class="token property">content-visibility</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
         <span class="token property">contain-intrinsic-size</span><span class="token punctuation">:</span> <span class="token number">312</span>px<span class="token punctuation">;</span> // 添加此行
-      &amp;<span class="token hexcode">#125</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
     &lt;/style>
 </code></pre>
 
