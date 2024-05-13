@@ -1232,6 +1232,33 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </blockquote>
 <p>​    使用 Composition API，我们能够更好地组织组件的代码，提高代码的可读性和维护性。它适用于编写中小型到大型复杂组件，并且提供了更好的代码复用和测试能力。</p>
 <p>​    Vue3在许多其他方面也进行了改进和优化，如编译优化、TypeScript支持、组合式API等。开发者在选择Vue版本时，需要根据项目需求和实际情况综合考虑，以及考虑迁移成本和团队熟悉度等因素。</p>
+<h4 id="vue2以及vue3的diff算法有了解吗-他们之间的不同是什么"><a href="#vue2以及vue3的diff算法有了解吗-他们之间的不同是什么" class="headerlink" title="vue2以及vue3的diff算法有了解吗 他们之间的不同是什么"></a>vue2以及vue3的diff算法有了解吗 他们之间的不同是什么</h4><p>Vue.js的diff算法是其用于比较新旧虚拟DOM树并确定最小更新集的核心机制。Vue 2和Vue 3的diff算法在设计和实现上有一些重要的不同。</p>
+<p><strong>Vue 2的diff算法</strong></p>
+<p>Vue 2的diff算法主要关注于组件级别的更新，而不是细粒度的DOM节点级别的比较。以下是Vue 2 diff算法的一些关键点：</p>
+<ol>
+<li><strong>同级比较</strong>：Vue 2的diff算法只比较同一层级的节点，不跨层级比较。</li>
+<li><strong>双端比较</strong>：当列表更新时，Vue 2会采用双端比较的策略，从列表的头部和尾部开始比较，然后逐渐向中心逼近，以尽量减少节点的移动次数。</li>
+<li><strong>更新策略</strong>：当无法通过头尾比较找到匹配的节点时，Vue 2会尝试复用旧节点，通过更新节点的属性或子节点来匹配新的虚拟节点，并将其移动到正确的位置。</li>
+</ol>
+<p>然而，Vue 2的diff算法也存在一些限制，例如它不会进行跨层级的节点比较，这可能导致一些不必要的DOM操作。</p>
+<p><strong>Vue 3的diff算法</strong></p>
+<p>Vue 3对diff算法进行了重大改进，以进一步提高性能并减少不必要的DOM操作。以下是Vue 3 diff算法的一些主要变化：</p>
+<ol>
+<li><strong>基于Proxy的响应式系统</strong>：Vue 3使用了基于Proxy的响应式系统，能够更精确地追踪数据变化，从而减少了不必要的计算和渲染。这使得diff算法在比较新旧虚拟DOM树时能够更准确地确定需要更新的部分。</li>
+<li><strong>静态提升</strong>：Vue 3在编译阶段会对模板进行静态分析，将不会改变的静态节点提升到渲染函数之外。这样，在每次渲染时，这些静态节点就不会被重新创建和比较，从而减少了不必要的计算和DOM操作。</li>
+<li><strong>块级更新</strong>：Vue 3引入了块级更新的概念，将组件树拆分为多个块，每个块都拥有自己的渲染函数和依赖关系。当某个块的数据发生变化时，只有该块及其子块会被重新渲染和比较，而不是整个组件树。这进一步减少了不必要的计算和DOM操作。</li>
+<li><strong>事件监听器的优化</strong>：Vue 3对事件监听器进行了优化，使用了一种称为“事件委托”的技术来减少事件监听器的数量。这样，当事件触发时，Vue 3可以更快地找到并处理相应的事件监听器，从而提高了性能。</li>
+</ol>
+<p>总的来说，Vue 3的diff算法通过更精确的追踪数据变化、静态提升、块级更新和事件监听器的优化等手段，进一步提高了Vue应用的渲染性能和用户体验。</p>
+<h4 id="Vue3相对于Vue2进行了哪些优化？"><a href="#Vue3相对于Vue2进行了哪些优化？" class="headerlink" title="Vue3相对于Vue2进行了哪些优化？"></a>Vue3相对于Vue2进行了哪些优化？</h4><ol>
+<li><strong>更灵活的响应式系统</strong>：Vue 2.x 中响应式系统的核心是 <strong>Object.defineProperty</strong>，劫持整个对象，然后进行深度遍历所有属性，给每个属性添加<code>getter</code>和<code>setter</code>，实现响应式。Vue 3.x 中使用 <strong>Proxy</strong>对象重写响应式系统。</li>
+<li><strong>更快的渲染速度</strong>：Vue3 的编译器生成的渲染函数比 Vue2 生成的更高效。</li>
+<li><strong>编译阶段</strong>：Vue 2.x 通过标记静态节点，优化 diff 的过程。Vue 3.x中<strong>标记和提升</strong>所有的静态节点，diff的时候<strong>只需要对比动态节点</strong>内容。</li>
+<li><strong>更小的体积</strong>：Vue3 将源码拆分为多个独立的模块，这样就可以按需导入所需的模块，从而减小了整个库的体积。</li>
+<li><strong>更好的 TypeScript 支持</strong>：Vue3 对 TypeScript 的支持更加友好，内部使用了更先进的 TypeScript 特性，并为其提供了更好的声明文件。</li>
+<li><strong>更好的组件系统</strong>：比如，Vue3中引入了一个新的 <code>Fragment</code> 组件，它可以替代原来的 <code>template</code> 标签作为根节点</li>
+<li><strong>新增了setup组合式API</strong></li>
+</ol>
 <h3 id="路由-vue-router"><a href="#路由-vue-router" class="headerlink" title="路由 - vue-router"></a>路由 - vue-router</h3><h4 id="vue-router-中常用的路由模式实现原理吗"><a href="#vue-router-中常用的路由模式实现原理吗" class="headerlink" title="vue-router 中常用的路由模式实现原理吗"></a>vue-router 中常用的路由模式实现原理吗</h4><h5 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a><strong>hash 模式</strong></h5><ol>
 <li>location.hash 的值实际就是 URL 中#后面的东西 它的特点在于：hash 虽然出现 URL 中，但不会被包含在 HTTP 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面。</li>
 <li>可以为 hash 的改变添加监听事件</li>
@@ -1314,34 +1341,41 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>​    computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
 <p>​    <a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
 <p>​    计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
-<h3 id="vue2以及vue3的diff算法有了解吗-他们之间的不同是什么"><a href="#vue2以及vue3的diff算法有了解吗-他们之间的不同是什么" class="headerlink" title="vue2以及vue3的diff算法有了解吗 他们之间的不同是什么"></a>vue2以及vue3的diff算法有了解吗 他们之间的不同是什么</h3><p>Vue.js的diff算法是其用于比较新旧虚拟DOM树并确定最小更新集的核心机制。Vue 2和Vue 3的diff算法在设计和实现上有一些重要的不同。</p>
-<p><strong>Vue 2的diff算法</strong></p>
-<p>Vue 2的diff算法主要关注于组件级别的更新，而不是细粒度的DOM节点级别的比较。以下是Vue 2 diff算法的一些关键点：</p>
+<h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
+<p>1.工厂模式 - 传入参数即可创建实例</p>
+<p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
+<p>2.单例模式 - 整个程序有且仅有一个实例</p>
+<p>vuex 和 vue-router 的插件注册方法 install 判断如果系统存在实例就直接返回掉</p>
+<p>3.发布-订阅模式 (vue 事件机制)</p>
+<p>4.观察者模式 (响应式数据原理)</p>
+<p>5.装饰模式: (@装饰器的用法)</p>
+<p>6.策略模式 策略模式指对象有某个行为,但是在不同的场景中,该行为有不同的实现方案-比如选项的合并策略</p>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Vue-模板编译原理"><a href="#Vue-模板编译原理" class="headerlink" title="Vue 模板编译原理"></a>Vue 模板编译原理</h4><p>Vue 的模板编译原理主要包括以下步骤：</p>
+<blockquote>
 <ol>
-<li><strong>同级比较</strong>：Vue 2的diff算法只比较同一层级的节点，不跨层级比较。</li>
-<li><strong>双端比较</strong>：当列表更新时，Vue 2会采用双端比较的策略，从列表的头部和尾部开始比较，然后逐渐向中心逼近，以尽量减少节点的移动次数。</li>
-<li><strong>更新策略</strong>：当无法通过头尾比较找到匹配的节点时，Vue 2会尝试复用旧节点，通过更新节点的属性或子节点来匹配新的虚拟节点，并将其移动到正确的位置。</li>
+<li>解析：Vue 的模板编译器将模板字符串解析为抽象语法树（AST）。AST 是一个树状结构，表示了模板中的各个节点和它们之间的关系。</li>
+<li>优化：在解析完成后，编译器会对生成的 AST 进行优化。这个优化过程包括静态节点标记、静态根节点提升和事件侦听器的缓存等。这些优化可以提高渲染性能和减少运行时的开销。</li>
+<li>代码生成：在优化完成后，编译器会根据 AST 生成渲染函数。渲染函数是一个 JavaScript 函数，它接收数据作为参数，返回一个虚拟 DOM 树。渲染函数可以将模板中的数据和逻辑转换为实际的 DOM 操作。</li>
+<li>组件化编译：如果模板中包含组件，编译器会递归地对组件进行编译。这样可以将组件的模板编译为渲染函数，并生成组件的渲染逻辑。</li>
 </ol>
-<p>然而，Vue 2的diff算法也存在一些限制，例如它不会进行跨层级的节点比较，这可能导致一些不必要的DOM操作。</p>
-<p><strong>Vue 3的diff算法</strong></p>
-<p>Vue 3对diff算法进行了重大改进，以进一步提高性能并减少不必要的DOM操作。以下是Vue 3 diff算法的一些主要变化：</p>
+</blockquote>
+<p>​    在运行时，Vue 实例会通过编译后的渲染函数生成虚拟 DOM，并将其与实际的 DOM 进行比对，只更新需要改变的部分，以提高性能。</p>
+<p>​    Vue 的模板编译原理将模板字符串解析为 AST，经过优化后生成渲染函数，然后在运行时使用渲染函数生成虚拟 DOM，并进行差异比对来更新视图。这种编译的过程使得 Vue 具有高效的渲染性能和灵活的组件化开发能力。</p>
+<h4 id="Vue-的性能优化"><a href="#Vue-的性能优化" class="headerlink" title="Vue 的性能优化"></a>Vue 的性能优化</h4><p>Vue 的性能优化可以从以下几个方面考虑：</p>
+<blockquote>
 <ol>
-<li><strong>基于Proxy的响应式系统</strong>：Vue 3使用了基于Proxy的响应式系统，能够更精确地追踪数据变化，从而减少了不必要的计算和渲染。这使得diff算法在比较新旧虚拟DOM树时能够更准确地确定需要更新的部分。</li>
-<li><strong>静态提升</strong>：Vue 3在编译阶段会对模板进行静态分析，将不会改变的静态节点提升到渲染函数之外。这样，在每次渲染时，这些静态节点就不会被重新创建和比较，从而减少了不必要的计算和DOM操作。</li>
-<li><strong>块级更新</strong>：Vue 3引入了块级更新的概念，将组件树拆分为多个块，每个块都拥有自己的渲染函数和依赖关系。当某个块的数据发生变化时，只有该块及其子块会被重新渲染和比较，而不是整个组件树。这进一步减少了不必要的计算和DOM操作。</li>
-<li><strong>事件监听器的优化</strong>：Vue 3对事件监听器进行了优化，使用了一种称为“事件委托”的技术来减少事件监听器的数量。这样，当事件触发时，Vue 3可以更快地找到并处理相应的事件监听器，从而提高了性能。</li>
+<li>减少不必要的重新渲染：Vue 使用响应式系统来跟踪数据的变化并更新视图。为了减少不必要的重新渲染，可以使用合理的计算属性和侦听器，避免不必要的计算和更新。另外，使用 v-if 和 v-show 来条件渲染元素，只渲染当前需要显示的部分。</li>
+<li>列表渲染优化：在使用 v-for 渲染列表时，使用唯一的 key 属性来提高性能。Vue 使用 key 来跟踪每个节点的身份，以便在更新过程中进行重用和重新排序，而不是完全重新创建和销毁 DOM 节点。</li>
+<li>懒加载和异步组件：对于大型的页面或组件，可以使用懒加载和异步组件来延迟加载和渲染。这可以加快初始加载时间并减少首屏渲染的工作量。</li>
+<li>使用 v-if 和 v-for 的选择：在需要根据条件动态渲染的元素上使用 v-if，而不是在列表上使用 v-for。因为 v-if 在条件不满足时会完全销毁和重建元素，而 v-for 只是在数据发生变化时更新元素。</li>
+<li>使用虚拟列表或无限滚动：当需要处理大量数据列表时，可以使用虚拟列表或无限滚动的技术来提高性能。这样可以减少一次性渲染的节点数量，只渲染可见部分，从而减少内存占用和渲染时间。</li>
+<li>合理使用异步更新：Vue 提供了 nextTick 方法和 $nextTick 实例方法来在下次 DOM 更新周期之后执行回调。合理使用异步更新可以将多个更新合并成一次，减少不必要的计算和渲染。</li>
+<li>基于路由的代码分割：通过合理的路由配置和动态导入，将页面的代码拆分成更小的块，按需加载和渲染，提高初始加载速度和页面切换的响应性。</li>
+<li>合理使用缓存：对于一些计算开销较大的结果或静态数据，可以使用缓存来避免重复计算或请求。例如，使用计算属性的缓存选项或使用工具库进行数据缓存。</li>
 </ol>
-<p>总的来说，Vue 3的diff算法通过更精确的追踪数据变化、静态提升、块级更新和事件监听器的优化等手段，进一步提高了Vue应用的渲染性能和用户体验。</p>
-<h3 id="Vue3相对于Vue2进行了哪些优化？"><a href="#Vue3相对于Vue2进行了哪些优化？" class="headerlink" title="Vue3相对于Vue2进行了哪些优化？"></a>Vue3相对于Vue2进行了哪些优化？</h3><ol>
-<li><strong>更灵活的响应式系统</strong>：Vue 2.x 中响应式系统的核心是 <strong>Object.defineProperty</strong>，劫持整个对象，然后进行深度遍历所有属性，给每个属性添加<code>getter</code>和<code>setter</code>，实现响应式。Vue 3.x 中使用 <strong>Proxy</strong>对象重写响应式系统。</li>
-<li><strong>更快的渲染速度</strong>：Vue3 的编译器生成的渲染函数比 Vue2 生成的更高效。</li>
-<li><strong>编译阶段</strong>：Vue 2.x 通过标记静态节点，优化 diff 的过程。Vue 3.x中<strong>标记和提升</strong>所有的静态节点，diff的时候<strong>只需要对比动态节点</strong>内容。</li>
-<li><strong>更小的体积</strong>：Vue3 将源码拆分为多个独立的模块，这样就可以按需导入所需的模块，从而减小了整个库的体积。</li>
-<li><strong>更好的 TypeScript 支持</strong>：Vue3 对 TypeScript 的支持更加友好，内部使用了更先进的 TypeScript 特性，并为其提供了更好的声明文件。</li>
-<li><strong>更好的组件系统</strong>：比如，Vue3中引入了一个新的 <code>Fragment</code> 组件，它可以替代原来的 <code>template</code> 标签作为根节点</li>
-<li><strong>新增了setup组合式API</strong></li>
-</ol>
-<h3 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h3><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
+</blockquote>
+<h3 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h3><h4 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h4><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
 <p><strong>区别</strong>：</p>
 <ol>
 <li><strong>结构组织</strong>：选项式API基于对象的设计方式，将Vue实例的各个部分（如data、methods、computed、watch等）拆分成不同的选项，并在创建Vue实例时将它们作为选项传入。而组合式API允许将数据和方法组合在一起，以提供更灵活和可复用的逻辑代码。</li>
@@ -1355,7 +1389,7 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <li><strong>直观性</strong>：在Vue 3的组合式API中，生命周期钩子函数（如created、mounted、updated、destroyed等）被替代为更直观和一致的函数调用，这使得代码更易于理解和维护。</li>
 </ol>
 <p>总的来说，组合式API通过提供更好的代码组织、复用性和直观性，解决了选项式API在大型和复杂应用中可能遇到的问题。然而，这并不意味着选项式API已经完全被取代。在Vue 3中，对两种API都提供了支持，开发者可以根据项目的具体需求和自己的偏好来选择使用哪种API。对于简单的场景，使用选项式API可能更加简单方便；而对于需要强烈支持TypeScript或大量逻辑复用的场景，组合式API可能是更好的选择。</p>
-<h3 id="Vue3中watch-和-watchEffect-的区别"><a href="#Vue3中watch-和-watchEffect-的区别" class="headerlink" title="Vue3中watch 和 watchEffect 的区别"></a>Vue3中watch 和 watchEffect 的区别</h3><p>在 Vue 3 中，<code>watch</code> 和 <code>watchEffect</code> 都是用于响应式地观察和响应 Vue 组件中的数据变化的方法，但它们之间有一些重要的区别。</p>
+<h4 id="Vue3中watch-和-watchEffect-的区别"><a href="#Vue3中watch-和-watchEffect-的区别" class="headerlink" title="Vue3中watch 和 watchEffect 的区别"></a>Vue3中watch 和 watchEffect 的区别</h4><p>在 Vue 3 中，<code>watch</code> 和 <code>watchEffect</code> 都是用于响应式地观察和响应 Vue 组件中的数据变化的方法，但它们之间有一些重要的区别。</p>
 <p><strong>watch</strong></p>
 <p><code>watch</code> 是 Vue 2.x 和 Vue 3 中都存在的一个功能，它用于侦听特定的数据源，并在其变化时执行回调函数。<code>watch</code> 需要明确指定要侦听的数据源和回调函数。</p>
 <p><strong>特点：</strong></p>
@@ -1388,7 +1422,7 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <li><code>watchEffect</code> 适用于自动追踪多个响应式依赖，并在依赖变化时重新执行回调函数的情况。它更加灵活和简洁，但可能不如 <code>watch</code> 那么精确。</li>
 </ul>
 <p>在选择使用 <code>watch</code> 还是 <code>watchEffect</code> 时，你应该根据你的具体需求和场景来决定。</p>
-<h3 id="Vue3中render函数的作用"><a href="#Vue3中render函数的作用" class="headerlink" title="Vue3中render函数的作用"></a>Vue3中render函数的作用</h3><p>在 Vue 3 中，<code>render</code> 函数是一个高级特性，它允许你手动编写 JavaScript 来生成虚拟 DOM（Virtual DOM）节点，而不是使用模板语法。<code>render</code> 函数在 Vue 的运行时环境中扮演着将组件的逻辑转换为实际 DOM 结构的关键角色。</p>
+<h4 id="Vue3中render函数的作用"><a href="#Vue3中render函数的作用" class="headerlink" title="Vue3中render函数的作用"></a>Vue3中render函数的作用</h4><p>在 Vue 3 中，<code>render</code> 函数是一个高级特性，它允许你手动编写 JavaScript 来生成虚拟 DOM（Virtual DOM）节点，而不是使用模板语法。<code>render</code> 函数在 Vue 的运行时环境中扮演着将组件的逻辑转换为实际 DOM 结构的关键角色。</p>
 <p><code>render</code> 函数接收一个名为 <code>createElement</code> 的函数作为参数，这个函数用于创建虚拟 DOM 节点。<code>createElement</code> 函数接受三个参数：</p>
 <blockquote>
 <ol>
@@ -1406,9 +1440,10 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </ol>
 </blockquote>
 <p>需要注意的是，尽管 <code>render</code> 函数提供了更大的灵活性，但在大多数情况下，使用 Vue 的模板语法已经足够满足需求。模板语法更加直观和易于理解，尤其是对于非专业前端开发者来说。因此，在不需要特殊渲染逻辑的情况下，建议使用模板语法来编写 Vue 组件。</p>
-<h3 id="Vue3中的setup语法糖"><a href="#Vue3中的setup语法糖" class="headerlink" title="Vue3中的setup语法糖"></a>Vue3中的setup语法糖</h3><p>在 Vue 3 中，<code>setup</code> 函数是 Composition API 的入口点，它使得我们可以在组件中使用响应式数据、生命周期钩子、方法等，而不必依赖于传统的选项式 API（Options API）。然而，Vue 3 还引入了一种称为“语法糖”（Syntactic Sugar）的简化方式，以更简洁的方式使用 Composition API。</p>
+<h4 id="Vue3中的setup语法糖"><a href="#Vue3中的setup语法糖" class="headerlink" title="Vue3中的setup语法糖"></a>Vue3中的setup语法糖</h4><p>在 Vue 3 中，<code>setup</code> 函数是 Composition API 的入口点，它使得我们可以在组件中使用响应式数据、生命周期钩子、方法等，而不必依赖于传统的选项式 API（Options API）。然而，Vue 3 还引入了一种称为“语法糖”（Syntactic Sugar）的简化方式，以更简洁的方式使用 Composition API。</p>
 <p>这种语法糖主要体现在两个方面：<code>&lt;script setup&gt;</code> 和 <code>ref</code>/<code>reactive</code> 的自动解构。</p>
-<h3 id="lt-script-setup-gt"><a href="#lt-script-setup-gt" class="headerlink" title="&lt;script setup&gt;"></a><code>&lt;script setup&gt;</code></h3><script setup> 是 Vue 3 单文件组件（SFC）中的一个新语法，允许你在 <script> 标签中使用 setup 函数，而无需显式地定义 setup 函数。这种语法会自动将 setup 函数的返回值暴露给模板。
+<p><strong><code>&lt;script setup&gt;</code></strong></p>
+<script setup> 是 Vue 3 单文件组件（SFC）中的一个新语法，允许你在 <script> 标签中使用 setup 函数，而无需显式地定义 setup 函数。这种语法会自动将 setup 函数的返回值暴露给模板。
 
 示例：
 
@@ -1452,7 +1487,7 @@ const message = ref(&#39;&#39;)
 
 
 
-### Vue3中的ref、toRef、toRefs
+#### Vue3中的ref、toRef、toRefs
 
 在 Vue 3 中，`ref`、`toRef` 和 `toRefs` 是与响应式引用（reactive references）紧密相关的 API，它们主要用于处理响应式数据。这些 API 允许你创建和管理响应式引用，以便在组件的模板和逻辑中使用。以下是这些 API 的简要说明：
 
@@ -1544,7 +1579,7 @@ export default {
 <pre><code>
 
 
-### Vue3中的 reactive、 shallowReactive 函数
+#### Vue3中的 reactive、 shallowReactive 函数
 
 在 Vue 3 的 Composition API 中，`reactive` 和 `shallowReactive` 是两个用于创建响应式对象的函数。它们之间的主要区别在于它们如何处理嵌套对象的响应性。
 
@@ -1595,7 +1630,7 @@ state<span class="token punctuation">.</span>nested<span class="token punctuatio
 <p>在上面的例子中，<code>state</code> 是一个响应式对象，但只有它的 <code>count</code> 属性是响应式的。<code>nested</code> 对象和其内部的 <code>name</code>、<code>version</code> 属性都不是响应式的。因此，只有对 <code>count</code> 的更改会触发视图的更新。</p>
 <p><strong>何时使用 shallowReactive？</strong></p>
 <p>在某些情况下，你可能不希望 Vue 追踪对象内部的所有嵌套属性变化，因为这可能会带来不必要的性能开销。例如，当你有一个大型对象，并且你只对它的顶层属性感兴趣时，<code>shallowReactive</code> 可能是一个更好的选择。但是，请注意，如果你试图修改嵌套对象的属性并期望视图更新，那么你需要确保这些嵌套对象也是响应式的，或者使用其他方法（如 Vuex）来管理你的状态。</p>
-<h3 id="Vue3中setup语法下怎么设置name属性？"><a href="#Vue3中setup语法下怎么设置name属性？" class="headerlink" title="Vue3中setup语法下怎么设置name属性？"></a>Vue3中setup语法下怎么设置name属性？</h3><p>在 Vue 3 中，由于 <code>setup()</code> 函数是 Composition API 的一部分，并且它不直接绑定到组件实例上，因此你不能直接在 <code>setup()</code> 函数中设置组件的 <code>name</code> 属性，如同你在 Vue 2 的 <code>options</code> API 中所做的那样。</p>
+<h4 id="Vue3中setup语法下怎么设置name属性？"><a href="#Vue3中setup语法下怎么设置name属性？" class="headerlink" title="Vue3中setup语法下怎么设置name属性？"></a>Vue3中setup语法下怎么设置name属性？</h4><p>在 Vue 3 中，由于 <code>setup()</code> 函数是 Composition API 的一部分，并且它不直接绑定到组件实例上，因此你不能直接在 <code>setup()</code> 函数中设置组件的 <code>name</code> 属性，如同你在 Vue 2 的 <code>options</code> API 中所做的那样。</p>
 <p>然而，<code>name</code> 属性主要用于开发工具中的调试和警告，它并不是组件功能所必需的。尽管如此，如果你确实需要在 Vue 3 中为组件设置一个 <code>name</code>，你仍然可以在组件的 <code>options</code> 部分（如果你同时使用 Composition API 和 Options API）或在 Vue 文件的 <code>&lt;script&gt;</code> 标签外（使用单文件组件）进行设置。</p>
 <p><strong>使用 Options API 和 Composition API 混合</strong></p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>  
@@ -1653,7 +1688,7 @@ export default {
 </code></pre>
 <p>但请注意，在 <code>&lt;script setup&gt;</code> 外部再包裹一个 <code>&lt;script&gt;</code> 来设置 <code>name</code> 并不是官方推荐的做法，因为这可能会引入一些混淆。在实际开发中，大多数开发者会选择在 <code>export default</code> 对象中直接设置 <code>name</code>，即使他们主要使用 Composition API。</p>
 <p>如果你只使用 <code>&lt;script setup&gt;</code> 并且确实需要 <code>name</code>（尽管通常不需要），你可能需要依赖于外部工具或配置来设置它，或者接受默认的行为（即不设置 <code>name</code>）。</p>
-<h3 id="Vue3中的自定义指令"><a href="#Vue3中的自定义指令" class="headerlink" title="Vue3中的自定义指令"></a>Vue3中的自定义指令</h3><p>在 Vue 3 中，自定义指令是一种强大而灵活的功能，允许你创建可复用的 DOM 行为。与 Vue 2 类似，Vue 3 提供了自定义指令的 API，但有一些细微的差别。</p>
+<h4 id="Vue3中的自定义指令"><a href="#Vue3中的自定义指令" class="headerlink" title="Vue3中的自定义指令"></a>Vue3中的自定义指令</h4><p>在 Vue 3 中，自定义指令是一种强大而灵活的功能，允许你创建可复用的 DOM 行为。与 Vue 2 类似，Vue 3 提供了自定义指令的 API，但有一些细微的差别。</p>
 <p>在 Vue 3 中，你可以通过 <code>app.directive()</code> 方法在 Vue 应用实例上注册全局自定义指令，或者在组件的 <code>directives</code> 选项上注册局部自定义指令。</p>
 <p>自定义指令接收两个参数：指令名和指令定义对象。指令定义对象可以包含以下几个钩子函数（都是可选的）：</p>
 <blockquote>
@@ -1693,7 +1728,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-my-color</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>red<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hello World!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
 </code></pre>
 <p>这将会把文本 “Hello World!” 的颜色设置为红色。注意，我们在 <code>v-my-color</code> 中使用了单引号，这是因为我们实际上是在传递一个字符串字面量给指令。如果 <code>binding.value</code> 是一个变量或表达式，你可以直接写 <code>v-my-color=&quot;myColorVariable&quot;</code>。</p>
-<h3 id="pinia：Vue3中的状态管理库"><a href="#pinia：Vue3中的状态管理库" class="headerlink" title="pinia：Vue3中的状态管理库"></a>pinia：Vue3中的状态管理库</h3><p>Pinia是一个专为Vue 3设计的状态管理库，它基于Vue 3的Composition API，并以Vuex的下一代构想为基础，设计了新的Vue存储状态管理库。Pinia的主要特点和优势包括：</p>
+<h4 id="pinia：Vue3中的状态管理库"><a href="#pinia：Vue3中的状态管理库" class="headerlink" title="pinia：Vue3中的状态管理库"></a>pinia：Vue3中的状态管理库</h4><p>Pinia是一个专为Vue 3设计的状态管理库，它基于Vue 3的Composition API，并以Vuex的下一代构想为基础，设计了新的Vue存储状态管理库。Pinia的主要特点和优势包括：</p>
 <blockquote>
 <ol>
 <li><strong>简洁和轻量级</strong>：Pinia的设计理念和API都非常直观和简洁，使得开发者可以快速上手。它的大小只有约1KB，是一个轻量级的状态管理工具。</li>
@@ -1706,7 +1741,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </blockquote>
 <p>在Pinia中，核心概念是Store，它类似于Vuex中的Store，但是更加轻便和灵活。在Store中，你可以使用Vue 3的响应式系统来定义状态，并通过actions来定义修改状态的方法。</p>
 <p>总的来说，Pinia是一个强大而灵活的状态管理库，它可以帮助你更好地管理Vue 3应用程序的状态，提高代码的可维护性和可读性。如果你正在使用Vue 3开发应用程序，那么Pinia是一个值得考虑的状态管理库。</p>
-<h3 id="Vue3中怎么封装自定义插件并使用？"><a href="#Vue3中怎么封装自定义插件并使用？" class="headerlink" title="Vue3中怎么封装自定义插件并使用？"></a>Vue3中怎么封装自定义插件并使用？</h3><p>在Vue 3中，你可以通过创建一个包含<code>install</code>方法的对象来封装自定义插件，并使用<code>app.use()</code>方法来安装和使用这个插件。以下是一个简单的步骤说明和示例：</p>
+<h4 id="Vue3中怎么封装自定义插件并使用？"><a href="#Vue3中怎么封装自定义插件并使用？" class="headerlink" title="Vue3中怎么封装自定义插件并使用？"></a>Vue3中怎么封装自定义插件并使用？</h4><p>在Vue 3中，你可以通过创建一个包含<code>install</code>方法的对象来封装自定义插件，并使用<code>app.use()</code>方法来安装和使用这个插件。以下是一个简单的步骤说明和示例：</p>
 <p><strong>步骤</strong></p>
 <ol>
 <li><p>定义插件</p>
@@ -1729,7 +1764,8 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </ul>
 </li>
 </ol>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>假设我们要创建一个简单的全局提示插件：</p>
+<p><strong>示例</strong></p>
+<p>假设我们要创建一个简单的全局提示插件：</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// my-plugin.js  </span>
 <span class="token keyword">const</span> MyPlugin <span class="token operator">=</span> <span class="token punctuation">{</span>  
   <span class="token comment" spellcheck="true">// install 方法是插件的核心  </span>
@@ -1774,7 +1810,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </code></pre>
 <p>在上面的示例中，我们创建了一个名为<code>MyPlugin</code>的插件，它添加了一个全局方法<code>$alert</code>和一个全局指令<code>v-my-directive</code>。然后，在<code>main.js</code>或<code>main.ts</code>中，我们导入了这个插件并使用<code>app.use()</code>方法进行了安装。</p>
 <p>注意：在Vue 3中，Vue实例不再暴露<code>Vue.prototype</code>，因此我们使用<code>app.config.globalProperties</code>来添加全局方法或属性。同时，<code>app._installedPlugins</code>是一个内部属性，用于追踪已安装的插件，以确保插件只被安装一次。虽然这不是必需的，但在某些情况下可能很有用。</p>
-<h3 id="Vue3中createApp-App-创建应用实例过程中都发生了什么？"><a href="#Vue3中createApp-App-创建应用实例过程中都发生了什么？" class="headerlink" title="Vue3中createApp(App)创建应用实例过程中都发生了什么？"></a>Vue3中createApp(App)创建应用实例过程中都发生了什么？</h3><p>在Vue 3中，<code>createApp(App)</code>方法用于创建一个新的Vue应用实例。当你调用这个方法时，Vue内部会执行一系列的操作来设置和初始化这个应用实例。以下是<code>createApp(App)</code>创建应用实例过程中大致发生的一些步骤：</p>
+<h4 id="Vue3中createApp-App-创建应用实例过程中都发生了什么？"><a href="#Vue3中createApp-App-创建应用实例过程中都发生了什么？" class="headerlink" title="Vue3中createApp(App)创建应用实例过程中都发生了什么？"></a>Vue3中createApp(App)创建应用实例过程中都发生了什么？</h4><p>在Vue 3中，<code>createApp(App)</code>方法用于创建一个新的Vue应用实例。当你调用这个方法时，Vue内部会执行一系列的操作来设置和初始化这个应用实例。以下是<code>createApp(App)</code>创建应用实例过程中大致发生的一些步骤：</p>
 <blockquote>
 <ol>
 <li><strong>参数处理</strong>：<code>createApp</code>方法接收一个根组件对象（在你的例子中是<code>App</code>）作为参数。这个对象通常是一个Vue组件，包含了模板、数据、方法等。</li>
@@ -1787,7 +1823,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </blockquote>
 <p>需要注意的是，这个过程是一个简化的概述，Vue内部的实际实现可能会更加复杂和详细。此外，Vue 3还引入了许多新特性和优化，如Composition API、Teleport、Suspense等，这些特性在创建和挂载应用实例时也可能会有所体现。</p>
 <p>如果你对Vue 3的源码感兴趣，可以查阅Vue的官方文档或源码来了解更多关于<code>createApp</code>方法和应用实例创建过程的细节。</p>
-<h3 id="Vue3中有哪些新的组件？"><a href="#Vue3中有哪些新的组件？" class="headerlink" title="Vue3中有哪些新的组件？"></a>Vue3中有哪些新的组件？</h3><p>在Vue 3中，引入了一些新的内置组件，这些组件为开发者提供了更多的灵活性和功能。以下是Vue 3中的一些新组件：</p>
+<h4 id="Vue3中有哪些新的组件？"><a href="#Vue3中有哪些新的组件？" class="headerlink" title="Vue3中有哪些新的组件？"></a>Vue3中有哪些新的组件？</h4><p>在Vue 3中，引入了一些新的内置组件，这些组件为开发者提供了更多的灵活性和功能。以下是Vue 3中的一些新组件：</p>
 <ol>
 <li><p>Teleport</p>
 <p>：</p>
@@ -1819,7 +1855,7 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </li>
 </ol>
 <p>需要注意的是，虽然这些组件是 Vue 3 的新特性，但它们并不是必须使用的。你可以根据自己的项目需求来选择是否使用这些组件。同时，Vue 社区也提供了许多第三方组件库和插件，这些库和插件也可以为你的项目提供额外的功能和灵活性。</p>
-<h3 id="Vue3中Composition-API-和-React-Hook的区别"><a href="#Vue3中Composition-API-和-React-Hook的区别" class="headerlink" title="Vue3中Composition API 和 React Hook的区别"></a>Vue3中Composition API 和 React Hook的区别</h3><p>Vue3中的Composition API和React Hook在多个方面存在区别，这些区别主要体现在语法、概念、数据响应性等方面。</p>
+<h4 id="Vue3中Composition-API-和-React-Hook的区别"><a href="#Vue3中Composition-API-和-React-Hook的区别" class="headerlink" title="Vue3中Composition API 和 React Hook的区别"></a>Vue3中Composition API 和 React Hook的区别</h4><p>Vue3中的Composition API和React Hook在多个方面存在区别，这些区别主要体现在语法、概念、数据响应性等方面。</p>
 <ol>
 <li>语法和概念：</li>
 </ol>
@@ -1842,40 +1878,6 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <li>在React中，Hooks允许你在函数组件中“钩入”React state及生命周期等特性。这意味着你可以在无需编写class组件的情况下使用React的许多高级功能。</li>
 </ul>
 <p>总的来说，Vue3的Composition API和React Hook都是各自框架中用于提高代码复用性和组织性的重要工具。然而，它们在语法、概念和数据响应性等方面存在差异，这些差异可能会影响开发者在不同框架下的编码习惯和策略。在选择使用哪种技术时，需要根据具体项目的需求和个人偏好来做出决策。</p>
-<h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
-<p>1.工厂模式 - 传入参数即可创建实例</p>
-<p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
-<p>2.单例模式 - 整个程序有且仅有一个实例</p>
-<p>vuex 和 vue-router 的插件注册方法 install 判断如果系统存在实例就直接返回掉</p>
-<p>3.发布-订阅模式 (vue 事件机制)</p>
-<p>4.观察者模式 (响应式数据原理)</p>
-<p>5.装饰模式: (@装饰器的用法)</p>
-<p>6.策略模式 策略模式指对象有某个行为,但是在不同的场景中,该行为有不同的实现方案-比如选项的合并策略</p>
-</blockquote>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Vue-模板编译原理"><a href="#Vue-模板编译原理" class="headerlink" title="Vue 模板编译原理"></a>Vue 模板编译原理</h4><p>Vue 的模板编译原理主要包括以下步骤：</p>
-<blockquote>
-<ol>
-<li>解析：Vue 的模板编译器将模板字符串解析为抽象语法树（AST）。AST 是一个树状结构，表示了模板中的各个节点和它们之间的关系。</li>
-<li>优化：在解析完成后，编译器会对生成的 AST 进行优化。这个优化过程包括静态节点标记、静态根节点提升和事件侦听器的缓存等。这些优化可以提高渲染性能和减少运行时的开销。</li>
-<li>代码生成：在优化完成后，编译器会根据 AST 生成渲染函数。渲染函数是一个 JavaScript 函数，它接收数据作为参数，返回一个虚拟 DOM 树。渲染函数可以将模板中的数据和逻辑转换为实际的 DOM 操作。</li>
-<li>组件化编译：如果模板中包含组件，编译器会递归地对组件进行编译。这样可以将组件的模板编译为渲染函数，并生成组件的渲染逻辑。</li>
-</ol>
-</blockquote>
-<p>​    在运行时，Vue 实例会通过编译后的渲染函数生成虚拟 DOM，并将其与实际的 DOM 进行比对，只更新需要改变的部分，以提高性能。</p>
-<p>​    Vue 的模板编译原理将模板字符串解析为 AST，经过优化后生成渲染函数，然后在运行时使用渲染函数生成虚拟 DOM，并进行差异比对来更新视图。这种编译的过程使得 Vue 具有高效的渲染性能和灵活的组件化开发能力。</p>
-<h4 id="Vue-的性能优化"><a href="#Vue-的性能优化" class="headerlink" title="Vue 的性能优化"></a>Vue 的性能优化</h4><p>Vue 的性能优化可以从以下几个方面考虑：</p>
-<blockquote>
-<ol>
-<li>减少不必要的重新渲染：Vue 使用响应式系统来跟踪数据的变化并更新视图。为了减少不必要的重新渲染，可以使用合理的计算属性和侦听器，避免不必要的计算和更新。另外，使用 v-if 和 v-show 来条件渲染元素，只渲染当前需要显示的部分。</li>
-<li>列表渲染优化：在使用 v-for 渲染列表时，使用唯一的 key 属性来提高性能。Vue 使用 key 来跟踪每个节点的身份，以便在更新过程中进行重用和重新排序，而不是完全重新创建和销毁 DOM 节点。</li>
-<li>懒加载和异步组件：对于大型的页面或组件，可以使用懒加载和异步组件来延迟加载和渲染。这可以加快初始加载时间并减少首屏渲染的工作量。</li>
-<li>使用 v-if 和 v-for 的选择：在需要根据条件动态渲染的元素上使用 v-if，而不是在列表上使用 v-for。因为 v-if 在条件不满足时会完全销毁和重建元素，而 v-for 只是在数据发生变化时更新元素。</li>
-<li>使用虚拟列表或无限滚动：当需要处理大量数据列表时，可以使用虚拟列表或无限滚动的技术来提高性能。这样可以减少一次性渲染的节点数量，只渲染可见部分，从而减少内存占用和渲染时间。</li>
-<li>合理使用异步更新：Vue 提供了 nextTick 方法和 $nextTick 实例方法来在下次 DOM 更新周期之后执行回调。合理使用异步更新可以将多个更新合并成一次，减少不必要的计算和渲染。</li>
-<li>基于路由的代码分割：通过合理的路由配置和动态导入，将页面的代码拆分成更小的块，按需加载和渲染，提高初始加载速度和页面切换的响应性。</li>
-<li>合理使用缓存：对于一些计算开销较大的结果或静态数据，可以使用缓存来避免重复计算或请求。例如，使用计算属性的缓存选项或使用工具库进行数据缓存。</li>
-</ol>
-</blockquote>
 
                 
             </div>
