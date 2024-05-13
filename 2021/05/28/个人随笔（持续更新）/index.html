@@ -1650,22 +1650,475 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <p>1：需要长时间的来编译代码。</p>
 <p>2：在使用第三方库时，需要有三方库的定义文件，并不是所有三方库都提供了定义文件，提供的定义文件是否准确也值得商榷。</p>
 </blockquote>
-<h3 id="泛型及其作用作用是什么："><a href="#泛型及其作用作用是什么：" class="headerlink" title="泛型及其作用作用是什么："></a><a target="_blank" rel="noopener" href="https://typescript.bootcss.com/generics.html">泛型</a>及其作用作用是什么：</h3><blockquote>
-<p>泛型代表的是泛指某一类型，更像是一个类型变量。由尖括号包裹<T>。主要作用是创建逻辑可复用的组件。泛型可以作用在函数、类、接口上。</p>
-</blockquote>
-<p> 函数：</p>
-<pre class=" language-tsx"><code class="language-tsx">function greet<T>(name: T) {}
+<h3 id="Ts中的类型层级"><a href="#Ts中的类型层级" class="headerlink" title="Ts中的类型层级"></a>Ts中的类型层级</h3><p>在TypeScript（Ts）中，类型系统是非常强大和灵活的。类型层级（Type Hierarchy）通常指的是类型之间的继承、交叉、联合、条件等关系，这些关系共同构成了TypeScript的类型结构。虽然TypeScript没有一个显式的“类型层级”结构图，但我们可以理解一些主要的概念和它们之间的关系。</p>
+<p>以下是TypeScript中类型层级的一些关键概念：</p>
+<ol>
+<li>基础类型（Basic Types）<ul>
+<li>包括<code>number</code>、<code>string</code>、<code>boolean</code>、<code>symbol</code>、<code>undefined</code>、<code>null</code>、<code>void</code>、<code>any</code>、<code>unknown</code>、<code>never</code>和<code>object</code>。</li>
+<li>这些是最基本的类型，它们构成了TypeScript类型系统的基石。</li>
+</ul>
+</li>
+<li>字面量类型（Literal Types）<ul>
+<li>允许你指定变量只能是某个特定的值，如<code>let x: 42;</code>。</li>
+</ul>
+</li>
+<li>数组和元组（Arrays and Tuples）<ul>
+<li>数组类型表示一组相同类型的值的集合，如<code>let arr: number[] = [1, 2, 3];</code>。</li>
+<li>元组类型允许你表示一个已知元素数量和类型的数组，如<code>let tuple: [string, number] = [&#39;hello&#39;, 42];</code>。</li>
+</ul>
+</li>
+<li>枚举类型（Enum Types）<ul>
+<li>枚举类型是一种特殊的数值类型，它允许你为一组命名的数值常量赋予有意义的名称。</li>
+</ul>
+</li>
+<li>类类型（Class Types）<ul>
+<li>类是TypeScript面向对象编程的基础，它们有自己的属性和方法。</li>
+<li>你可以通过<code>new</code>关键字创建类的实例，并访问其属性和方法。</li>
+</ul>
+</li>
+<li>接口（Interfaces）<ul>
+<li>接口是TypeScript中定义对象形状的一种方式。</li>
+<li>它们可以描述对象应该有哪些属性和方法，但不包含这些属性或方法的实现。</li>
+</ul>
+</li>
+<li>类型别名（Type Aliases）<ul>
+<li>类型别名是给一个类型起的新名字。</li>
+<li>它们有助于简化复杂的类型签名，并提高代码的可读性。</li>
+</ul>
+</li>
+<li>交叉类型（Intersection Types）<ul>
+<li>交叉类型是将多个类型合并为一个类型。</li>
+<li>这允许一个值同时具有多个类型的特性。</li>
+</ul>
+</li>
+<li>联合类型（Union Types）<ul>
+<li>联合类型表示一个值可以是几种类型之一。</li>
+<li>这在处理多种可能类型的值时非常有用。</li>
+</ul>
+</li>
+<li>条件类型（Conditional Types）<ul>
+<li>条件类型允许你基于条件来选择不同的类型。</li>
+<li>这在编写泛型代码时特别有用，可以根据输入参数的类型来返回不同的类型。</li>
+</ul>
+</li>
+<li>泛型（Generics）<ul>
+<li>泛型允许你编写灵活、可重用的代码，这些代码可以处理多种数据类型。</li>
+<li>泛型通过类型参数来定义，这些参数可以在函数、接口和类中使用。</li>
+</ul>
+</li>
+<li>索引类型（Index Types）<ul>
+<li>索引类型用于描述具有索引签名的对象，这些对象允许你使用字符串或数字作为键来访问其属性。</li>
+</ul>
+</li>
+<li>映射类型（Mapped Types）<ul>
+<li>映射类型是基于另一个类型生成的新类型。</li>
+<li>它们对于根据现有类型创建新类型（例如，添加或修改属性）非常有用。</li>
+</ul>
+</li>
+<li>类型守卫（Type Guards）<ul>
+<li>类型守卫是一种表达式，它执行一些运行时检查，并返回一个类型断言。</li>
+<li>类型守卫有助于缩小联合类型的范围，并在运行时确定值的实际类型。</li>
+</ul>
+</li>
+</ol>
+<p>这些概念共同构成了TypeScript的类型层级，使你能够构建复杂、类型安全的代码库。</p>
+<h3 id="Ts中内置的工具类型"><a href="#Ts中内置的工具类型" class="headerlink" title="Ts中内置的工具类型"></a>Ts中内置的工具类型</h3><p>在TypeScript（Ts）中，内置的工具类型提供了一些对类型进行操作的便捷方式，从而能够创建更复杂的类型或简化类型定义。以下是一些常用的内置工具类型：</p>
+<ol>
+<li><p>Partial<T></p>
+<ul>
+<li><p>这个工具类型将类型的所有属性都变为可选的。换句话说，它接受一个类型<code>T</code>，并返回一个新的类型，其中<code>T</code>的所有属性都变成了可选属性。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">Person</span> <span class="token punctuation">{</span>  
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+  age<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+ 
+type PartialPerson <span class="token operator">=</span> Partial<span class="token operator">&lt;</span>Person<span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+type PartialPerson <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  name<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+  age<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<p>类：</p>
-<pre class=" language-tsx"><code class="language-tsx">class createObj<T> {
-  name: T
-}
+</li>
+</ul>
+</li>
+<li><p>Required<T></p>
+<ul>
+<li><p>与<code>Partial</code>相反，<code>Required</code>工具类型将类型的所有属性都变为必选的。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">type RequiredPerson <span class="token operator">=</span> Required<span class="token operator">&lt;</span>PartialPerson<span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+type RequiredPerson <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+  age<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<p>接口：</p>
-<pre class=" language-tsx"><code class="language-tsx">interface IF<T> {
-  name: T
-}
+</li>
+</ul>
+</li>
+<li><p>Readonly<T></p>
+<ul>
+<li><p>这个工具类型将类型的所有属性都设置为只读，意味着这些属性只能被读取，不能被重新赋值。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">type ReadonlyPerson <span class="token operator">=</span> Readonly<span class="token operator">&lt;</span>Person<span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+type ReadonlyPerson <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  readonly name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+  readonly age<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
+</li>
+</ul>
+</li>
+<li><p>Pick&lt;T, K extends keyof T&gt;</p>
+<ul>
+<li><p><code>Pick</code>工具类型从类型<code>T</code>中挑选出一组属性<code>K</code>来构造一个新的类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">type NameOnly <span class="token operator">=</span> Pick<span class="token operator">&lt;</span>Person<span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+type NameOnly <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Omit&lt;T, K extends keyof T&gt;</p>
+<ul>
+<li><p>与<code>Pick</code>相反，<code>Omit</code>工具类型从类型<code>T</code>中排除一组属性<code>K</code>来构造一个新的类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">type AgeOnly <span class="token operator">=</span> Omit<span class="token operator">&lt;</span>Person<span class="token punctuation">,</span> <span class="token string">'name'</span><span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+type AgeOnly <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  age<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Record&lt;K extends keyof any, T&gt;</p>
+<ul>
+<li><p><code>Record</code>工具类型用于构造一个对象的类型，该对象的属性键是<code>K</code>中的类型，属性值是<code>T</code>类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">type NameMapping <span class="token operator">=</span> Record<span class="token operator">&lt;</span><span class="token keyword">string</span><span class="token punctuation">,</span> <span class="token keyword">number</span><span class="token operator">></span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">// 相当于  </span>
+<span class="token comment" spellcheck="true">// {  </span>
+<span class="token comment" spellcheck="true">//   [key: string]: number;  </span>
+<span class="token comment" spellcheck="true">// }</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Exclude&lt;T, U&gt;</p>
+<ul>
+<li><p>这个工具类型从类型<code>T</code>中排除所有可以赋值给类型<code>U</code>的属性或值，返回一个新的类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">typescript复制代码
+
+type T0 <span class="token operator">=</span> Exclude<span class="token operator">&lt;</span><span class="token string">"a"</span> <span class="token operator">|</span> <span class="token string">"b"</span> <span class="token operator">|</span> <span class="token string">"c"</span><span class="token punctuation">,</span> <span class="token string">"a"</span><span class="token operator">></span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// "b" | "c"</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>Extract&lt;T, U&gt;</p>
+<ul>
+<li><p>与<code>Exclude</code>相反，<code>Extract</code>工具类型从类型<code>T</code>中提取所有可以赋值给类型<code>U</code>的属性或值，返回一个新的类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">typescript复制代码
+
+type T0 <span class="token operator">=</span> Extract<span class="token operator">&lt;</span><span class="token string">"a"</span> <span class="token operator">|</span> <span class="token string">"b"</span> <span class="token operator">|</span> <span class="token string">"c"</span><span class="token punctuation">,</span> <span class="token string">"a"</span> <span class="token operator">|</span> <span class="token string">"f"</span><span class="token operator">></span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// "a"</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>NonNullable<T></p>
+<ul>
+<li><p>这个工具类型从类型<code>T</code>中排除<code>null</code>和<code>undefined</code>，返回一个新的类型。</p>
+</li>
+<li><p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript">typescript复制代码
+
+type T0 <span class="token operator">=</span> NonNullable<span class="token operator">&lt;</span><span class="token keyword">string</span> <span class="token operator">|</span> <span class="token keyword">number</span> <span class="token operator">|</span> undefined<span class="token operator">></span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// string | number</span>
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<p>这些工具类型在TypeScript的类型编程中非常有用，可以帮助你创建更复杂、更灵活的类型定义。</p>
+<h3 id="Ts中常用的自定义工具类型"><a href="#Ts中常用的自定义工具类型" class="headerlink" title="Ts中常用的自定义工具类型"></a>Ts中常用的自定义工具类型</h3><p>在TypeScript（Ts）中，除了内置的工具类型，开发人员也经常根据项目的特殊需求定义自定义工具类型。这些自定义工具类型可以根据项目的具体需求来创建，以简化代码和提高工作效率。</p>
+<p>虽然没有一个固定的“常用”自定义工具类型列表，但以下是一些可能的示例和概念，这些示例和概念可以作为创建自定义工具类型的灵感：</p>
+<ol>
+<li>自定义的“选择”类型（Pick-like types）<ul>
+<li>与内置的<code>Pick</code>类型类似，但可能具有额外的逻辑或功能。例如，你可能想要创建一个类型，该类型不仅从原始类型中选择属性，还对这些属性进行某种转换或验证。</li>
+</ul>
+</li>
+<li>自定义的“排除”类型（Omit-like types）<ul>
+<li>与内置的<code>Omit</code>类型类似，但提供了更多的灵活性。例如，你可能想要排除所有具有特定类型或满足特定条件的属性。</li>
+</ul>
+</li>
+<li>类型映射（Type Mapping）<ul>
+<li>使用映射类型（Mapped Types）和条件类型（Conditional Types）来创建新的类型，这些类型基于原始类型的每个属性进行某种转换或操作。例如，你可能想要创建一个类型，该类型将原始类型中的所有字符串属性转换为大写。</li>
+</ul>
+</li>
+<li>类型合并（Type Merging）<ul>
+<li>创建一个自定义工具类型，用于合并两个或多个类型的属性。这可以通过扩展类型、交叉类型（Intersection Types）或其他技术来实现。</li>
+</ul>
+</li>
+<li>类型守卫的扩展（Extended Type Guards）<ul>
+<li>自定义类型守卫可以用于在运行时确定值的实际类型，并返回更具体的类型信息。你可以创建自定义的类型守卫来处理特定于你项目的类型或逻辑。</li>
+</ul>
+</li>
+<li>特定于领域的类型（Domain-specific types）<ul>
+<li>对于特定的业务领域或应用场景，可能需要定义一些自定义的工具类型来更好地表示和操作数据。例如，在处理日期、时间、货币或其他复杂数据类型时，可能需要定义特定的自定义类型。</li>
+</ul>
+</li>
+<li>自定义的实用程序类型（Utility types）<ul>
+<li>创建一些实用的自定义类型，用于简化常见的类型操作或转换。这些类型可能类似于内置的实用程序类型（如<code>Partial</code>、<code>Required</code>等），但提供了更具体的功能或更适用于你的项目。</li>
+</ul>
+</li>
+</ol>
+<p>请注意，以上示例仅作为创建自定义工具类型的灵感来源，并不是必须遵循的规范。在实际项目中，你应该根据项目的具体需求和约束来定义自定义工具类型。</p>
+<h3 id="Ts中的类型推断、类型断言、非空断言"><a href="#Ts中的类型推断、类型断言、非空断言" class="headerlink" title="Ts中的类型推断、类型断言、非空断言"></a>Ts中的类型推断、类型断言、非空断言</h3><p>在TypeScript（Ts）中，类型推断、类型断言和非空断言是处理类型系统时非常重要的概念。下面我将分别解释这三个概念：</p>
+<p><strong>1. 类型推断（Type Inference）</strong></p>
+<p>类型推断是TypeScript编译器自动推断变量或表达式类型的机制。当你声明一个变量并给它赋值时，TypeScript会根据这个值来推断出变量的类型，而不需要显式地指定。</p>
+<p>例如：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> age <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 编译器推断 age 的类型为 number  </span>
+<span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">"Alice"</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 编译器推断 name 的类型为 string</span>
+</code></pre>
+<p>在上面的例子中，<code>age</code> 的类型被推断为 <code>number</code>，而 <code>name</code> 的类型被推断为 <code>string</code>。</p>
+<p><strong>2. 类型断言（Type Assertion）</strong></p>
+<p>类型断言是一种显式地告诉TypeScript编译器某个值或表达式的类型是什么的方式。当TypeScript编译器无法推断出某个值或表达式的类型，或者当你知道某个值或表达式的类型比编译器推断的更具体时，你可以使用类型断言。</p>
+<p>类型断言有两种语法：</p>
+<ul>
+<li><strong>尖括号语法</strong>：<code>&lt;Type&gt;value</code></li>
+<li><strong>as 关键字</strong>：<code>value as Type</code>（推荐在JSX或<code>tsconfig.json</code>中配置了<code>&quot;jsx&quot;: &quot;react&quot;</code>时使用）</li>
+</ul>
+<p>例如：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> someValue <span class="token operator">=</span> <span class="token string">"42"</span><span class="token punctuation">;</span>  
+<span class="token keyword">let</span> num <span class="token operator">=</span> <span class="token operator">&lt;</span><span class="token keyword">number</span><span class="token operator">></span>someValue<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 使用尖括号语法进行类型断言  </span>
+<span class="token comment" spellcheck="true">// 或者  </span>
+<span class="token keyword">let</span> num2 <span class="token operator">=</span> someValue as <span class="token keyword">number</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 使用as关键字进行类型断言</span>
+</code></pre>
+<p>注意：类型断言是告诉编译器“相信我，我知道这个值的类型”，因此应谨慎使用，因为它可能会导致运行时错误。</p>
+<p><strong>3. 非空断言（Non-null Assertion Operator）</strong></p>
+<p>非空断言运算符 <code>!</code> 是一个后缀表达式运算符，用于告诉TypeScript编译器某个值不是 <code>null</code> 或 <code>undefined</code>。这在你确定某个值不可能是 <code>null</code> 或 <code>undefined</code>，但TypeScript编译器无法确定时特别有用。</p>
+<p>例如：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> obj<span class="token punctuation">:</span> <span class="token punctuation">{</span> prop<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token punctuation">{</span> prop<span class="token punctuation">:</span> <span class="token string">"Hello"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>prop<span class="token operator">!</span><span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 使用非空断言确保 prop 存在</span>
+</code></pre>
+<p>在上面的例子中，即使 <code>prop</code> 属性是可选的，但我们确信在这个特定的上下文中 <code>prop</code> 一定是存在的，因此我们使用非空断言 <code>!</code> 来告诉TypeScript编译器这一点。</p>
+<p>同样地，非空断言也应该谨慎使用，因为它会绕过TypeScript的 <code>null</code> 和 <code>undefined</code> 检查，可能导致运行时错误。在使用非空断言之前，请确保你完全确定该值不会是 <code>null</code> 或 <code>undefined</code>。</p>
+<h4 id="Ts中type和interface的区别"><a href="#Ts中type和interface的区别" class="headerlink" title="Ts中type和interface的区别"></a>Ts中type和interface的区别</h4><p>在 TypeScript（Ts）中，<code>type</code> 和 <code>interface</code> 都是用于定义类型别名的机制，但它们之间有一些关键的区别和使用场景。以下是 <code>type</code> 和 <code>interface</code> 之间的主要区别：</p>
+<p><strong>1. 语法和扩展性</strong></p>
+<ul>
+<li><strong>interface</strong> 使用关键字 <code>interface</code> 定义，并且可以通过 <code>extends</code> 关键字进行扩展。</li>
+<li><strong>type</strong> 使用关键字 <code>type</code> 定义，可以使用交叉类型（<code>&amp;</code>）来组合多个类型。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 使用 interface 扩展  </span>
+<span class="token keyword">interface</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span>  
+    name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token keyword">interface</span> <span class="token class-name">Dog</span> <span class="token keyword">extends</span> <span class="token class-name">Animal</span> <span class="token punctuation">{</span>  
+    breed<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token comment" spellcheck="true">// 使用 type 交叉类型  </span>
+type Named <span class="token operator">=</span> <span class="token punctuation">{</span>  
+    name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>  
+  
+type Dog <span class="token operator">=</span> Named <span class="token operator">&amp;</span> <span class="token punctuation">{</span>  
+    breed<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>2. 可声明成员</strong></p>
+<ul>
+<li><strong>interface</strong> 可以声明属性、方法、索引签名和另一个接口。</li>
+<li><strong>type</strong> 除了可以声明与 <code>interface</code> 相同的成员外，还可以声明基本类型、字面量类型、元组、联合类型和交叉类型。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 使用 interface 声明属性和方法  </span>
+<span class="token keyword">interface</span> <span class="token class-name">Circle</span> <span class="token punctuation">{</span>  
+    radius<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+    <span class="token function">area</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token comment" spellcheck="true">// 使用 type 声明字面量类型和联合类型  </span>
+type Status <span class="token operator">=</span> <span class="token string">'success'</span> <span class="token operator">|</span> <span class="token string">'failure'</span> <span class="token operator">|</span> <span class="token string">'pending'</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 使用 type 声明元组  </span>
+type Pair<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">[</span>T<span class="token punctuation">,</span> T<span class="token punctuation">]</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 使用 type 声明交叉类型（已在前面示例中展示）</span>
+</code></pre>
+<p><strong>3. 使用场景</strong></p>
+<ul>
+<li><strong>interface</strong> 通常用于定义对象的形状，特别是在面向对象编程中定义类的契约。</li>
+<li><strong>type</strong> 更通用，可以用于定义任何类型别名，包括基本类型、复杂类型以及组合类型。</li>
+</ul>
+<p><strong>4. 互操作性</strong></p>
+<ul>
+<li>在某些情况下，<code>type</code> 和 <code>interface</code> 可以互换使用，但它们的互操作性受到一些限制。例如，你不能在类类型上直接实现一个 <code>type</code>，但可以实现一个 <code>interface</code>。</li>
+</ul>
+<p><strong>5. 默认值</strong></p>
+<ul>
+<li><strong>interface</strong> 不能为属性提供默认值。</li>
+<li><strong>type</strong> 可以使用字面量类型来提供属性的默认值，但这并不是传统意义上的“默认值”，而是表示该属性只能是特定的值之一。</li>
+</ul>
+<p><strong>6. 兼容性</strong></p>
+<ul>
+<li>当两个 <code>interface</code> 合并时（例如，在不同的文件中声明了同一个 <code>interface</code>），它们会被合并成一个类型。</li>
+<li>对于 <code>type</code>，当两个具有相同名称的 <code>type</code> 声明出现在不同的作用域中时，它们会被视为不同的类型，这可能会导致编译错误。</li>
+</ul>
+<p><strong>7. 泛型</strong></p>
+<ul>
+<li><strong>interface</strong> 可以声明泛型接口。</li>
+<li>**type` 也可以声明泛型类型别名。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 使用 interface 声明泛型接口  </span>
+<span class="token keyword">interface</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>  
+    data<span class="token punctuation">:</span> T<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token comment" spellcheck="true">// 使用 type 声明泛型类型别名  </span>
+type ListType<span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">{</span>  
+    data<span class="token punctuation">:</span> T<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在选择使用 <code>type</code> 还是 <code>interface</code> 时，应根据具体的使用场景和需求来决定。在大多数情况下，两者都可以实现相同的功能，但它们的语法和特性有所不同。</p>
+<h3 id="Ts中的any、unkonwn、never"><a href="#Ts中的any、unkonwn、never" class="headerlink" title="Ts中的any、unkonwn、never"></a>Ts中的any、unkonwn、never</h3><p>在TypeScript（Ts）中，<code>any</code>、<code>unknown</code> 和 <code>never</code> 是三个特殊的类型，它们用于处理类型系统中的某些边缘情况或不确定性。</p>
+<p><strong>1. <code>any</code></strong></p>
+<p><code>any</code> 类型是一个特殊的类型，表示“任何类型”。当你不知道一个变量或表达式确切的类型时，你可以将其类型设置为 <code>any</code>。将一个值设置为 <code>any</code> 类型后，你可以在这个值上调用任何方法或访问任何属性，而不会收到编译错误。然而，这也意味着你失去了TypeScript提供的类型检查的好处，所以应该尽量避免过度使用 <code>any</code> 类型。</p>
+<p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> x<span class="token punctuation">:</span> <span class="token keyword">any</span> <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>  
+x<span class="token punctuation">.</span><span class="token function">someNonExistentMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 不会编译错误，因为 x 是 any 类型</span>
+</code></pre>
+<p><strong>2. <code>unknown</code></strong></p>
+<p><code>unknown</code> 类型是一个安全的、顶级的、未知的类型。与 <code>any</code> 不同，<code>unknown</code> 类型的变量允许你进行某些操作（如赋值给 <code>any</code> 类型的变量或进行类型断言），但在你明确知道它的实际类型之前，你不能在其上调用任何方法或访问任何属性。这使得 <code>unknown</code> 类型比 <code>any</code> 类型更安全，因为它强制你进行显式的类型检查。</p>
+<p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> y<span class="token punctuation">:</span> unknown <span class="token operator">=</span> <span class="token function">getSomeValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 假设 getSomeValue 返回 unknown 类型的值  </span>
+<span class="token comment" spellcheck="true">// y.someMethod(); // 错误：因为 y 是 unknown 类型，不能直接调用方法  </span>
+  
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> y <span class="token operator">===</span> <span class="token string">'string'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>y<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 现在可以，因为我们确定了 y 是 string 类型  </span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>3. <code>never</code></strong></p>
+<p><code>never</code> 类型表示的是那些永不存在的值的类型。<code>never</code> 类型是所有类型的子类型，也可以看作是一个空的类型集。它通常用于表示函数永远不会返回（例如，函数总是抛出错误或进入无限循环），或者用于表示一个变量永远不会被赋值（例如，一个总是抛出错误的函数中的局部变量）。</p>
+<p>示例：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">error</span><span class="token punctuation">(</span>message<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">)</span><span class="token punctuation">:</span> never <span class="token punctuation">{</span>  
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token comment" spellcheck="true">// 变量 x 被赋值为一个 never 类型的表达式  </span>
+<span class="token comment" spellcheck="true">// 但是，由于 never 类型没有值，所以 x 在这里实际上是没有意义的  </span>
+<span class="token keyword">let</span> x<span class="token punctuation">:</span> never <span class="token operator">=</span> <span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Something went wrong"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 这会抛出错误，但 x 的类型仍然是 never  </span>
+  
+<span class="token comment" spellcheck="true">// 另一个示例：一个总是返回 false 的函数返回类型为 never  </span>
+<span class="token keyword">function</span> <span class="token function">alwaysFalse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> never <span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> <span class="token keyword">false</span> as never<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 使用类型断言将 false 转换为 never 类型  </span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>注意：在实际编程中，你很少会显式地声明一个变量为 <code>never</code> 类型，但 <code>never</code> 类型在 TypeScript 的类型系统中是一个重要的概念，用于处理那些不可能发生的情况。</p>
+<h4 id="说说对-TypeScript-装饰器的理解？"><a href="#说说对-TypeScript-装饰器的理解？" class="headerlink" title="说说对 TypeScript 装饰器的理解？"></a>说说对 TypeScript 装饰器的理解？</h4><p>TypeScript 装饰器（Decorators）是一种特殊类型的声明，它可以被附加到类声明、方法、属性或参数上。装饰器使用 <code>@expression</code> 的形式，其中 <code>expression</code> 必须求值为一个函数，该函数将在运行时被调用，用来修改类的行为。</p>
+<p>装饰器在 TypeScript 和 Angular 框架中特别常见，尤其是在 Angular 的组件、服务、指令等中。它们提供了一种声明式的方式来修改类的行为或属性，而无需修改类的代码。</p>
+<p>以下是装饰器的一些关键点和用法：</p>
+<ol>
+<li><p><strong>类型</strong>：装饰器可以是类装饰器、方法装饰器、属性装饰器或参数装饰器。</p>
+<ul>
+<li>类装饰器：应用于类声明。</li>
+<li>方法装饰器：应用于类的方法。</li>
+<li>属性装饰器：应用于类的属性。</li>
+<li>参数装饰器：应用于方法的参数。</li>
+</ul>
+</li>
+<li><p><strong>语法</strong>：装饰器使用 <code>@</code> 符号，后面跟着一个函数表达式。</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">classDecorator</span><span class="token punctuation">(</span><span class="token keyword">constructor</span><span class="token punctuation">:</span> <span class="token keyword">Function</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// ...  </span>
+<span class="token punctuation">}</span>  
+ 
+@classDecorator  
+<span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// ...  </span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li>类装饰器接收一个参数，即类的构造函数。</li>
+<li>方法装饰器接收三个参数：类的原型、方法名、以及方法的描述符（一个对象，包含 <code>value</code>、<code>writable</code>、<code>enumerable</code> 和 <code>configurable</code> 属性）。</li>
+<li>属性装饰器接收两个参数：类的原型和属性名。</li>
+<li>参数装饰器接收三个参数：类的原型、方法名（或访问器名）以及参数索引。</li>
+</ul>
+</li>
+<li><p><strong>用途</strong>：</p>
+<ul>
+<li>日志和调试：可以记录类的实例化、方法的调用等。</li>
+<li>依赖注入：在 Angular 中，装饰器用于自动注入服务。</li>
+<li>权限控制：可以在方法或属性上添加访问权限检查。</li>
+<li>修改或扩展类的功能：可以在运行时修改类的行为或添加新的方法。</li>
+</ul>
+</li>
+<li><p><strong>注意事项</strong>：</p>
+<ul>
+<li>装饰器是实验性的特性，尽管在 TypeScript 中已经稳定，但在某些 JavaScript 环境中可能不受支持。</li>
+<li>装饰器在编译时会被转换为函数调用，并附加到类的构造函数或方法上。</li>
+<li>由于装饰器是在运行时被调用的，所以它们可能影响性能，特别是在大型应用程序中。</li>
+</ul>
+</li>
+<li><p><strong>与注解（Annotations）的区别</strong>：在 Java 和其他某些语言中，注解和装饰器是类似的概念，但在 TypeScript 中，它们没有区别。装饰器就是 TypeScript 实现的注解功能。</p>
+</li>
+</ol>
+<p>最后，要注意的是，装饰器在 TypeScript 中是一个高级特性，通常用于框架或库的开发中。在简单的应用程序中，可能不需要使用装饰器。但在复杂的项目中，它们可以极大地提高代码的可读性和可维护性。</p>
+<h3 id="TypeScript-的泛型"><a href="#TypeScript-的泛型" class="headerlink" title="TypeScript 的泛型"></a>TypeScript 的泛型</h3><p>TypeScript 的泛型（Generics）是一种在定义函数、接口或类时，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。泛型允许我们编写灵活、可复用的代码，而不需要为每种数据类型都编写一遍。</p>
+<p><strong>泛型的基本使用</strong></p>
+<p>在 TypeScript 中，我们可以使用 <code>T</code>（或其他任何大写字母）来表示泛型类型。例如，我们可以定义一个泛型函数：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">function</span> identity<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>arg<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> T <span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> arg<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在这个例子中，<code>T</code> 是一个类型变量，它表示我们要传入的参数类型，同时也是返回值的类型。当我们调用这个函数时，我们可以传入任何类型的参数，函数会返回同类型的值：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">let</span> output <span class="token operator">=</span> identity<span class="token operator">&lt;</span><span class="token keyword">string</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"myString"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 输出为 "myString"  </span>
+<span class="token keyword">let</span> numOutput <span class="token operator">=</span> identity<span class="token operator">&lt;</span><span class="token keyword">number</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 输出为 123</span>
+</code></pre>
+<p><strong>泛型在接口和类中的使用</strong></p>
+<p>泛型也可以用于定义接口和类。例如，我们可以定义一个泛型接口：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">GenericIdentityFn</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>  
+    <span class="token punctuation">(</span>arg<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> T<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token keyword">function</span> identityFn<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>arg<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> T <span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> arg<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token keyword">let</span> myIdentity<span class="token punctuation">:</span> GenericIdentityFn<span class="token operator">&lt;</span><span class="token keyword">number</span><span class="token operator">></span> <span class="token operator">=</span> identityFn<span class="token punctuation">;</span>
+</code></pre>
+<p>在这个例子中，我们定义了一个泛型接口 <code>GenericIdentityFn</code>，它接受一个类型为 <code>T</code> 的参数，并返回一个类型为 <code>T</code> 的值。然后我们定义了一个函数 <code>identityFn</code>，它的类型与 <code>GenericIdentityFn&lt;T&gt;</code> 匹配，并指定了 <code>T</code> 为 <code>number</code> 类型。</p>
+<p><strong>泛型约束</strong></p>
+<p>有时我们可能希望对泛型进行约束，以确保它至少具有某些属性或方法。这时，我们可以使用 <code>extends</code> 关键字来定义泛型约束：</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name">Lengthwise</span> <span class="token punctuation">{</span>  
+    length<span class="token punctuation">:</span> <span class="token keyword">number</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+  
+<span class="token keyword">function</span> loggingIdentity<span class="token operator">&lt;</span>T <span class="token keyword">extends</span> <span class="token class-name">Lengthwise</span><span class="token operator">></span><span class="token punctuation">(</span>arg<span class="token punctuation">:</span> T<span class="token punctuation">)</span><span class="token punctuation">:</span> T <span class="token punctuation">{</span>  
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arg<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 现在我们可以访问arg.length了  </span>
+    <span class="token keyword">return</span> arg<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在这个例子中，我们定义了一个泛型接口 <code>Lengthwise</code>，它要求任何实现该接口的类型都必须具有一个 <code>length</code> 属性。然后我们在 <code>loggingIdentity</code> 函数中使用了泛型约束 <code>T extends Lengthwise</code>，这意味着 <code>T</code> 必须是实现了 <code>Lengthwise</code> 接口的类型。因此，在这个函数中，我们可以安全地访问 <code>arg.length</code>。</p>
+<p>以上就是对 TypeScript 泛型的基本介绍。泛型是 TypeScript 中非常强大和实用的特性之一，它允许我们编写更加灵活和可复用的代码。</p>
 <p>相关<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c8aaba6e8ce0">试题</a></p>
 <h2 id="浏览器相关"><a href="#浏览器相关" class="headerlink" title="浏览器相关"></a>浏览器相关</h2><h3 id="Http缓存："><a href="#Http缓存：" class="headerlink" title="Http缓存："></a>Http缓存：</h3><blockquote>
 <p>http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源。常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。</p>
