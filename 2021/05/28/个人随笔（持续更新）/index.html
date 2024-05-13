@@ -2124,6 +2124,72 @@ x<span class="token punctuation">.</span><span class="token function">someNonExi
 <p>在这个例子中，我们定义了一个泛型接口 <code>Lengthwise</code>，它要求任何实现该接口的类型都必须具有一个 <code>length</code> 属性。然后我们在 <code>loggingIdentity</code> 函数中使用了泛型约束 <code>T extends Lengthwise</code>，这意味着 <code>T</code> 必须是实现了 <code>Lengthwise</code> 接口的类型。因此，在这个函数中，我们可以安全地访问 <code>arg.length</code>。</p>
 <p>以上就是对 TypeScript 泛型的基本介绍。泛型是 TypeScript 中非常强大和实用的特性之一，它允许我们编写更加灵活和可复用的代码。</p>
 <p>相关<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c8aaba6e8ce0">试题</a></p>
+<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h2><h3 id="渲染Canvas底层原理"><a href="#渲染Canvas底层原理" class="headerlink" title="渲染Canvas底层原理"></a>渲染Canvas底层原理</h3><p>Canvas的渲染底层原理主要涉及HTML5中的Canvas API和图形渲染上下文（Graphics Context）。以下是Canvas渲染的底层原理的简要概述：</p>
+<blockquote>
+<ol>
+<li><strong>创建Canvas元素</strong>：首先，在HTML文档中创建一个<code>&lt;canvas&gt;</code>元素。这个元素本身并不直接显示任何内容，而是作为一个容器，用于承载后续的图形绘制。</li>
+<li><strong>图形渲染上下文</strong>：当<code>&lt;canvas&gt;</code>元素被创建后，浏览器会为其创建一个图形渲染上下文（Graphics Context）。这个上下文是一个接口，提供了一系列的绘图API，允许开发者在<code>&lt;canvas&gt;</code>元素上进行各种绘图操作。</li>
+<li><strong>使用Canvas API绘图</strong>：通过JavaScript代码，我们可以访问<code>&lt;canvas&gt;</code>元素的图形渲染上下文，并使用Canvas API进行绘图。这些API包括绘制线条、填充颜色、绘制图形（如圆形、矩形等）、绘制文本等。</li>
+<li><strong>像素渲染</strong>：在绘图过程中，Canvas会将绘制的图形转换成像素数据。这个过程通常是由GPU（图形处理器）来完成的，GPU能够高效地处理大量的像素数据，从而实现流畅的图形渲染。</li>
+<li><strong>屏幕显示</strong>：最后，Canvas将处理好的像素数据渲染到屏幕上，形成最终的图形显示。这个过程是由操作系统和浏览器共同完成的，它们负责将GPU输出的像素数据呈现在屏幕上。</li>
+</ol>
+</blockquote>
+<p>需要注意的是，Canvas的渲染性能受到多种因素的影响，包括设备的性能、浏览器的实现方式、绘图的复杂度等。因此，在使用Canvas进行图形渲染时，需要注意优化代码和算法，以提高渲染性能。</p>
+<p>此外，还有一些技术可以用于优化Canvas的渲染性能，例如使用离屏Canvas（OffscreenCanvas）进行预渲染、使用Web Workers进行多线程渲染等。这些技术可以进一步提高Canvas的渲染效率和性能。</p>
+<h3 id="canvas-与-svg-的区别"><a href="#canvas-与-svg-的区别" class="headerlink" title="canvas 与 svg 的区别"></a>canvas 与 svg 的区别</h3><p>Canvas和SVG在网页图形渲染方面都有各自的优势和适用场景，它们之间存在一些显著的区别。</p>
+<ol>
+<li><p>图片格式与绘制方式：</p>
+<blockquote>
+<ul>
+<li>Canvas是通过JavaScript在内存中绘制图像，然后通过浏览器将其呈现在屏幕上。绘制的图形是位图，即像素图，依赖于分辨率，能以.png和.jpg等格式保存存储图像。</li>
+<li>SVG则是基于XML的矢量图像格式，使用矢量图像技术绘制图形。这意味着SVG图像可以任意缩放而不失真，适用于各种屏幕和打印分辨率。</li>
+</ul>
+</blockquote>
+</li>
+<li><p>事件处理与交互性：</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>Canvas不支持事件处理器，即不能直接在绘制的图形上绑定事件。但是，可以通过监听整个Canvas元素的事件，并使用坐标判断来确定用户点击的是哪个图形。</li>
+<li>SVG支持事件处理器，可以在SVG元素上绑定事件，如鼠标点击、鼠标移动等，实现更丰富的交互效果。</li>
+</ul>
+</blockquote>
+<ol>
+<li>动画与动态效果：</li>
+</ol>
+<blockquote>
+<ul>
+<li>Canvas和SVG都支持创建各种动画效果。Canvas通过JavaScript控制图形的位置、大小和颜色等属性来实现动态效果。而SVG也可以通过JavaScript来改变SVG元素的属性，实现动态交互效果。</li>
+</ul>
+</blockquote>
+<ol>
+<li>跨平台兼容性：</li>
+</ol>
+<blockquote>
+<ul>
+<li>Canvas和SVG都是基于Web标准的技术，可以在各种现代浏览器上运行，而不需要额外的插件或软件。这使得它们成为开发跨平台应用的理想选择。</li>
+</ul>
+</blockquote>
+<ol>
+<li>可扩展性与灵活性：</li>
+</ol>
+<blockquote>
+<ul>
+<li>Canvas提供了丰富的扩展功能，开发者可以通过自定义绘图算法和渲染引擎来实现更高级的图形效果。同时，Canvas还支持与其他Web技术的无缝集成，如CSS和JavaScript，使开发更加灵活和强大。</li>
+<li>SVG同样具有可扩展性，因为它是基于XML的，可以很容易地与其他XML技术集成。此外，SVG还支持使用CSS样式进行美化，实现更丰富的视觉效果。</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li>适用范围：</li>
+</ol>
+<blockquote>
+<ul>
+<li>由于Canvas是逐像素进行渲染的，一旦图形绘制完成，就不会继续被浏览器关注。因此，Canvas适合有许多对象要被频繁重绘的图形密集型应用，如游戏。</li>
+<li>SVG是通过DOM操作来显示的，因此更适合带有大型渲染区域的应用程序，如地图。此外，SVG还适合需要高度交互性和可缩放性的应用。</li>
+</ul>
+</blockquote>
+<p>综上所述，Canvas和SVG在图片格式、事件处理、动画效果、跨平台兼容性、可扩展性和适用范围等方面都存在明显的区别。在选择使用哪种技术时，需要根据具体的应用需求和场景进行权衡和选择。</p>
 <h2 id="浏览器相关"><a href="#浏览器相关" class="headerlink" title="浏览器相关"></a>浏览器相关</h2><h3 id="Http缓存："><a href="#Http缓存：" class="headerlink" title="Http缓存："></a>Http缓存：</h3><blockquote>
 <p>http缓存指的是: 当客户端向服务器请求资源时，会先抵达浏览器缓存，如果浏览器有“要请求资源”的副本，就可以直接从浏览器缓存中提取而不是从原始服务器中提取这个资源。常见的http缓存只能缓存get请求响应的资源，对于其他类型的响应则无能为力，所以后续说的请求缓存都是指GET请求。</p>
 <p>http缓存都是从第二次请求开始的。第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，命中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否命中协商缓存，命中则返回304，否则服务器会返回新的资源。</p>
