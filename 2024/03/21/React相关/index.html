@@ -467,7 +467,10 @@
 <p>高阶组件主要有两种形式：属性代理（Props Proxy）和反向继承（Inheritance Inversion）。在属性代理中，高阶组件会接收一个React组件并返回一个新的组件，这个新组件会将接收到的props进行处理，然后再传递给原始组件。在反向继承中，高阶组件会继承原始组件，然后添加新的state或生命周期方法等。</p>
 <p>高阶组件在React开发中有很多应用场景，比如操纵props、通过ref访问组件实例、提取state等。它们可以帮助我们更好地组织代码，提高组件的可复用性和可维护性。同时，高阶组件也是一种非常强大的抽象手段，可以帮助我们更好地理解和设计React应用。</p>
 <p>当然，高阶组件（HOC）在React中提供了很大的灵活性，以下是如何使用高阶组件来操纵props、通过ref访问组件实例以及提取state的示例：</p>
-<h3 id="1-操纵props"><a href="#1-操纵props" class="headerlink" title="1. 操纵props"></a>1. 操纵props</h3><p>高阶组件可以接收一个组件作为参数，并返回一个新的组件，这个新组件可以修改或增强传入的props。</p>
+<ol>
+<li><strong>操纵props</strong></li>
+</ol>
+<p>高阶组件可以接收一个组件作为参数，并返回一个新的组件，这个新组件可以修改或增强传入的props。</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">withEnhancedProps</span><span class="token punctuation">(</span>WrappedComponent<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
   <span class="token keyword">return</span> <span class="token keyword">class</span> <span class="token class-name">extends</span> React<span class="token punctuation">.</span>Component <span class="token punctuation">{</span>  
     <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
@@ -488,7 +491,8 @@
 <span class="token comment" spellcheck="true">// 渲染EnhancedMyComponent  </span>
 <span class="token comment" spellcheck="true">// &lt;div>some enhanced value&lt;/div></span>
 </code></pre>
-<h3 id="2-通过ref访问组件实例"><a href="#2-通过ref访问组件实例" class="headerlink" title="2. 通过ref访问组件实例"></a>2. 通过ref访问组件实例</h3><p>React推荐使用<code>React.forwardRef</code>和<code>useImperativeHandle</code>（在函数组件中）来暴露子组件的ref给父组件。但是，对于使用类组件的高阶组件，你可以直接在返回的组件内部使用<code>React.createRef</code>或<code>useRef</code>（在函数组件中）来创建ref，并附加到被包装的组件上。</p>
+<p><strong>2. 通过ref访问组件实例</strong></p>
+<p>React推荐使用<code>React.forwardRef</code>和<code>useImperativeHandle</code>（在函数组件中）来暴露子组件的ref给父组件。但是，对于使用类组件的高阶组件，你可以直接在返回的组件内部使用<code>React.createRef</code>或<code>useRef</code>（在函数组件中）来创建ref，并附加到被包装的组件上。</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">withRefForwarding</span><span class="token punctuation">(</span>WrappedComponent<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
   <span class="token keyword">class</span> <span class="token class-name">ForwardRefHOC</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>  
     wrappedInstance <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
@@ -519,7 +523,8 @@
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ref<span class="token punctuation">.</span>current<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 访问MyComponent的DOM元素</span>
 </code></pre>
 <p>注意：在React 16.3及以后的版本中，直接访问子组件实例通常不是推荐的做法，因为它破坏了封装性。但是，在某些情况下，如动画库或需要直接DOM访问的库，这可能是有用的。</p>
-<h3 id="3-提取state"><a href="#3-提取state" class="headerlink" title="3. 提取state"></a>3. 提取state</h3><p>高阶组件通常不直接提取被包装组件的state，因为这违反了封装原则，并且React的state是私有的。但是，你可以通过props在被包装组件和高阶组件之间共享状态，或者使用如Redux、MobX或Context等状态管理库来在组件之间共享状态。</p>
+<p><strong>3. 提取state</strong></p>
+<p>高阶组件通常不直接提取被包装组件的state，因为这违反了封装原则，并且React的state是私有的。但是，你可以通过props在被包装组件和高阶组件之间共享状态，或者使用如Redux、MobX或Context等状态管理库来在组件之间共享状态。</p>
 <p>如果你确实需要“提取”state（这通常意味着你想在被包装组件外部管理其状态），那么你应该考虑使用状态提升（State Lifting）或上述提到的状态管理库。</p>
 <p>记住，高阶组件是一种强大的模式，但它们应该谨慎使用，以避免过度嵌套和组件树变得难以理解。</p>
 <h3 id="React中常用的高阶组件有哪些？"><a href="#React中常用的高阶组件有哪些？" class="headerlink" title="React中常用的高阶组件有哪些？"></a>React中常用的高阶组件有哪些？</h3><p>在React中，高阶组件（Higher-Order Components, HOC）是一个高级的概念，它允许你通过函数来操作并返回新的React组件。高阶组件并不是React API的一部分，而是一种基于React的组合特性而形成的模式。虽然React库本身并不提供预定义的高阶组件，但在许多实际场景中，你可以使用高阶组件来复用组件逻辑、修改组件的props、操作组件的状态等。</p>
@@ -835,7 +840,8 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li>**componentWillUnmount()**：在组件卸载及销毁之前调用。常用于执行清理操作，如清除定时器、取消网络请求或删除事件监听器。</li>
 </ol>
 </blockquote>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
+<p><strong>注意</strong></p>
+<blockquote>
 <ul>
 <li><code>componentWillMount</code>、<code>componentWillReceiveProps</code>和<code>componentWillUpdate</code>这三个方法在React 16.3及以后的版本中被标记为“不安全”，因为它们可能会在异步渲染过程中引发问题。React 17计划正式弃用这三个方法，因此不建议在新的代码中使用它们。</li>
 <li>如果你正在使用React 16.3之前的版本，并依赖于上述三个被标记为“不安全”的方法，建议迁移到新的生命周期方法或<code>componentDidUpdate</code>中处理相应的逻辑。</li>
