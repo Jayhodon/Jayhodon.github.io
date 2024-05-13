@@ -1307,74 +1307,6 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <li>调用 <code>next(&#39;/path&#39;)</code> 或 <code>next(&#123; path: &#39;/path&#39; &#125;)</code> 进行重定向导航</li>
 </ul>
 <p>使用路由守卫可以实现诸如登录验证、权限控制、页面访问限制等功能，提供了灵活且强大的路由导航控制机制。 <a target="_blank" rel="noopener" href="https://router.vuejs.org/guide/advanced/navigation-guards.html">Vue Router 的官方文档</a></p>
-<h3 id="Vue相关"><a href="#Vue相关" class="headerlink" title="Vue相关"></a>Vue相关</h3><h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令</h4><p><img src="/../images/Vue.js%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/vue-command.jpg" alt="vue内置指令"></p>
-<h4 id="v-if-和-v-show-的区别"><a href="#v-if-和-v-show-的区别" class="headerlink" title="v-if 和 v-show 的区别"></a>v-if 和 v-show 的区别</h4><p><code>v-if</code> 和 <code>v-show</code> 都是 Vue 中的条件渲染指令，用于根据条件来控制元素的显示和隐藏。它们之间的区别如下：</p>
-<blockquote>
-<ol>
-<li>编译时机：<code>v-if</code> 是在编译阶段进行条件判断，如果条件为假，那么该元素及其子元素将不会被编译和渲染到 DOM 中。而 <code>v-show</code> 是在编译阶段将元素渲染到 DOM 中，然后通过 CSS 的 <code>display</code> 属性控制元素的显示和隐藏。</li>
-<li>切换消耗：由于 <code>v-if</code> 是在编译阶段进行条件判断，当条件发生变化时，会触发元素的创建或销毁，因此切换时的消耗较大。而 <code>v-show</code> 只是通过修改 CSS 的 <code>display</code> 属性来切换元素的可见性，所以切换时的消耗较小。</li>
-<li>初始渲染开销：由于 <code>v-if</code> 是在编译阶段进行条件判断，当条件为假时，元素及其子元素不会被编译和渲染，所以初始渲染的开销较小。而 <code>v-show</code> 在初始渲染时，会将元素及其子元素都渲染到 DOM 中，然后通过 CSS 控制其可见性，所以初始渲染的开销较大。</li>
-<li>条件切换频率：如果需要频繁切换元素的显示和隐藏，建议使用 <code>v-show</code>，因为它只是通过修改 CSS 属性来切换，性能更好。如果切换频率较低，可以使用 <code>v-if</code>，因为它在条件为假时会销毁元素，可以减少页面中的 DOM 元素数量。</li>
-</ol>
-</blockquote>
-<p>​    <code>v-if</code> 适用于条件切换频率较低的情况，可以节省初始渲染开销和内存占用；<code>v-show</code> 适用于频繁切换元素的可见性，可以减少切换消耗。根据具体的需求和场景选择合适的条件渲染指令。</p>
-<h4 id="v-if-和-v-for-哪个优先级更高"><a href="#v-if-和-v-for-哪个优先级更高" class="headerlink" title="v-if 和 v-for 哪个优先级更高"></a>v-if 和 v-for 哪个优先级更高</h4><p>​    在 Vue 中，<code>v-for</code> 指令的优先级高于 <code>v-if</code> 指令。这意味着当一个元素同时使用了 <code>v-if</code> 和 <code>v-for</code>，<code>v-for</code> 将首先被解析和执行，然后在每个迭代的元素上进行 <code>v-if</code> 的条件判断。</p>
-<p>​    具体来说，当使用 <code>v-if</code> 和 <code>v-for</code> 同时存在于同一个元素上时，Vue 的编译器会先处理 <code>v-for</code>，根据数据集合生成对应的元素列表。然后，在每个生成的元素上，会再依次应用 <code>v-if</code> 的条件判断。这意味着，如果 <code>v-if</code> 的条件为假，对应的元素将不会被渲染到最终的 DOM 中。</p>
-<p>​    <code>v-for</code> 会先根据 <code>items</code> 数据集合生成对应的元素列表，然后在每个元素上应用 <code>v-if</code> 的条件判断。只有当 <code>item.visible</code> 的值为真时，对应的元素才会被渲染到最终的 DOM 中。</p>
-<p>​    需要注意的是，在某些特定情况下，使用 <code>v-if</code> 和 <code>v-for</code> 同时存在可能会导致性能问题，因为每次迭代都需要进行条件判断。在这种情况下，可以考虑使用计算属性或过滤器来预先筛选数据集合，以减少渲染的元素数量，从而提升性能。</p>
-<h4 id="slot（插槽）的作用"><a href="#slot（插槽）的作用" class="headerlink" title="slot（插槽）的作用"></a>slot（插槽）的作用</h4><p>​    插槽（Slot）是 Vue 中一种用于扩展组件内容的机制。通过插槽，你可以在组件的模板中预留出一些位置，然后在使用该组件时，将内容插入到这些位置上。</p>
-<p>插槽的作用主要有以下几个方面：</p>
-<blockquote>
-<ol>
-<li>内容分发：插槽允许组件的使用者向组件中传递内容，并在组件内部进行渲染。使用插槽可以将组件设计得更加灵活，使得组件可以接受不同的内容进行渲染，从而满足不同的需求。</li>
-<li>组件组合：通过插槽，你可以将多个组件组合在一起，形成更复杂的组合组件。插槽使得组件之间的组合变得简单，你可以将多个组件的内容组合在一起，并且可以在父组件中决定如何组合它们。</li>
-<li>默认内容：插槽可以设置默认内容，当使用组件时没有提供具体内容时，将会使用默认的插槽内容进行渲染。这样可以确保即使没有传入内容，组件仍然可以正常显示一些默认的内容。</li>
-</ol>
-</blockquote>
-<p>​    在 Vue 中，有两种类型的插槽：具名插槽和默认插槽。具名插槽允许你为插槽指定名称，并在组件中根据名称进行内容分发。默认插槽是没有名称的，当组件中没有具名插槽时，会将内容分发到默认插槽中。</p>
-<p>​    通过使用插槽，你可以将组件的结构和样式与具体的内容进行解耦，提高了组件的可复用性和灵活性。它是 Vue 中非常强大和常用的特性之一。</p>
-<h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>​    数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
-<blockquote>
-<p>注意：在子组件直接用 v-model 绑定父组件传过来的 prop 这样是不规范的写法 开发环境会报警告</p>
-</blockquote>
-<p>​    如果实在要改变父组件的 prop 值 可以再 data 里面定义一个变量 并用 prop 的值初始化它 之后用$emit 通知父组件去修改。</p>
-<h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>​    computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
-<p>​    <a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
-<p>​    计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
-<h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
-<p>1.工厂模式 - 传入参数即可创建实例</p>
-<p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
-<p>2.单例模式 - 整个程序有且仅有一个实例</p>
-<p>vuex 和 vue-router 的插件注册方法 install 判断如果系统存在实例就直接返回掉</p>
-<p>3.发布-订阅模式 (vue 事件机制)</p>
-<p>4.观察者模式 (响应式数据原理)</p>
-<p>5.装饰模式: (@装饰器的用法)</p>
-<p>6.策略模式 策略模式指对象有某个行为,但是在不同的场景中,该行为有不同的实现方案-比如选项的合并策略</p>
-</blockquote>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Vue-模板编译原理"><a href="#Vue-模板编译原理" class="headerlink" title="Vue 模板编译原理"></a>Vue 模板编译原理</h4><p>Vue 的模板编译原理主要包括以下步骤：</p>
-<blockquote>
-<ol>
-<li>解析：Vue 的模板编译器将模板字符串解析为抽象语法树（AST）。AST 是一个树状结构，表示了模板中的各个节点和它们之间的关系。</li>
-<li>优化：在解析完成后，编译器会对生成的 AST 进行优化。这个优化过程包括静态节点标记、静态根节点提升和事件侦听器的缓存等。这些优化可以提高渲染性能和减少运行时的开销。</li>
-<li>代码生成：在优化完成后，编译器会根据 AST 生成渲染函数。渲染函数是一个 JavaScript 函数，它接收数据作为参数，返回一个虚拟 DOM 树。渲染函数可以将模板中的数据和逻辑转换为实际的 DOM 操作。</li>
-<li>组件化编译：如果模板中包含组件，编译器会递归地对组件进行编译。这样可以将组件的模板编译为渲染函数，并生成组件的渲染逻辑。</li>
-</ol>
-</blockquote>
-<p>​    在运行时，Vue 实例会通过编译后的渲染函数生成虚拟 DOM，并将其与实际的 DOM 进行比对，只更新需要改变的部分，以提高性能。</p>
-<p>​    Vue 的模板编译原理将模板字符串解析为 AST，经过优化后生成渲染函数，然后在运行时使用渲染函数生成虚拟 DOM，并进行差异比对来更新视图。这种编译的过程使得 Vue 具有高效的渲染性能和灵活的组件化开发能力。</p>
-<h4 id="Vue-的性能优化"><a href="#Vue-的性能优化" class="headerlink" title="Vue 的性能优化"></a>Vue 的性能优化</h4><p>Vue 的性能优化可以从以下几个方面考虑：</p>
-<blockquote>
-<ol>
-<li>减少不必要的重新渲染：Vue 使用响应式系统来跟踪数据的变化并更新视图。为了减少不必要的重新渲染，可以使用合理的计算属性和侦听器，避免不必要的计算和更新。另外，使用 v-if 和 v-show 来条件渲染元素，只渲染当前需要显示的部分。</li>
-<li>列表渲染优化：在使用 v-for 渲染列表时，使用唯一的 key 属性来提高性能。Vue 使用 key 来跟踪每个节点的身份，以便在更新过程中进行重用和重新排序，而不是完全重新创建和销毁 DOM 节点。</li>
-<li>懒加载和异步组件：对于大型的页面或组件，可以使用懒加载和异步组件来延迟加载和渲染。这可以加快初始加载时间并减少首屏渲染的工作量。</li>
-<li>使用 v-if 和 v-for 的选择：在需要根据条件动态渲染的元素上使用 v-if，而不是在列表上使用 v-for。因为 v-if 在条件不满足时会完全销毁和重建元素，而 v-for 只是在数据发生变化时更新元素。</li>
-<li>使用虚拟列表或无限滚动：当需要处理大量数据列表时，可以使用虚拟列表或无限滚动的技术来提高性能。这样可以减少一次性渲染的节点数量，只渲染可见部分，从而减少内存占用和渲染时间。</li>
-<li>合理使用异步更新：Vue 提供了 nextTick 方法和 $nextTick 实例方法来在下次 DOM 更新周期之后执行回调。合理使用异步更新可以将多个更新合并成一次，减少不必要的计算和渲染。</li>
-<li>基于路由的代码分割：通过合理的路由配置和动态导入，将页面的代码拆分成更小的块，按需加载和渲染，提高初始加载速度和页面切换的响应性。</li>
-<li>合理使用缓存：对于一些计算开销较大的结果或静态数据，可以使用缓存来避免重复计算或请求。例如，使用计算属性的缓存选项或使用工具库进行数据缓存。</li>
-</ol>
-</blockquote>
 <h3 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h3><h4 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h4><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
 <p><strong>区别</strong>：</p>
 <ol>
@@ -1445,6 +1377,7 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <p><strong><code>&lt;script setup&gt;</code></strong></p>
 <script setup> 是 Vue 3 单文件组件（SFC）中的一个新语法，允许你在 <script> 标签中使用 setup 函数，而无需显式地定义 setup 函数。这种语法会自动将 setup 函数的返回值暴露给模板。
 
+
 示例：
 
 ```vue
@@ -1484,6 +1417,7 @@ const message = ref(&#39;&#39;)
 <p>在这个示例中，我们直接在 <code>&lt;script setup&gt;</code> 中定义了一个 <code>ref</code> 类型的响应式数据 <code>message</code>。在模板中，我们可以直接使用 <code>v-model=&quot;message&quot;</code> 而不是 <code>v-model=&quot;message.value&quot;</code>。在 <code>&lt;script setup&gt;</code> 的作用域内，我们可以直接通过 <code>message</code> 访问其值，但在模板中仍然需要使用 <code>message</code>（而不是 <code>message.value</code>）作为变量名。</p>
 <p><strong>总结</strong></p>
 <script setup> 和 ref/reactive 的自动解构是 Vue 3 中引入的两种语法糖，它们使得使用 Composition API 变得更加简洁和直观。这些特性允许我们更专注于组件的逻辑和功能，而不必花费太多精力在语法和结构上。
+
 
 
 
@@ -1878,6 +1812,74 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <li>在React中，Hooks允许你在函数组件中“钩入”React state及生命周期等特性。这意味着你可以在无需编写class组件的情况下使用React的许多高级功能。</li>
 </ul>
 <p>总的来说，Vue3的Composition API和React Hook都是各自框架中用于提高代码复用性和组织性的重要工具。然而，它们在语法、概念和数据响应性等方面存在差异，这些差异可能会影响开发者在不同框架下的编码习惯和策略。在选择使用哪种技术时，需要根据具体项目的需求和个人偏好来做出决策。</p>
+<h3 id="Vue相关"><a href="#Vue相关" class="headerlink" title="Vue相关"></a>Vue相关</h3><h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令</h4><p><img src="/../images/Vue.js%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/vue-command.jpg" alt="vue内置指令"></p>
+<h4 id="v-if-和-v-show-的区别"><a href="#v-if-和-v-show-的区别" class="headerlink" title="v-if 和 v-show 的区别"></a>v-if 和 v-show 的区别</h4><p><code>v-if</code> 和 <code>v-show</code> 都是 Vue 中的条件渲染指令，用于根据条件来控制元素的显示和隐藏。它们之间的区别如下：</p>
+<blockquote>
+<ol>
+<li>编译时机：<code>v-if</code> 是在编译阶段进行条件判断，如果条件为假，那么该元素及其子元素将不会被编译和渲染到 DOM 中。而 <code>v-show</code> 是在编译阶段将元素渲染到 DOM 中，然后通过 CSS 的 <code>display</code> 属性控制元素的显示和隐藏。</li>
+<li>切换消耗：由于 <code>v-if</code> 是在编译阶段进行条件判断，当条件发生变化时，会触发元素的创建或销毁，因此切换时的消耗较大。而 <code>v-show</code> 只是通过修改 CSS 的 <code>display</code> 属性来切换元素的可见性，所以切换时的消耗较小。</li>
+<li>初始渲染开销：由于 <code>v-if</code> 是在编译阶段进行条件判断，当条件为假时，元素及其子元素不会被编译和渲染，所以初始渲染的开销较小。而 <code>v-show</code> 在初始渲染时，会将元素及其子元素都渲染到 DOM 中，然后通过 CSS 控制其可见性，所以初始渲染的开销较大。</li>
+<li>条件切换频率：如果需要频繁切换元素的显示和隐藏，建议使用 <code>v-show</code>，因为它只是通过修改 CSS 属性来切换，性能更好。如果切换频率较低，可以使用 <code>v-if</code>，因为它在条件为假时会销毁元素，可以减少页面中的 DOM 元素数量。</li>
+</ol>
+</blockquote>
+<p>​    <code>v-if</code> 适用于条件切换频率较低的情况，可以节省初始渲染开销和内存占用；<code>v-show</code> 适用于频繁切换元素的可见性，可以减少切换消耗。根据具体的需求和场景选择合适的条件渲染指令。</p>
+<h4 id="v-if-和-v-for-哪个优先级更高"><a href="#v-if-和-v-for-哪个优先级更高" class="headerlink" title="v-if 和 v-for 哪个优先级更高"></a>v-if 和 v-for 哪个优先级更高</h4><p>​    在 Vue 中，<code>v-for</code> 指令的优先级高于 <code>v-if</code> 指令。这意味着当一个元素同时使用了 <code>v-if</code> 和 <code>v-for</code>，<code>v-for</code> 将首先被解析和执行，然后在每个迭代的元素上进行 <code>v-if</code> 的条件判断。</p>
+<p>​    具体来说，当使用 <code>v-if</code> 和 <code>v-for</code> 同时存在于同一个元素上时，Vue 的编译器会先处理 <code>v-for</code>，根据数据集合生成对应的元素列表。然后，在每个生成的元素上，会再依次应用 <code>v-if</code> 的条件判断。这意味着，如果 <code>v-if</code> 的条件为假，对应的元素将不会被渲染到最终的 DOM 中。</p>
+<p>​    <code>v-for</code> 会先根据 <code>items</code> 数据集合生成对应的元素列表，然后在每个元素上应用 <code>v-if</code> 的条件判断。只有当 <code>item.visible</code> 的值为真时，对应的元素才会被渲染到最终的 DOM 中。</p>
+<p>​    需要注意的是，在某些特定情况下，使用 <code>v-if</code> 和 <code>v-for</code> 同时存在可能会导致性能问题，因为每次迭代都需要进行条件判断。在这种情况下，可以考虑使用计算属性或过滤器来预先筛选数据集合，以减少渲染的元素数量，从而提升性能。</p>
+<h4 id="slot（插槽）的作用"><a href="#slot（插槽）的作用" class="headerlink" title="slot（插槽）的作用"></a>slot（插槽）的作用</h4><p>​    插槽（Slot）是 Vue 中一种用于扩展组件内容的机制。通过插槽，你可以在组件的模板中预留出一些位置，然后在使用该组件时，将内容插入到这些位置上。</p>
+<p>插槽的作用主要有以下几个方面：</p>
+<blockquote>
+<ol>
+<li>内容分发：插槽允许组件的使用者向组件中传递内容，并在组件内部进行渲染。使用插槽可以将组件设计得更加灵活，使得组件可以接受不同的内容进行渲染，从而满足不同的需求。</li>
+<li>组件组合：通过插槽，你可以将多个组件组合在一起，形成更复杂的组合组件。插槽使得组件之间的组合变得简单，你可以将多个组件的内容组合在一起，并且可以在父组件中决定如何组合它们。</li>
+<li>默认内容：插槽可以设置默认内容，当使用组件时没有提供具体内容时，将会使用默认的插槽内容进行渲染。这样可以确保即使没有传入内容，组件仍然可以正常显示一些默认的内容。</li>
+</ol>
+</blockquote>
+<p>​    在 Vue 中，有两种类型的插槽：具名插槽和默认插槽。具名插槽允许你为插槽指定名称，并在组件中根据名称进行内容分发。默认插槽是没有名称的，当组件中没有具名插槽时，会将内容分发到默认插槽中。</p>
+<p>​    通过使用插槽，你可以将组件的结构和样式与具体的内容进行解耦，提高了组件的可复用性和灵活性。它是 Vue 中非常强大和常用的特性之一。</p>
+<h4 id="关于-Vue-的单向数据流"><a href="#关于-Vue-的单向数据流" class="headerlink" title="关于 Vue 的单向数据流"></a>关于 Vue 的单向数据流</h4><p>​    数据总是从父组件传到子组件，子组件没有权利修改父组件传过来的数据，只能请求父组件对原始数据进行修改。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<blockquote>
+<p>注意：在子组件直接用 v-model 绑定父组件传过来的 prop 这样是不规范的写法 开发环境会报警告</p>
+</blockquote>
+<p>​    如果实在要改变父组件的 prop 值 可以再 data 里面定义一个变量 并用 prop 的值初始化它 之后用$emit 通知父组件去修改。</p>
+<h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>​    computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
+<p>​    <a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
+<p>​    计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
+<h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
+<p>1.工厂模式 - 传入参数即可创建实例</p>
+<p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
+<p>2.单例模式 - 整个程序有且仅有一个实例</p>
+<p>vuex 和 vue-router 的插件注册方法 install 判断如果系统存在实例就直接返回掉</p>
+<p>3.发布-订阅模式 (vue 事件机制)</p>
+<p>4.观察者模式 (响应式数据原理)</p>
+<p>5.装饰模式: (@装饰器的用法)</p>
+<p>6.策略模式 策略模式指对象有某个行为,但是在不同的场景中,该行为有不同的实现方案-比如选项的合并策略</p>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="Vue-模板编译原理"><a href="#Vue-模板编译原理" class="headerlink" title="Vue 模板编译原理"></a>Vue 模板编译原理</h4><p>Vue 的模板编译原理主要包括以下步骤：</p>
+<blockquote>
+<ol>
+<li>解析：Vue 的模板编译器将模板字符串解析为抽象语法树（AST）。AST 是一个树状结构，表示了模板中的各个节点和它们之间的关系。</li>
+<li>优化：在解析完成后，编译器会对生成的 AST 进行优化。这个优化过程包括静态节点标记、静态根节点提升和事件侦听器的缓存等。这些优化可以提高渲染性能和减少运行时的开销。</li>
+<li>代码生成：在优化完成后，编译器会根据 AST 生成渲染函数。渲染函数是一个 JavaScript 函数，它接收数据作为参数，返回一个虚拟 DOM 树。渲染函数可以将模板中的数据和逻辑转换为实际的 DOM 操作。</li>
+<li>组件化编译：如果模板中包含组件，编译器会递归地对组件进行编译。这样可以将组件的模板编译为渲染函数，并生成组件的渲染逻辑。</li>
+</ol>
+</blockquote>
+<p>​    在运行时，Vue 实例会通过编译后的渲染函数生成虚拟 DOM，并将其与实际的 DOM 进行比对，只更新需要改变的部分，以提高性能。</p>
+<p>​    Vue 的模板编译原理将模板字符串解析为 AST，经过优化后生成渲染函数，然后在运行时使用渲染函数生成虚拟 DOM，并进行差异比对来更新视图。这种编译的过程使得 Vue 具有高效的渲染性能和灵活的组件化开发能力。</p>
+<h4 id="Vue-的性能优化"><a href="#Vue-的性能优化" class="headerlink" title="Vue 的性能优化"></a>Vue 的性能优化</h4><p>Vue 的性能优化可以从以下几个方面考虑：</p>
+<blockquote>
+<ol>
+<li>减少不必要的重新渲染：Vue 使用响应式系统来跟踪数据的变化并更新视图。为了减少不必要的重新渲染，可以使用合理的计算属性和侦听器，避免不必要的计算和更新。另外，使用 v-if 和 v-show 来条件渲染元素，只渲染当前需要显示的部分。</li>
+<li>列表渲染优化：在使用 v-for 渲染列表时，使用唯一的 key 属性来提高性能。Vue 使用 key 来跟踪每个节点的身份，以便在更新过程中进行重用和重新排序，而不是完全重新创建和销毁 DOM 节点。</li>
+<li>懒加载和异步组件：对于大型的页面或组件，可以使用懒加载和异步组件来延迟加载和渲染。这可以加快初始加载时间并减少首屏渲染的工作量。</li>
+<li>使用 v-if 和 v-for 的选择：在需要根据条件动态渲染的元素上使用 v-if，而不是在列表上使用 v-for。因为 v-if 在条件不满足时会完全销毁和重建元素，而 v-for 只是在数据发生变化时更新元素。</li>
+<li>使用虚拟列表或无限滚动：当需要处理大量数据列表时，可以使用虚拟列表或无限滚动的技术来提高性能。这样可以减少一次性渲染的节点数量，只渲染可见部分，从而减少内存占用和渲染时间。</li>
+<li>合理使用异步更新：Vue 提供了 nextTick 方法和 $nextTick 实例方法来在下次 DOM 更新周期之后执行回调。合理使用异步更新可以将多个更新合并成一次，减少不必要的计算和渲染。</li>
+<li>基于路由的代码分割：通过合理的路由配置和动态导入，将页面的代码拆分成更小的块，按需加载和渲染，提高初始加载速度和页面切换的响应性。</li>
+<li>合理使用缓存：对于一些计算开销较大的结果或静态数据，可以使用缓存来避免重复计算或请求。例如，使用计算属性的缓存选项或使用工具库进行数据缓存。</li>
+</ol>
+</blockquote>
 
                 
             </div>
