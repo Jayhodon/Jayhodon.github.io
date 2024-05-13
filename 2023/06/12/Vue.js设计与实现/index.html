@@ -1314,6 +1314,534 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>​    computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
 <p>​    <a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
 <p>​    计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
+<h3 id="vue2以及vue3的diff算法有了解吗-他们之间的不同是什么"><a href="#vue2以及vue3的diff算法有了解吗-他们之间的不同是什么" class="headerlink" title="vue2以及vue3的diff算法有了解吗 他们之间的不同是什么"></a>vue2以及vue3的diff算法有了解吗 他们之间的不同是什么</h3><p>Vue.js的diff算法是其用于比较新旧虚拟DOM树并确定最小更新集的核心机制。Vue 2和Vue 3的diff算法在设计和实现上有一些重要的不同。</p>
+<p><strong>Vue 2的diff算法</strong></p>
+<p>Vue 2的diff算法主要关注于组件级别的更新，而不是细粒度的DOM节点级别的比较。以下是Vue 2 diff算法的一些关键点：</p>
+<ol>
+<li><strong>同级比较</strong>：Vue 2的diff算法只比较同一层级的节点，不跨层级比较。</li>
+<li><strong>双端比较</strong>：当列表更新时，Vue 2会采用双端比较的策略，从列表的头部和尾部开始比较，然后逐渐向中心逼近，以尽量减少节点的移动次数。</li>
+<li><strong>更新策略</strong>：当无法通过头尾比较找到匹配的节点时，Vue 2会尝试复用旧节点，通过更新节点的属性或子节点来匹配新的虚拟节点，并将其移动到正确的位置。</li>
+</ol>
+<p>然而，Vue 2的diff算法也存在一些限制，例如它不会进行跨层级的节点比较，这可能导致一些不必要的DOM操作。</p>
+<p><strong>Vue 3的diff算法</strong></p>
+<p>Vue 3对diff算法进行了重大改进，以进一步提高性能并减少不必要的DOM操作。以下是Vue 3 diff算法的一些主要变化：</p>
+<ol>
+<li><strong>基于Proxy的响应式系统</strong>：Vue 3使用了基于Proxy的响应式系统，能够更精确地追踪数据变化，从而减少了不必要的计算和渲染。这使得diff算法在比较新旧虚拟DOM树时能够更准确地确定需要更新的部分。</li>
+<li><strong>静态提升</strong>：Vue 3在编译阶段会对模板进行静态分析，将不会改变的静态节点提升到渲染函数之外。这样，在每次渲染时，这些静态节点就不会被重新创建和比较，从而减少了不必要的计算和DOM操作。</li>
+<li><strong>块级更新</strong>：Vue 3引入了块级更新的概念，将组件树拆分为多个块，每个块都拥有自己的渲染函数和依赖关系。当某个块的数据发生变化时，只有该块及其子块会被重新渲染和比较，而不是整个组件树。这进一步减少了不必要的计算和DOM操作。</li>
+<li><strong>事件监听器的优化</strong>：Vue 3对事件监听器进行了优化，使用了一种称为“事件委托”的技术来减少事件监听器的数量。这样，当事件触发时，Vue 3可以更快地找到并处理相应的事件监听器，从而提高了性能。</li>
+</ol>
+<p>总的来说，Vue 3的diff算法通过更精确的追踪数据变化、静态提升、块级更新和事件监听器的优化等手段，进一步提高了Vue应用的渲染性能和用户体验。</p>
+<h3 id="Vue3相对于Vue2进行了哪些优化？"><a href="#Vue3相对于Vue2进行了哪些优化？" class="headerlink" title="Vue3相对于Vue2进行了哪些优化？"></a>Vue3相对于Vue2进行了哪些优化？</h3><ol>
+<li><strong>更灵活的响应式系统</strong>：Vue 2.x 中响应式系统的核心是 <strong>Object.defineProperty</strong>，劫持整个对象，然后进行深度遍历所有属性，给每个属性添加<code>getter</code>和<code>setter</code>，实现响应式。Vue 3.x 中使用 <strong>Proxy</strong>对象重写响应式系统。</li>
+<li><strong>更快的渲染速度</strong>：Vue3 的编译器生成的渲染函数比 Vue2 生成的更高效。</li>
+<li><strong>编译阶段</strong>：Vue 2.x 通过标记静态节点，优化 diff 的过程。Vue 3.x中<strong>标记和提升</strong>所有的静态节点，diff的时候<strong>只需要对比动态节点</strong>内容。</li>
+<li><strong>更小的体积</strong>：Vue3 将源码拆分为多个独立的模块，这样就可以按需导入所需的模块，从而减小了整个库的体积。</li>
+<li><strong>更好的 TypeScript 支持</strong>：Vue3 对 TypeScript 的支持更加友好，内部使用了更先进的 TypeScript 特性，并为其提供了更好的声明文件。</li>
+<li><strong>更好的组件系统</strong>：比如，Vue3中引入了一个新的 <code>Fragment</code> 组件，它可以替代原来的 <code>template</code> 标签作为根节点</li>
+<li><strong>新增了setup组合式API</strong></li>
+</ol>
+<h3 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h3><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
+<p><strong>区别</strong>：</p>
+<ol>
+<li><strong>结构组织</strong>：选项式API基于对象的设计方式，将Vue实例的各个部分（如data、methods、computed、watch等）拆分成不同的选项，并在创建Vue实例时将它们作为选项传入。而组合式API允许将数据和方法组合在一起，以提供更灵活和可复用的逻辑代码。</li>
+<li><strong>代码复用</strong>：随着应用规模的扩大和复杂度的增加，选项式API可能导致代码难以维护和理解。数据和逻辑被分散在多个选项中，很难一眼看出它们之间的关系。而组合式API通过将逻辑封装为自定义函数，可以更好地复用逻辑代码。</li>
+<li><strong>类型推断</strong>：Vue 3的组合式API更适用于TypeScript等类型检查工具。使用组合式API，TypeScript可以更准确地推断和捕获类型信息，提供更好的代码补全和错误检测。</li>
+</ol>
+<p><strong>优势</strong>：</p>
+<ol>
+<li><strong>代码组织</strong>：组合式API可以更好地组织代码，将相关逻辑代码封装在函数中，按照功能和关注点进行组织。这使得代码更清晰、模块化，并且易于理解和维护。</li>
+<li><strong>复用性</strong>：组合式API通过封装逻辑为可复用的函数，提高了代码的复用性。可以根据需要选择性地调用这些函数，并在多个组件之间共享它们。</li>
+<li><strong>直观性</strong>：在Vue 3的组合式API中，生命周期钩子函数（如created、mounted、updated、destroyed等）被替代为更直观和一致的函数调用，这使得代码更易于理解和维护。</li>
+</ol>
+<p>总的来说，组合式API通过提供更好的代码组织、复用性和直观性，解决了选项式API在大型和复杂应用中可能遇到的问题。然而，这并不意味着选项式API已经完全被取代。在Vue 3中，对两种API都提供了支持，开发者可以根据项目的具体需求和自己的偏好来选择使用哪种API。对于简单的场景，使用选项式API可能更加简单方便；而对于需要强烈支持TypeScript或大量逻辑复用的场景，组合式API可能是更好的选择。</p>
+<h3 id="Vue3中watch-和-watchEffect-的区别"><a href="#Vue3中watch-和-watchEffect-的区别" class="headerlink" title="Vue3中watch 和 watchEffect 的区别"></a>Vue3中watch 和 watchEffect 的区别</h3><p>在 Vue 3 中，<code>watch</code> 和 <code>watchEffect</code> 都是用于响应式地观察和响应 Vue 组件中的数据变化的方法，但它们之间有一些重要的区别。</p>
+<p><strong>watch</strong></p>
+<p><code>watch</code> 是 Vue 2.x 和 Vue 3 中都存在的一个功能，它用于侦听特定的数据源，并在其变化时执行回调函数。<code>watch</code> 需要明确指定要侦听的数据源和回调函数。</p>
+<p><strong>特点：</strong></p>
+<ol>
+<li><strong>明确指定</strong>：你需要明确指定要侦听的数据源，以及当该数据源变化时要执行的回调函数。</li>
+<li><strong>获取新旧值</strong>：在回调函数中，你可以获取到数据源变化前后的值（新值和旧值）。</li>
+<li><strong>选项丰富</strong>：<code>watch</code> 提供了一些选项，如 <code>immediate</code>（是否在初始化时立即调用一次回调函数）和 <code>deep</code>（是否深度侦听对象内部值的变化）。</li>
+</ol>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>当你需要侦听某个特定的 prop 或 data 属性时。</li>
+<li>当你需要在数据源变化时执行一些异步操作或开销较大的操作时。</li>
+</ul>
+<p><strong>watchEffect</strong></p>
+<p><code>watchEffect</code> 是 Vue 3 中新增的一个功能，它用于自动追踪其回调函数中的响应式依赖，并在依赖变化时重新执行该函数。</p>
+<p><strong>特点：</strong></p>
+<ol>
+<li><strong>自动追踪</strong>：<code>watchEffect</code> 会自动追踪其回调函数中所依赖的响应式数据。</li>
+<li><strong>立即执行</strong>：默认情况下，<code>watchEffect</code> 在组件挂载后会立即执行一次回调函数，以捕获初始状态。</li>
+<li><strong>无需明确指定依赖</strong>：与 <code>watch</code> 不同，你不需要明确指定要侦听哪些数据源，<code>watchEffect</code> 会自动帮你做这件事。</li>
+</ol>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>当你需要自动追踪多个响应式依赖时。</li>
+<li>当你需要在组件挂载后立即执行一些逻辑时（例如，获取初始数据）。</li>
+</ul>
+<p><strong>总结</strong></p>
+<ul>
+<li><code>watch</code> 适用于需要明确指定数据源和回调函数的情况，以及需要获取数据源变化前后值的情况。</li>
+<li><code>watchEffect</code> 适用于自动追踪多个响应式依赖，并在依赖变化时重新执行回调函数的情况。它更加灵活和简洁，但可能不如 <code>watch</code> 那么精确。</li>
+</ul>
+<p>在选择使用 <code>watch</code> 还是 <code>watchEffect</code> 时，你应该根据你的具体需求和场景来决定。</p>
+<h3 id="Vue3中render函数的作用"><a href="#Vue3中render函数的作用" class="headerlink" title="Vue3中render函数的作用"></a>Vue3中render函数的作用</h3><p>在 Vue 3 中，<code>render</code> 函数是一个高级特性，它允许你手动编写 JavaScript 来生成虚拟 DOM（Virtual DOM）节点，而不是使用模板语法。<code>render</code> 函数在 Vue 的运行时环境中扮演着将组件的逻辑转换为实际 DOM 结构的关键角色。</p>
+<p><code>render</code> 函数接收一个名为 <code>createElement</code> 的函数作为参数，这个函数用于创建虚拟 DOM 节点。<code>createElement</code> 函数接受三个参数：</p>
+<blockquote>
+<ol>
+<li><strong>标签名或组件对象</strong>：可以是原生 HTML 标签名（如 <code>&#39;div&#39;</code>、<code>&#39;span&#39;</code> 等），也可以是 Vue 组件对象。</li>
+<li><strong>包含组件的 props/attributes 的数据对象</strong>：这个对象用于定义元素的属性、props、DOM 属性、类名、样式等。</li>
+<li><strong>子虚拟节点数组</strong>：一个由 <code>createElement</code> 创建的虚拟节点数组，作为当前元素的子节点。</li>
+</ol>
+</blockquote>
+<p><code>render</code> 函数通常用于以下场景：</p>
+<blockquote>
+<ol>
+<li><strong>高级用法和自定义渲染</strong>：当你需要更细粒度的控制渲染逻辑时，可以使用 <code>render</code> 函数。例如，你可以动态地根据组件的状态和属性来渲染不同的 DOM 结构。</li>
+<li><strong>与 JSX 或 TSX 配合使用</strong>：虽然 Vue 本身不直接支持 JSX（JavaScript XML），但你可以通过 Babel 插件（如 <code>@vue/babel-plugin-jsx</code>）将 JSX 转换为 Vue 的 <code>render</code> 函数。这样，你就可以在 Vue 组件中使用类似于 React 的 JSX 语法来编写渲染逻辑。</li>
+<li><strong>渲染函数式组件</strong>：函数式组件（Functional Components）是那些没有状态（即没有响应式数据）和实例（即没有 <code>this</code> 上下文）的组件。这些组件只根据传入的 props 来渲染 DOM 结构，因此非常适合使用 <code>render</code> 函数来实现。</li>
+</ol>
+</blockquote>
+<p>需要注意的是，尽管 <code>render</code> 函数提供了更大的灵活性，但在大多数情况下，使用 Vue 的模板语法已经足够满足需求。模板语法更加直观和易于理解，尤其是对于非专业前端开发者来说。因此，在不需要特殊渲染逻辑的情况下，建议使用模板语法来编写 Vue 组件。</p>
+<h3 id="Vue3中的setup语法糖"><a href="#Vue3中的setup语法糖" class="headerlink" title="Vue3中的setup语法糖"></a>Vue3中的setup语法糖</h3><p>在 Vue 3 中，<code>setup</code> 函数是 Composition API 的入口点，它使得我们可以在组件中使用响应式数据、生命周期钩子、方法等，而不必依赖于传统的选项式 API（Options API）。然而，Vue 3 还引入了一种称为“语法糖”（Syntactic Sugar）的简化方式，以更简洁的方式使用 Composition API。</p>
+<p>这种语法糖主要体现在两个方面：<code>&lt;script setup&gt;</code> 和 <code>ref</code>/<code>reactive</code> 的自动解构。</p>
+<h3 id="lt-script-setup-gt"><a href="#lt-script-setup-gt" class="headerlink" title="&lt;script setup&gt;"></a><code>&lt;script setup&gt;</code></h3><script setup> 是 Vue 3 单文件组件（SFC）中的一个新语法，允许你在 <script> 标签中使用 setup 函数，而无需显式地定义 setup 函数。这种语法会自动将 setup 函数的返回值暴露给模板。
+
+示例：
+
+```vue
+<template>  
+  <button @click="increment"></button>  
+</template>  
+  
+<script setup>  
+import { ref } from 'vue'  
+  
+const count = ref(0)  
+const increment = () => {  
+  count.value++  
+}  
+</script>
+<pre><code>
+在这个示例中，我们使用了 `&lt;script setup&gt;` 语法，并在其中定义了响应式引用 `count` 和一个方法 `increment`。这些都被自动暴露给模板，使得我们可以在模板中直接使用它们。
+
+**`ref`/`reactive` 的自动解构**
+
+在 `&lt;script setup&gt;` 中，你还可以直接使用 `ref` 或 `reactive` 创建的响应式数据，而无需通过 `.value` 来访问它（在模板中除外）。这是因为 Vue 编译器会自动对 `ref` 进行解构。
+
+示例：
+
+```vue
+&lt;template&gt;  
+  &lt;input v-model=&quot;message&quot; /&gt;  
+  &lt;p&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;  
+&lt;/template&gt;  
+  
+&lt;script setup&gt;  
+import &#123; ref &#125; from &#39;vue&#39;  
+  
+const message = ref(&#39;&#39;)  
+&lt;/script&gt;
+</code></pre>
+<p>在这个示例中，我们直接在 <code>&lt;script setup&gt;</code> 中定义了一个 <code>ref</code> 类型的响应式数据 <code>message</code>。在模板中，我们可以直接使用 <code>v-model=&quot;message&quot;</code> 而不是 <code>v-model=&quot;message.value&quot;</code>。在 <code>&lt;script setup&gt;</code> 的作用域内，我们可以直接通过 <code>message</code> 访问其值，但在模板中仍然需要使用 <code>message</code>（而不是 <code>message.value</code>）作为变量名。</p>
+<p><strong>总结</strong></p>
+<script setup> 和 ref/reactive 的自动解构是 Vue 3 中引入的两种语法糖，它们使得使用 Composition API 变得更加简洁和直观。这些特性允许我们更专注于组件的逻辑和功能，而不必花费太多精力在语法和结构上。
+
+
+
+### Vue3中的ref、toRef、toRefs
+
+在 Vue 3 中，`ref`、`toRef` 和 `toRefs` 是与响应式引用（reactive references）紧密相关的 API，它们主要用于处理响应式数据。这些 API 允许你创建和管理响应式引用，以便在组件的模板和逻辑中使用。以下是这些 API 的简要说明：
+
+**1. `ref`**
+
+`ref` 函数用于创建一个响应式的引用（reference）。它接受一个初始值作为参数，并返回一个响应式的对象，该对象具有一个 `.value` 属性，用于访问或修改其值。
+
+```javascript
+import { ref } from 'vue';  
+  
+const count = ref(0);  
+  
+console.log(count.value); // 输出: 0  
+  
+count.value++;  
+console.log(count.value); // 输出: 1
+```
+
+在模板中，你可以直接使用 `count`（不需要 `.value`），Vue 会自动为你处理。
+
+**2. `toRef`**
+
+`toRef` 函数用于为一个响应式对象的属性创建一个引用。与 `ref` 不同，`toRef` 创建的引用与原始对象保持连接，当原始对象的属性值发生变化时，引用也会更新。
+
+```javascript
+import { reactive, toRef } from 'vue';  
+  
+const state = reactive({  
+  count: 0  
+});  
+  
+const countRef = toRef(state, 'count');  
+  
+console.log(countRef.value); // 输出: 0  
+  
+state.count++;  
+console.log(countRef.value); // 输出: 1
+```
+
+注意，如果你尝试通过 `countRef.value` 修改值，它只会影响 `state.count`，而不是创建一个新的响应式引用。
+
+**3. `toRefs`**
+
+`toRefs` 函数用于将一个响应式对象的所有属性转换为单独的响应式引用，并将它们收集到一个普通对象中。这在你需要将多个响应式属性传递给组件的 props 或在模板中大量使用它们时非常有用。
+
+```javascript
+import { reactive, toRefs } from 'vue';  
+  
+const state = reactive({  
+  count: 0,  
+  name: 'Vue'  
+});  
+  
+const refs = toRefs(state);  
+  
+console.log(refs.count.value); // 输出: 0  
+console.log(refs.name.value); // 输出: 'Vue'  
+  
+state.count++;  
+console.log(refs.count.value); // 输出: 1
+```
+
+在模板中，你可以通过解构（destructuring）`toRefs` 的结果来直接使用这些引用，而无需每次都写 `.value`。
+
+```vue
+<template>  
+  <div>  
+    <p></p> <!-- 直接使用 count，而不是 count.value -->  
+    <p></p> <!-- 直接使用 name，而不是 name.value -->  
+  </div>  
+</template>  
+  
+<script>  
+import { reactive, toRefs } from 'vue';  
+  
+export default {  
+  setup() {  
+    const state = reactive({  
+      count: 0,  
+      name: 'Vue'  
+    });  
+  
+    return {  
+      ...toRefs(state)  
+    };  
+  }  
+}  
+</script>
+<pre><code>
+
+
+### Vue3中的 reactive、 shallowReactive 函数
+
+在 Vue 3 的 Composition API 中，`reactive` 和 `shallowReactive` 是两个用于创建响应式对象的函数。它们之间的主要区别在于它们如何处理嵌套对象的响应性。
+
+**reactive**
+
+`reactive` 函数用于创建一个响应式对象，该对象的所有嵌套属性（包括子对象）都是响应式的。当这些属性的值发生变化时，视图将自动更新。
+
+```javascript
+import &#123; reactive &#125; from &#39;vue&#39;;  
+  
+const state = reactive(&#123;  
+  count: 0,  
+  nested: &#123;  
+    name: &#39;Vue&#39;,  
+    version: 3  
+  &#125;  
+&#125;);  
+  
+// 改变顶级属性的值  
+state.count++;  
+  
+// 改变嵌套对象的属性  
+state.nested.name = &#39;Vue.js&#39;;  
+  
+// 这两个更改都会触发视图的更新
+</code></pre>
+<p>在上面的例子中，<code>state</code> 是一个响应式对象，它的 <code>count</code> 属性和 <code>nested</code> 对象（包括其 <code>name</code> 和 <code>version</code> 属性）都是响应式的。</p>
+<p><strong>shallowReactive</strong></p>
+<p><code>shallowReactive</code> 函数也用于创建一个响应式对象，但与 <code>reactive</code> 不同的是，它只使对象的顶层属性变为响应式。对象的嵌套属性（即子对象）不会变为响应式，除非它们本身也是响应式的。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> shallowReactive <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span><span class="token punctuation">;</span>  
+  
+<span class="token keyword">const</span> state <span class="token operator">=</span> <span class="token function">shallowReactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  count<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>  
+  nested<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'Vue'</span><span class="token punctuation">,</span>  
+    version<span class="token punctuation">:</span> <span class="token number">3</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 改变顶级属性的值  </span>
+state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 改变嵌套对象的属性（这里不会触发视图的更新，因为 nested 不是响应式的）  </span>
+state<span class="token punctuation">.</span>nested<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Vue.js'</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 只有 count 的更改会触发视图的更新</span>
+</code></pre>
+<p>在上面的例子中，<code>state</code> 是一个响应式对象，但只有它的 <code>count</code> 属性是响应式的。<code>nested</code> 对象和其内部的 <code>name</code>、<code>version</code> 属性都不是响应式的。因此，只有对 <code>count</code> 的更改会触发视图的更新。</p>
+<p><strong>何时使用 shallowReactive？</strong></p>
+<p>在某些情况下，你可能不希望 Vue 追踪对象内部的所有嵌套属性变化，因为这可能会带来不必要的性能开销。例如，当你有一个大型对象，并且你只对它的顶层属性感兴趣时，<code>shallowReactive</code> 可能是一个更好的选择。但是，请注意，如果你试图修改嵌套对象的属性并期望视图更新，那么你需要确保这些嵌套对象也是响应式的，或者使用其他方法（如 Vuex）来管理你的状态。</p>
+<h3 id="Vue3中setup语法下怎么设置name属性？"><a href="#Vue3中setup语法下怎么设置name属性？" class="headerlink" title="Vue3中setup语法下怎么设置name属性？"></a>Vue3中setup语法下怎么设置name属性？</h3><p>在 Vue 3 中，由于 <code>setup()</code> 函数是 Composition API 的一部分，并且它不直接绑定到组件实例上，因此你不能直接在 <code>setup()</code> 函数中设置组件的 <code>name</code> 属性，如同你在 Vue 2 的 <code>options</code> API 中所做的那样。</p>
+<p>然而，<code>name</code> 属性主要用于开发工具中的调试和警告，它并不是组件功能所必需的。尽管如此，如果你确实需要在 Vue 3 中为组件设置一个 <code>name</code>，你仍然可以在组件的 <code>options</code> 部分（如果你同时使用 Composition API 和 Options API）或在 Vue 文件的 <code>&lt;script&gt;</code> 标签外（使用单文件组件）进行设置。</p>
+<p><strong>使用 Options API 和 Composition API 混合</strong></p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>  
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ref <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span><span class="token punctuation">;</span>  
+  
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>  
+  name<span class="token punctuation">:</span> <span class="token string">'MyComponentName'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 设置组件名  </span>
+  <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">const</span> count <span class="token operator">=</span> <span class="token function">ref</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">// ... 其他逻辑  </span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>  
+      count  
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// ... 其他选项，如 methods、computed 等  </span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>  
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+</code></pre>
+<p><strong>仅使用 Composition API</strong></p>
+<p>如果你完全使用 Composition API，并且希望保持单文件组件的整洁，你可以在 <code>&lt;script&gt;</code> 标签的外部设置 <code>name</code> 属性：</p>
+<pre class=" language-vue"><code class="language-vue"><template>  
+  <!-- 组件模板 -->  
+</template>  
+  
+<script>  
+import { ref } from 'vue';  
+  
+export default {  
+  setup() {  
+    const count = ref(0);  
+    // ... 其他逻辑  
+    return {  
+      count  
+    };  
+  },  
+  // 注意：这里不设置 name，因为我们在外部设置  
+};  
+</script>  
+  
+<script setup>  
+// 这个 script setup 是 Vue 3 的单文件组件语法糖  
+// 由于它不支持直接设置 name，我们通常在外部设置  
+</script>  
+  
+<style scoped>  
+/* 组件样式 */  
+</style>  
+  
+<!-- 在单文件组件的外部设置 name -->  
+<script>  
+export default {  
+  name: 'MyComponentName'  
+}  
+</script>
+</code></pre>
+<p>但请注意，在 <code>&lt;script setup&gt;</code> 外部再包裹一个 <code>&lt;script&gt;</code> 来设置 <code>name</code> 并不是官方推荐的做法，因为这可能会引入一些混淆。在实际开发中，大多数开发者会选择在 <code>export default</code> 对象中直接设置 <code>name</code>，即使他们主要使用 Composition API。</p>
+<p>如果你只使用 <code>&lt;script setup&gt;</code> 并且确实需要 <code>name</code>（尽管通常不需要），你可能需要依赖于外部工具或配置来设置它，或者接受默认的行为（即不设置 <code>name</code>）。</p>
+<h3 id="Vue3中的自定义指令"><a href="#Vue3中的自定义指令" class="headerlink" title="Vue3中的自定义指令"></a>Vue3中的自定义指令</h3><p>在 Vue 3 中，自定义指令是一种强大而灵活的功能，允许你创建可复用的 DOM 行为。与 Vue 2 类似，Vue 3 提供了自定义指令的 API，但有一些细微的差别。</p>
+<p>在 Vue 3 中，你可以通过 <code>app.directive()</code> 方法在 Vue 应用实例上注册全局自定义指令，或者在组件的 <code>directives</code> 选项上注册局部自定义指令。</p>
+<p>自定义指令接收两个参数：指令名和指令定义对象。指令定义对象可以包含以下几个钩子函数（都是可选的）：</p>
+<blockquote>
+<ul>
+<li><code>bind(el, binding, vnode, prevVnode)</code>: 当被绑定的元素挂载到 DOM 中时……调用。只调用一次。</li>
+<li><code>inserted(el, binding, vnode, prevVnode)</code>: 被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于 document 中）。</li>
+<li><code>update(el, binding, vnode, prevVnode)</code>: 所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新。</li>
+<li><code>componentUpdated(el, binding, vnode, prevVnode)</code>: 指令所在组件的 VNode 及其子 VNode 全部更新后调用。</li>
+<li><code>unmount(el, binding, vnode, prevVnode)</code>: 指令与元素解绑（只调用一次）。</li>
+</ul>
+</blockquote>
+<p>下面是一个全局自定义指令的示例，它用于将元素的颜色设置为指令的值：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> app <span class="token operator">=</span> Vue<span class="token punctuation">.</span><span class="token function">createApp</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>  
+  
+app<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">'my-color'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// 当被绑定的元素挂载到 DOM 中时……  </span>
+  <span class="token function">bind</span><span class="token punctuation">(</span>el<span class="token punctuation">,</span> binding<span class="token punctuation">,</span> vnode<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// el 是指令所绑定的元素  </span>
+    <span class="token comment" spellcheck="true">// binding 是一个对象，包含以下属性：  </span>
+    <span class="token comment" spellcheck="true">//   - name: 指令名，不包括 v- 前缀。  </span>
+    <span class="token comment" spellcheck="true">//   - value: 指令的绑定值，例如：v-my-color="123" 中，绑定值为 123。  </span>
+    <span class="token comment" spellcheck="true">//   - oldValue: 指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。  </span>
+    <span class="token comment" spellcheck="true">//   - expression: 字符串形式的指令表达式。例如 v-my-color="1 + 1" 中，表达式为 "1 + 1"。  </span>
+    <span class="token comment" spellcheck="true">//   - arg: 传给指令的参数，可选。例如 v-my-color:red 中，参数为 "red"。  </span>
+    <span class="token comment" spellcheck="true">//   - modifiers: 一个包含修饰符的对象。例如：v-my-color.foo.bar 中，修饰符对象为 { foo: true, bar: true }。  </span>
+    <span class="token comment" spellcheck="true">// vnode 是 Vue 编译生成的虚拟节点  </span>
+    el<span class="token punctuation">.</span>style<span class="token punctuation">.</span>color <span class="token operator">=</span> binding<span class="token punctuation">.</span>value  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// ... 其他钩子函数  </span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>  
+  
+app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span>
+</code></pre>
+<p>然后你可以在模板中这样使用自定义指令：</p>
+<pre class=" language-html"><code class="language-html">html复制代码
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-my-color</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>red<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Hello World!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>这将会把文本 “Hello World!” 的颜色设置为红色。注意，我们在 <code>v-my-color</code> 中使用了单引号，这是因为我们实际上是在传递一个字符串字面量给指令。如果 <code>binding.value</code> 是一个变量或表达式，你可以直接写 <code>v-my-color=&quot;myColorVariable&quot;</code>。</p>
+<h3 id="pinia：Vue3中的状态管理库"><a href="#pinia：Vue3中的状态管理库" class="headerlink" title="pinia：Vue3中的状态管理库"></a>pinia：Vue3中的状态管理库</h3><p>Pinia是一个专为Vue 3设计的状态管理库，它基于Vue 3的Composition API，并以Vuex的下一代构想为基础，设计了新的Vue存储状态管理库。Pinia的主要特点和优势包括：</p>
+<blockquote>
+<ol>
+<li><strong>简洁和轻量级</strong>：Pinia的设计理念和API都非常直观和简洁，使得开发者可以快速上手。它的大小只有约1KB，是一个轻量级的状态管理工具。</li>
+<li><strong>基于响应式系统</strong>：Pinia的状态管理是基于Vue 3的响应式系统的，这意味着当状态发生改变时，相关的组件会自动更新。</li>
+<li><strong>模块化设计</strong>：Pinia支持多个store，这使得你可以将应用程序的状态按照功能或模块进行划分，提高了代码的可维护性和可读性。</li>
+<li><strong>支持同步和异步操作</strong>：Pinia中的action支持同步和异步操作，这使得你可以更方便地处理异步逻辑，比如从服务器获取数据等。</li>
+<li><strong>支持服务端渲染（SSR）</strong>：Pinia可以很好地与Vue的服务端渲染功能配合使用，使得你可以在服务器端就预先渲染出应用程序的状态。</li>
+<li><strong>支持Vue Devtools</strong>：Pinia与Vue Devtools完美集成，使得你可以更方便地调试和查看应用程序的状态。</li>
+</ol>
+</blockquote>
+<p>在Pinia中，核心概念是Store，它类似于Vuex中的Store，但是更加轻便和灵活。在Store中，你可以使用Vue 3的响应式系统来定义状态，并通过actions来定义修改状态的方法。</p>
+<p>总的来说，Pinia是一个强大而灵活的状态管理库，它可以帮助你更好地管理Vue 3应用程序的状态，提高代码的可维护性和可读性。如果你正在使用Vue 3开发应用程序，那么Pinia是一个值得考虑的状态管理库。</p>
+<h3 id="Vue3中怎么封装自定义插件并使用？"><a href="#Vue3中怎么封装自定义插件并使用？" class="headerlink" title="Vue3中怎么封装自定义插件并使用？"></a>Vue3中怎么封装自定义插件并使用？</h3><p>在Vue 3中，你可以通过创建一个包含<code>install</code>方法的对象来封装自定义插件，并使用<code>app.use()</code>方法来安装和使用这个插件。以下是一个简单的步骤说明和示例：</p>
+<p><strong>步骤</strong></p>
+<ol>
+<li><p>定义插件</p>
+<p>：</p>
+<ul>
+<li>创建一个对象，该对象至少应该有一个<code>install</code>方法。</li>
+<li><code>install</code>方法接收两个参数：<code>app</code>（Vue应用实例）和<code>options</code>（传递给插件的选项）。</li>
+</ul>
+</li>
+<li><p>编写插件功能</p>
+<p>：</p>
+<ul>
+<li>在<code>install</code>方法中，你可以添加全局方法或属性、添加全局资源、添加组件选项等等。</li>
+</ul>
+</li>
+<li><p>使用插件</p>
+<p>：</p>
+<ul>
+<li>在你的Vue应用中，使用<code>app.use(你的插件)</code>来安装插件。</li>
+</ul>
+</li>
+</ol>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>假设我们要创建一个简单的全局提示插件：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// my-plugin.js  </span>
+<span class="token keyword">const</span> MyPlugin <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// install 方法是插件的核心  </span>
+  <span class="token function">install</span><span class="token punctuation">(</span>app<span class="token punctuation">,</span> options<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 确保插件只被安装一次  </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>app<span class="token punctuation">.</span>_installedPlugins<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>MyPlugin<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      <span class="token keyword">return</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+  
+    <span class="token comment" spellcheck="true">// 添加全局方法  </span>
+    app<span class="token punctuation">.</span>config<span class="token punctuation">.</span>globalProperties<span class="token punctuation">.</span>$alert <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>message<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      <span class="token function">alert</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+  
+    <span class="token comment" spellcheck="true">// 添加全局指令（如果需要）  </span>
+    app<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">'my-directive'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>  
+      <span class="token comment" spellcheck="true">// 指令定义  </span>
+      <span class="token function">mounted</span><span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token comment" spellcheck="true">// 指令挂载时的逻辑  </span>
+        el<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">'这是一个自定义指令'</span><span class="token punctuation">;</span>  
+      <span class="token punctuation">}</span>  
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  
+    <span class="token comment" spellcheck="true">// 你可以在这里使用传入的options进行其他操作  </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>options<span class="token punctuation">.</span>someOption<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'使用了某个选项:'</span><span class="token punctuation">,</span> options<span class="token punctuation">.</span>someOption<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+  
+    <span class="token comment" spellcheck="true">// 添加到已安装插件列表  </span>
+    app<span class="token punctuation">.</span>_installedPlugins<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>MyPlugin<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 在你的main.js或main.ts中使用插件  </span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span><span class="token punctuation">;</span>  
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span><span class="token punctuation">;</span>  
+<span class="token keyword">import</span> MyPlugin <span class="token keyword">from</span> <span class="token string">'./my-plugin'</span><span class="token punctuation">;</span>  
+  
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>MyPlugin<span class="token punctuation">,</span> <span class="token punctuation">{</span> someOption<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 传入选项（如果需要）  </span>
+app<span class="token punctuation">.</span><span class="token function">mount</span><span class="token punctuation">(</span><span class="token string">'#app'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在上面的示例中，我们创建了一个名为<code>MyPlugin</code>的插件，它添加了一个全局方法<code>$alert</code>和一个全局指令<code>v-my-directive</code>。然后，在<code>main.js</code>或<code>main.ts</code>中，我们导入了这个插件并使用<code>app.use()</code>方法进行了安装。</p>
+<p>注意：在Vue 3中，Vue实例不再暴露<code>Vue.prototype</code>，因此我们使用<code>app.config.globalProperties</code>来添加全局方法或属性。同时，<code>app._installedPlugins</code>是一个内部属性，用于追踪已安装的插件，以确保插件只被安装一次。虽然这不是必需的，但在某些情况下可能很有用。</p>
+<h3 id="Vue3中createApp-App-创建应用实例过程中都发生了什么？"><a href="#Vue3中createApp-App-创建应用实例过程中都发生了什么？" class="headerlink" title="Vue3中createApp(App)创建应用实例过程中都发生了什么？"></a>Vue3中createApp(App)创建应用实例过程中都发生了什么？</h3><p>在Vue 3中，<code>createApp(App)</code>方法用于创建一个新的Vue应用实例。当你调用这个方法时，Vue内部会执行一系列的操作来设置和初始化这个应用实例。以下是<code>createApp(App)</code>创建应用实例过程中大致发生的一些步骤：</p>
+<blockquote>
+<ol>
+<li><strong>参数处理</strong>：<code>createApp</code>方法接收一个根组件对象（在你的例子中是<code>App</code>）作为参数。这个对象通常是一个Vue组件，包含了模板、数据、方法等。</li>
+<li><strong>创建应用实例</strong>：Vue内部会基于提供的根组件对象创建一个新的应用实例。这个实例包含了Vue应用所需的所有核心功能和状态。</li>
+<li><strong>初始化响应式系统</strong>：Vue的响应式系统是其核心特性之一，允许数据和DOM之间保持同步。在创建应用实例时，Vue会初始化响应式系统，将根组件的数据转换为响应式数据。</li>
+<li><strong>设置渲染上下文</strong>：Vue需要知道如何将组件渲染到DOM中。在创建应用实例时，Vue会设置渲染上下文，包括挂载点（即DOM元素）和渲染器（用于将虚拟DOM转换为真实DOM）。</li>
+<li><strong>注册组件和指令</strong>：如果你在应用实例中注册了全局组件或指令，Vue会在此时将它们添加到全局注册表中。这样，你就可以在应用中的任何地方使用这些组件和指令了。</li>
+<li><strong>启动挂载过程</strong>：最后，当你调用<code>app.mount(&#39;#app&#39;)</code>时（其中<code>#app</code>是挂载点的选择器），Vue会开始挂载过程。这个过程包括创建组件的虚拟DOM树、比较虚拟DOM和真实DOM的差异、以及将差异应用到真实DOM上。</li>
+</ol>
+</blockquote>
+<p>需要注意的是，这个过程是一个简化的概述，Vue内部的实际实现可能会更加复杂和详细。此外，Vue 3还引入了许多新特性和优化，如Composition API、Teleport、Suspense等，这些特性在创建和挂载应用实例时也可能会有所体现。</p>
+<p>如果你对Vue 3的源码感兴趣，可以查阅Vue的官方文档或源码来了解更多关于<code>createApp</code>方法和应用实例创建过程的细节。</p>
+<h3 id="Vue3中有哪些新的组件？"><a href="#Vue3中有哪些新的组件？" class="headerlink" title="Vue3中有哪些新的组件？"></a>Vue3中有哪些新的组件？</h3><p>在Vue 3中，引入了一些新的内置组件，这些组件为开发者提供了更多的灵活性和功能。以下是Vue 3中的一些新组件：</p>
+<ol>
+<li><p>Teleport</p>
+<p>：</p>
+<ul>
+<li>Teleport 是一种能够将组件的 HTML 结构“传送”到 DOM 树中指定位置的技术。这在处理如模态框、弹出窗口等需要脱离正常文档流的组件时非常有用。</li>
+<li>你可以使用 <code>Teleport</code> 组件来指定子组件应该被渲染到哪个 DOM 节点中，而不是在其父组件的模板中。</li>
+</ul>
+</li>
+<li><p>Suspense</p>
+<p>：</p>
+<ul>
+<li>Suspense 组件用于处理异步组件的加载状态。当组件在等待异步组件加载时，你可以指定一个 fallback 组件来显示加载中的状态。</li>
+<li>这对于在加载异步数据或组件时提供用户反馈非常有用，尤其是在需要保持 UI 流畅性的情况下。</li>
+</ul>
+</li>
+<li><p>Fragment</p>
+<p>：</p>
+<ul>
+<li>在 Vue 2 中，组件的根节点只能有一个。但在 Vue 3 中，你可以使用 <code>&lt;Fragment&gt;</code> 或简单地不使用根节点来渲染多个根节点。</li>
+<li>这使得组件的模板更加灵活，特别是在需要将多个元素作为根元素渲染到 DOM 中的情况下。</li>
+</ul>
+</li>
+<li><p>Transition 和 TransitionGroup</p>
+<p>：</p>
+<ul>
+<li>这些组件在 Vue 2 中已经存在，但在 Vue 3 中得到了改进。它们用于在元素或组件进入、离开或列表更新时应用过渡效果。</li>
+<li>通过使用这些组件，你可以更轻松地创建复杂的动画和过渡效果。</li>
+</ul>
+</li>
+</ol>
+<p>需要注意的是，虽然这些组件是 Vue 3 的新特性，但它们并不是必须使用的。你可以根据自己的项目需求来选择是否使用这些组件。同时，Vue 社区也提供了许多第三方组件库和插件，这些库和插件也可以为你的项目提供额外的功能和灵活性。</p>
+<h3 id="Vue3中Composition-API-和-React-Hook的区别"><a href="#Vue3中Composition-API-和-React-Hook的区别" class="headerlink" title="Vue3中Composition API 和 React Hook的区别"></a>Vue3中Composition API 和 React Hook的区别</h3><p>Vue3中的Composition API和React Hook在多个方面存在区别，这些区别主要体现在语法、概念、数据响应性等方面。</p>
+<ol>
+<li>语法和概念：</li>
+</ol>
+<ul>
+<li>Vue 3的Composition API使用函数方式组织逻辑，引入了如<code>ref</code>、<code>reactive</code>、<code>computed</code>等新概念。这些函数和概念允许开发者将逻辑和状态管理逻辑分离，使代码更加清晰和可维护。</li>
+<li>React Hooks则使用函数调用，主要包括<code>useState</code>、<code>useEffect</code>、<code>useContext</code>等。Hooks允许你在不编写class的情况下使用state以及其他的React特性，从而在不改变组件结构的情况下复用状态逻辑。</li>
+</ul>
+<ol>
+<li>数据响应性：</li>
+</ol>
+<ul>
+<li>Vue 3使用了响应性系统来管理数据的变化。通过使用<code>reactive</code>函数，你可以创建响应式对象，其属性会随着对象属性的改变而自动更新。这在状态管理和数据传递上非常有用。</li>
+<li>React则没有内置的响应性系统。在React中，你需要使用<code>useState</code>来管理组件状态，并使用<code>useEffect</code>来处理副作用。然而，这些工具并不提供像Vue那样的自动数据响应性。</li>
+</ul>
+<ol>
+<li>组件逻辑组织：</li>
+</ol>
+<ul>
+<li>使用Composition API，你可以将组件的逻辑按照功能进行组织，而不是按照选项进行组织。这提高了代码的可读性和可维护性。</li>
+<li>在React中，Hooks允许你在函数组件中“钩入”React state及生命周期等特性。这意味着你可以在无需编写class组件的情况下使用React的许多高级功能。</li>
+</ul>
+<p>总的来说，Vue3的Composition API和React Hook都是各自框架中用于提高代码复用性和组织性的重要工具。然而，它们在语法、概念和数据响应性等方面存在差异，这些差异可能会影响开发者在不同框架下的编码习惯和策略。在选择使用哪种技术时，需要根据具体项目的需求和个人偏好来做出决策。</p>
 <h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
 <p>1.工厂模式 - 传入参数即可创建实例</p>
 <p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
