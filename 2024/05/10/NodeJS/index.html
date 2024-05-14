@@ -594,7 +594,7 @@
 <ul>
 <li><code>require</code> 是一个函数调用，用于在运行时动态地加载和解析模块。</li>
 </ul>
-<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+<pre class=" language-javascript"><code class="language-javascript">
 
 <span class="token keyword">const</span> moduleName <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'module-name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
@@ -610,14 +610,14 @@
 <ul>
 <li>CommonJS 模块系统没有内建的默认导出机制，但可以通过将对象或值赋值给 <code>module.exports</code> 来导出。</li>
 </ul>
-<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+<pre class=" language-javascript"><code class="language-javascript">
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> myObject<span class="token punctuation">;</span>
 </code></pre>
 <ul>
 <li>ES6 模块系统支持默认导出，可以使用 <code>export default</code> 语法。</li>
 </ul>
-<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+<pre class=" language-javascript"><code class="language-javascript">
 
 <span class="token keyword">export</span> <span class="token keyword">default</span> myObject<span class="token punctuation">;</span>
 </code></pre>
