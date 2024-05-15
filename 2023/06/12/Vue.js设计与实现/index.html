@@ -492,6 +492,16 @@
 <p><strong>activated</strong> keep-alive 专属，组件被激活时调用</p>
 <p><strong>deactivated</strong> keep-alive 专属，组件被销毁时调用</p>
 </blockquote>
+<h4 id="Vue中的-keep-alive-组件"><a href="#Vue中的-keep-alive-组件" class="headerlink" title="Vue中的 keep-alive 组件"></a>Vue中的 keep-alive 组件</h4><p><strong>Vue中的keep-alive是一个内置组件</strong>，它的主要作用是缓存其他组件的实例，以避免重复渲染和销毁，从而提供性能优化。具体来说，当使用keep-alive包裹动态组件时，它会缓存不活动的组件实例，而不是销毁它们。这样，在组件切换时，这些组件的实例就会被缓存起来，而不是每次都重新创建。</p>
+<p>keep-alive组件可以设置以下props属性：</p>
+<ul>
+<li><code>include</code>：字符串或正则表达式。只有名称匹配的组件会被缓存。</li>
+<li><code>exclude</code>：字符串或正则表达式。任何名称匹配的组件都不会被缓存。</li>
+<li><code>max</code>：数字。最多可以缓存多少组件实例。</li>
+</ul>
+<p>此外，当组件被包含在keep-alive中时，会多出两个生命周期的钩子：<code>activated</code>和<code>deactivated</code>。<code>activated</code>在keep-alive组件激活时调用，而<code>deactivated</code>在keep-alive组件停用时调用。这两个钩子在服务器端渲染期间不被调用。</p>
+<p>使用keep-alive可以将数据保留在内存中，但如果你需要在每次进入页面时获取最新的数据，你需要在<code>activated</code>阶段获取数据，承担原来<code>created</code>钩子函数中获取数据的任务。</p>
+<p>总的来说，keep-alive是一个用于优化Vue应用性能的组件，它可以在组件切换时缓存组件实例，避免重复渲染和销毁。</p>
 <h4 id="keep-alive-中的生命周期有哪些"><a href="#keep-alive-中的生命周期有哪些" class="headerlink" title="keep-alive 中的生命周期有哪些"></a>keep-alive 中的生命周期有哪些</h4><blockquote>
 <p>​    keep-alive 是 Vue 提供的一个内置组件，用来对组件进行缓存，在组件切换过程中将状态保留在内存中，防止重复渲染 DOM。 如果为一个组件包裹了 keep-alive，那么它会多出两个生命周期：deactivated、activated。</p>
 <p>​    同时，beforeDestroy 和 destroyed 就不会再被触发了，因为组件不会被真正销毁。 当组件被换掉时，会被缓存到内存中、触发 deactivated 生命周期； 当组件被切回来时，再去缓存里找这个组件、触发 activated 钩子函数。</p>
@@ -740,6 +750,82 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </ol>
 </blockquote>
 <p>​    总体来说，Vue 3 使用 Proxy 替代了 Vue 2 中的 Object.defineProperty，主要是为了提供更好的性能、更好的扩展性、更好的嵌套对象支持和更好的 TypeScript 支持。这些改进使得 Vue 3 在响应式系统的实现上更加先进和灵活，提供了更好的开发体验和性能优化。</p>
+<h4 id="defineProperty和proxy的区别"><a href="#defineProperty和proxy的区别" class="headerlink" title="defineProperty和proxy的区别"></a>defineProperty和proxy的区别</h4><p><code>Object.defineProperty</code> 和 <code>Proxy</code> 在 JavaScript 中都是用于对对象或属性的操作，但它们在许多方面存在差异。以下是它们之间的主要区别：</p>
+<ol>
+<li>ES 版本<ul>
+<li><code>Object.defineProperty</code> 是 ES5 引入的方法。</li>
+<li><code>Proxy</code> 是 ES6 引入的新特性，提供了更强大的对象操作能力。</li>
+</ul>
+</li>
+<li>操作对象的方式<ul>
+<li><code>Object.defineProperty</code> 用于直接在一个对象上定义新的属性，或者修改一个对象的现有属性，并返回这个对象。它可以用来对单个属性进行控制，如设置属性的可写性、可枚举性、可配置性等。</li>
+<li><code>Proxy</code> 则是一个构造函数，可以创建一个代理对象，对目标对象（target）进行拦截和修改。Proxy 可以对整个对象进行拦截，而不仅仅是单个属性。它允许你拦截诸如读取、赋值、函数调用等多种操作，并提供相应的处理逻辑。</li>
+</ul>
+</li>
+<li>监听能力<ul>
+<li><code>Object.defineProperty</code> 在监听对象属性时，有一定的局限性。例如，它不能监听到数组下标的变化或对象新增的属性。</li>
+<li><code>Proxy</code> 则可以监听到更多类型的操作，包括数组的下标变化、对象新增属性等。</li>
+</ul>
+</li>
+<li>性能与递归<ul>
+<li>由于 <code>Object.defineProperty</code> 需要在开始时对所有属性进行递归监听，因此在处理大型对象时可能会产生较大的性能开销。</li>
+<li><code>Proxy</code> 在这方面更具优势。它的监听是动态的，即只有在真正访问到某个属性时才会触发监听。这使得 <code>Proxy</code> 在处理大型对象时更加高效。</li>
+</ul>
+</li>
+<li>对源对象的影响<ul>
+<li>使用 <code>Object.defineProperty</code> 修改对象时，实际上是直接修改了源对象。这可能会导致源对象被污染。</li>
+<li><code>Proxy</code> 则创建了一个代理对象，对源对象进行代理，所有的修改都是在代理对象上进行的，不会直接修改源对象。</li>
+</ul>
+</li>
+<li>浏览器兼容性<ul>
+<li><code>Object.defineProperty</code> 在大多数现代浏览器中都有良好的支持，但可能不兼容一些较旧的浏览器，如 IE8。</li>
+<li><code>Proxy</code> 的兼容性相对较差，特别是在一些较旧的浏览器中，如 IE11。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，<code>Object.defineProperty</code> 和 <code>Proxy</code> 在功能、性能、监听能力、对源对象的影响以及浏览器兼容性等方面都存在差异。在选择使用哪种方法时，需要根据具体的应用场景和需求进行权衡。</p>
+<h4 id="Vue2通过数组下标更改数组视图为什么不会更新？而Vue3却可以？"><a href="#Vue2通过数组下标更改数组视图为什么不会更新？而Vue3却可以？" class="headerlink" title="Vue2通过数组下标更改数组视图为什么不会更新？而Vue3却可以？"></a>Vue2通过数组下标更改数组视图为什么不会更新？而Vue3却可以？</h4><p>Vue2通过数组下标直接更改数组内容后视图不会更新的原因是Vue2的响应式系统是基于<code>Object.defineProperty</code>实现的。<code>Object.defineProperty</code>只能检测到对象属性的读取和设置，但无法检测到数组索引（即下标）的变化或数组长度的改变。因此，当Vue2通过数组下标直接修改数组内容时，Vue的响应式系统无法捕获到这种变化，从而导致视图不会更新。</p>
+<p>然而，Vue3的响应式系统是基于ES6的<code>Proxy</code>实现的，它能够拦截到对目标对象的任何操作，包括数组索引的变化和数组长度的改变。因此，当Vue3通过数组下标修改数组内容时，<code>Proxy</code>会拦截到这种变化，并通知Vue的响应式系统更新视图。</p>
+<p>另外，Vue2也提供了一些方法（如<code>Vue.set</code>或<code>this.$set</code>）来手动触发视图的更新。这些方法允许你向响应式对象中添加一个属性，并确保这个新属性同样是响应式的，且触发视图更新。但是，在Vue3中，由于<code>Proxy</code>的强大能力，这种手动触发视图更新的需求大大减少。</p>
+<p>总的来说，Vue2和Vue3在响应式系统的实现上存在差异，导致它们在处理数组下标更改时的行为不同。Vue3的<code>Proxy</code>实现使得其能够更准确地捕获到对象的变化，并触发视图的更新。</p>
+<h4 id="Vue2中如何监听-检测-对象或者数组某个属性的变化？"><a href="#Vue2中如何监听-检测-对象或者数组某个属性的变化？" class="headerlink" title="Vue2中如何监听(检测)对象或者数组某个属性的变化？"></a>Vue2中如何监听(检测)对象或者数组某个属性的变化？</h4><p>在Vue 2中，监听对象或数组某个属性的变化通常需要使用Vue的实例方法<code>watch</code>来观察特定的数据变化，或者使用<code>Object.defineProperty</code>（Vue内部已经为你处理了这一点，但如果你需要手动监听，你可以使用它）。不过，由于Vue 2的响应式系统是基于<code>Object.defineProperty</code>的，对于数组，Vue 2只能检测到数组长度的改变或某些特定方法的调用（如<code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>splice</code>, <code>sort</code>, <code>reverse</code>），而不能直接检测到数组索引（即下标）的变化。</p>
+<h3 id="监听对象属性的变化"><a href="#监听对象属性的变化" class="headerlink" title="监听对象属性的变化"></a>监听对象属性的变化</h3><p>你可以使用Vue实例的<code>watch</code>选项或<code>this.$watch</code>方法来监听对象属性的变化。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>  
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    obj<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+      a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>  
+      b<span class="token punctuation">:</span> <span class="token number">2</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  watch<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    <span class="token string">'obj.a'</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>newVal<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'obj.a changed:'</span><span class="token punctuation">,</span> newVal<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 或者在Vue实例创建后使用this.$watch  </span>
+<span class="token comment" spellcheck="true">// this.$watch('obj.a', function (newVal, oldVal) { ... });</span>
+</code></pre>
+<h3 id="监听数组元素的变化"><a href="#监听数组元素的变化" class="headerlink" title="监听数组元素的变化"></a>监听数组元素的变化</h3><p>由于Vue 2不能检测到数组索引的直接变化，所以你不能直接监听一个数组元素的变化。但你可以使用Vue的<code>watch</code>配合计算属性（computed properties）或其他逻辑来间接地实现这一点。</p>
+<p>然而，对于数组本身的变化（如长度变化或特定方法的调用），Vue 2是可以检测到的。如果你需要监听这些变化，你可以在Vue实例中设置一个监听器。</p>
+<h3 id="手动监听对象或数组属性"><a href="#手动监听对象或数组属性" class="headerlink" title="手动监听对象或数组属性"></a>手动监听对象或数组属性</h3><p>如果你需要更细粒度的控制，或者Vue的响应式系统不能满足你的需求，你可以使用<code>Object.defineProperty</code>（对于对象）或手动检测数组的变化（对于数组）。但请注意，这样做可能会与Vue的响应式系统产生冲突或导致不可预测的行为。</p>
+<h3 id="使用Vue-3的Composition-API"><a href="#使用Vue-3的Composition-API" class="headerlink" title="使用Vue 3的Composition API"></a>使用Vue 3的Composition API</h3><p>如果你正在考虑迁移到Vue 3，那么Composition API中的<code>ref</code>和<code>reactive</code>函数以及<code>watch</code>和<code>watchEffect</code>函数提供了更强大和灵活的响应式系统。在Vue 3中，你可以使用<code>reactive</code>来创建一个响应式对象，并使用<code>watch</code>来监听它的任何属性的变化，而不需要担心Vue无法检测到的边缘情况。</p>
+<p>总之，在Vue 2中监听对象或数组属性的变化通常需要使用Vue的<code>watch</code>选项或方法，但请注意Vue 2的响应式系统的限制。如果你需要更复杂的逻辑或更细粒度的控制，你可能需要手动实现或使用其他库来帮助你。</p>
+<h4 id="Vue2中vm-set-的实现原理"><a href="#Vue2中vm-set-的实现原理" class="headerlink" title="Vue2中vm.$set 的实现原理"></a>Vue2中vm.$set 的实现原理</h4><p>在 Vue 2 中，<code>vm.$set</code> 方法用于向响应式对象中添加一个属性，并确保这个新属性同样是响应式的，且触发视图更新。Vue 的响应式系统是基于 <code>Object.defineProperty</code> 实现的，而 <code>Object.defineProperty</code> 无法检测到对象新属性的添加或删除，这是它的一个限制。因此，Vue 提供了 <code>vm.$set</code> 方法来绕过这个限制。</p>
+<p><code>vm.$set</code> 的实现原理大致如下：</p>
+<ol>
+<li><strong>判断目标是否为数组</strong>：如果目标是一个数组，Vue 会尝试使用数组的 <code>splice</code> 方法来确保新添加的元素也是响应式的，并触发视图更新。这是因为 Vue 可以检测到数组 <code>splice</code> 方法的调用，从而触发更新。</li>
+<li><strong>判断目标是否为对象</strong>：如果目标是一个对象，Vue 会使用 <code>Object.defineProperty</code> 来定义新属性。但是，由于 <code>Object.defineProperty</code> 不能检测到新属性的添加，所以 Vue 还需要做一些额外的工作来确保新属性是响应式的。<ul>
+<li>Vue 会在内部维护一个依赖追踪系统，用于跟踪哪些属性被用于渲染。当使用 <code>vm.$set</code> 添加新属性时，Vue 会将这个新属性添加到依赖追踪系统中。</li>
+<li>当组件重新渲染时，Vue 会遍历这个依赖追踪系统，检查哪些属性发生了变化。如果某个属性是新添加的（即之前没有被用于渲染），Vue 就会知道需要触发一次更新。</li>
+</ul>
+</li>
+<li><strong>触发视图更新</strong>：无论是通过数组 <code>splice</code> 方法还是对象属性的添加，一旦 Vue 检测到变化，它就会触发一次组件的重新渲染，从而更新视图。</li>
+</ol>
+<p>需要注意的是，虽然 <code>vm.$set</code> 可以确保新添加的属性是响应式的，但它并不能将已经存在的非响应式属性转换为响应式属性。如果你尝试将一个已经存在的非响应式属性转换为响应式属性，那么 <code>vm.$set</code> 是无效的。此外，如果你直接在对象的原型链上添加属性，那么这些属性也不会是响应式的。</p>
+<p>最后，Vue 3 的响应式系统基于 ES6 的 <code>Proxy</code> 实现，它可以更加直接地检测到对象属性的添加、删除和修改，从而不再需要 <code>vm.$set</code> 这样的方法来实现响应式。</p>
 <h4 id="Vue-中的数据为什么频繁变化时只会更新一次-？"><a href="#Vue-中的数据为什么频繁变化时只会更新一次-？" class="headerlink" title="Vue 中的数据为什么频繁变化时只会更新一次 ？"></a>Vue 中的数据为什么频繁变化时只会更新一次 ？</h4><p>​    在 Vue 中，当数据频繁变化时，Vue 会对数据变化进行优化处理，以减少不必要的更新操作，从而提高性能。    </p>
 <blockquote>
 <p>Vue 使用了异步更新队列的机制，即将数据变化的通知放入队列中，然后在下一个事件循环周期中统一进行更新操作。这样做的好处是，当数据频繁变化时，不会立即触发更新，而是等待下一个事件循环周期进行批量更新，从而避免了频繁的更新操作。</p>
@@ -1044,6 +1130,55 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </ol>
 </blockquote>
 <p>​    需要根据具体的场景和需求选择合适的通信方式。在选择通信方式时，可以考虑组件之间的关系、数据的复杂度以及通信的频率等因素。</p>
+<h4 id="Vue中子组件可以直接改变父组件的数据吗？"><a href="#Vue中子组件可以直接改变父组件的数据吗？" class="headerlink" title="Vue中子组件可以直接改变父组件的数据吗？"></a>Vue中子组件可以直接改变父组件的数据吗？</h4><p>在Vue中，子组件通常不应该直接改变父组件的数据。这是因为Vue遵循单向数据流的原则，即数据从父组件流向子组件，而不是反过来。这种设计有助于保持组件之间的独立性和可维护性。</p>
+<p>然而，在某些情况下，你可能需要在子组件中更新父组件的数据。Vue提供了几种方法来实现这一点：</p>
+<ol>
+<li><strong>使用自定义事件</strong>：子组件可以通过触发一个自定义事件来通知父组件进行更新。父组件可以监听这个事件，并在事件处理函数中更新自己的数据。</li>
+</ol>
+<pre class=" language-vue"><code class="language-vue">// 子组件  
+<template>  
+  <button @click="notifyParent">通知父组件</button>  
+</template>  
+  
+<script>  
+export default {  
+  methods: {  
+    notifyParent() {  
+      this.$emit('update:data', newValue); // 触发自定义事件，并传递新值  
+    }  
+  }  
+}  
+</script>  
+  
+// 父组件  
+<template>  
+  <ChildComponent @update:data="updateData" />  
+</template>  
+  
+<script>  
+import ChildComponent from './ChildComponent.vue';  
+  
+export default {  
+  components: { ChildComponent },  
+  data() {  
+    return {  
+      parentData: ''  
+    };  
+  },  
+  methods: {  
+    updateData(newValue) {  
+      this.parentData = newValue; // 更新父组件的数据  
+    }  
+  }  
+}  
+</script>
+</code></pre>
+<ol>
+<li><strong>使用<code>.sync</code>修饰符</strong>：Vue 2.3.0+ 版本提供了一个<code>.sync</code>修饰符，它允许子组件以一种更简洁的方式触发父组件的更新。然而，请注意，在Vue 3中，<code>.sync</code>修饰符已被移除。</li>
+<li>**使用<code>v-model</code>**：虽然<code>v-model</code>主要用于表单输入元素，但它也可以用于自定义组件，以实现父子组件之间的双向绑定。在自定义组件中，你需要监听一个输入事件（如<code>input</code>），并在事件处理函数中触发一个<code>update:modelValue</code>事件。</li>
+<li><strong>使用Vuex或Pinia等状态管理库</strong>：对于大型应用，你可能需要使用Vuex或Pinia等状态管理库来管理应用的状态。这些库允许你在任何组件中访问和更新全局状态。</li>
+</ol>
+<p>总之，虽然子组件不应该直接改变父组件的数据，但Vue提供了多种方法来实现父子组件之间的数据通信和更新。</p>
 <h3 id="状态管理-Vuex"><a href="#状态管理-Vuex" class="headerlink" title="状态管理 - Vuex"></a>状态管理 - Vuex</h3><p>​    Vuex是Vue.js官方提供的状态管理模式和库。它被设计用于解决Vue应用中的状态管理问题。Vuex基于Flux架构和Redux模式，提供了一种集中管理和共享状态的机制。</p>
 <p>Vuex的核心概念包括：</p>
 <blockquote>
@@ -1171,6 +1306,123 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 </ol>
 </blockquote>
 <p>​    虚拟DOM的解析过程是一个通过创建、更新和渲染虚拟DOM来实现页面更新的过程。它通过比较差异，减少了对真实DOM的频繁操作，提高了性能和用户体验。</p>
+<h4 id="Vue中是如何将模版语法转换为虚拟DOM的？"><a href="#Vue中是如何将模版语法转换为虚拟DOM的？" class="headerlink" title="Vue中是如何将模版语法转换为虚拟DOM的？"></a>Vue中是如何将模版语法转换为虚拟DOM的？</h4><p>在Vue中，模板语法被转换为虚拟DOM（Virtual DOM）的过程涉及多个步骤，这些步骤主要由Vue的编译器和运行时系统完成。以下是一个简化的概述：</p>
+<ol>
+<li><strong>解析模板</strong>：<ul>
+<li>Vue首先使用其内置的HTML解析器将模板字符串解析成一个抽象语法树（AST）。这个AST是一个树形结构，它表示了模板中的HTML元素、属性、文本以及其他Vue特定的指令（如<code>v-if</code>、<code>v-for</code>等）。</li>
+<li>解析过程中，Vue会识别并处理模板中的特殊语法，如插值表达式（<code>&#123;&#123; message &#125;&#125;</code>）和指令（<code>v-bind:class=&quot;active&quot;</code>）。</li>
+</ul>
+</li>
+<li><strong>优化AST</strong>：<ul>
+<li>在生成AST之后，Vue会对其进行一些优化。例如，它会检测并删除静态子树（即那些永远不会改变的元素和属性），以便在后续的渲染过程中跳过它们。</li>
+<li>Vue还会对AST进行其他优化，如常量折叠和表达式简化，以进一步减少运行时的计算量。</li>
+</ul>
+</li>
+<li><strong>生成渲染函数</strong>：<ul>
+<li>基于优化后的AST，Vue会生成一个渲染函数（render function）。这个渲染函数是一个纯JavaScript函数，它接受一个“创建元素”的函数作为参数，并返回一个虚拟节点（VNode）作为结果。</li>
+<li>虚拟节点（VNode）是Vue中的一个核心概念，它是一个轻量级的JavaScript对象，描述了DOM元素的结构和属性。虚拟节点是Vue实现高效DOM更新策略的关键。</li>
+</ul>
+</li>
+<li><strong>创建虚拟DOM</strong>：<ul>
+<li>当渲染函数被调用时，它会返回一个虚拟节点（VNode）。这个虚拟节点描述了整个模板对应的DOM树的结构和属性。</li>
+<li>Vue的运行时系统会维护一个内部的虚拟DOM树，这个树与实际的DOM树保持同步。当数据发生变化时，Vue会重新运行渲染函数来生成一个新的虚拟DOM树，并与旧的虚拟DOM树进行比较。</li>
+</ul>
+</li>
+<li><strong>差异算法</strong>：<ul>
+<li>Vue使用了一个高效的差异算法（称为“patch”算法）来比较新旧两个虚拟DOM树之间的差异。这个算法会找出哪些部分已经改变，哪些部分没有改变，并生成一个描述这些差异的“补丁”（patch）。</li>
+<li>然后，Vue会根据这个补丁来更新实际的DOM树，只修改那些真正需要改变的部分，从而实现高效的DOM更新。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，Vue通过将模板语法转换为虚拟DOM，并利用高效的差异算法来更新DOM，从而实现了快速、高效的视图渲染和更新。</p>
+<h4 id="Vue中虚拟dom变成实际-dom-是怎么发生的？"><a href="#Vue中虚拟dom变成实际-dom-是怎么发生的？" class="headerlink" title="Vue中虚拟dom变成实际 dom 是怎么发生的？"></a>Vue中虚拟dom变成实际 dom 是怎么发生的？</h4><p>在Vue中，虚拟DOM（VNode）转化为实际DOM的过程主要发生在Vue的渲染函数中。这个过程大致可以分为以下几个步骤：</p>
+<ol>
+<li><strong>创建虚拟DOM</strong>：当Vue组件的状态发生变化时，Vue会重新执行渲染函数，生成一个新的虚拟DOM树。这个虚拟DOM树是一个轻量级的JavaScript对象，描述了页面的结构和状态。</li>
+<li><strong>对比新旧虚拟DOM</strong>：Vue会使用diff算法来对比新旧两个虚拟DOM树之间的差异。这个算法会尽可能地复用旧的DOM节点，以减少不必要的DOM操作。具体来说，diff算法会按照以下步骤进行：<ul>
+<li>从新旧VNode的头部和尾部开始比较，寻找可以复用的节点。</li>
+<li>如果找到可以复用的节点，则跳过它们，继续比较下一对节点。</li>
+<li>如果找不到可以复用的节点，则创建一个新的DOM节点。</li>
+<li>递归地遍历每个新旧节点对，执行相同的比较和复用过程。</li>
+</ul>
+</li>
+<li><strong>生成差异补丁</strong>：在对比完新旧虚拟DOM之后，Vue会生成一个描述差异的“补丁”（patch）。这个补丁包含了需要执行的DOM操作，如节点的增删改等。</li>
+<li><strong>应用差异补丁</strong>：最后，Vue会根据生成的差异补丁来更新实际的DOM树。这个过程是通过Vue的patch函数来实现的，它会遍历差异补丁并执行相应的DOM操作。由于Vue在diff过程中已经尽可能地复用了旧的DOM节点，所以这个过程通常是非常高效和快速的。</li>
+</ol>
+<p>总的来说，Vue通过创建虚拟DOM、对比新旧虚拟DOM、生成差异补丁和应用差异补丁等步骤，实现了将虚拟DOM转化为实际DOM的过程。这个过程不仅提高了页面渲染的效率，还减少了不必要的DOM操作，从而提升了页面的性能和用户体验。</p>
+<h4 id="怎么实现虚拟dom-和实际dom-的分离和衔接？"><a href="#怎么实现虚拟dom-和实际dom-的分离和衔接？" class="headerlink" title="怎么实现虚拟dom 和实际dom 的分离和衔接？"></a>怎么实现虚拟dom 和实际dom 的分离和衔接？</h4><p>在Vue中，虚拟DOM（VNode）与实际DOM的分离和衔接是通过Vue的渲染系统来实现的。以下是这个过程的基本步骤：</p>
+<h3 id="虚拟DOM与实际DOM的分离"><a href="#虚拟DOM与实际DOM的分离" class="headerlink" title="虚拟DOM与实际DOM的分离"></a>虚拟DOM与实际DOM的分离</h3><ol>
+<li><strong>模板编译</strong>：首先，Vue会将组件的模板编译成渲染函数。这个渲染函数是一个JavaScript函数，它会返回一个描述页面结构的虚拟DOM（VNode）树。这个VNode树是实际DOM的一个抽象表示，它包含了节点类型、属性、子节点等信息，但不包含实际的DOM对象。</li>
+<li><strong>响应式数据</strong>：Vue使用响应式系统来跟踪组件状态的变化。当组件的响应式数据发生变化时，Vue会重新执行渲染函数，生成一个新的VNode树。</li>
+</ol>
+<h3 id="虚拟DOM与实际DOM的衔接"><a href="#虚拟DOM与实际DOM的衔接" class="headerlink" title="虚拟DOM与实际DOM的衔接"></a>虚拟DOM与实际DOM的衔接</h3><ol>
+<li><strong>新旧VNode对比（Diffing）</strong>：当新的VNode树生成后，Vue会使用一个高效的diff算法来对比新旧两个VNode树。这个算法会找出哪些节点是新增的、哪些节点是修改的、哪些节点是删除的，并生成一个描述这些差异的“补丁”（patch）。</li>
+<li><strong>应用补丁</strong>：然后，Vue会遍历这个补丁，并根据其中的指令来更新实际的DOM树。这个过程是通过Vue的patch函数来实现的。patch函数会遍历补丁中的每个节点，并执行相应的DOM操作（如创建、更新、删除节点等）。</li>
+<li><strong>复用节点</strong>：为了提高性能，Vue会尽可能地复用旧的DOM节点。在diff过程中，Vue会检查新旧VNode的属性和子节点是否相同，如果相同则直接复用旧的DOM节点，而不是重新创建一个新的节点。这样可以减少不必要的DOM操作，提高页面的渲染性能。</li>
+</ol>
+<p><strong>总结</strong></p>
+<p>Vue通过模板编译、响应式数据、新旧VNode对比和应用补丁等步骤，实现了虚拟DOM与实际DOM的分离和衔接。这种分离和衔接的方式不仅提高了页面的渲染性能，还使得开发者可以更加关注业务逻辑和数据状态，而不需要过多地关心DOM操作的细节。</p>
+<h4 id="Virtual-Dom的优势在哪里？"><a href="#Virtual-Dom的优势在哪里？" class="headerlink" title="Virtual Dom的优势在哪里？"></a>Virtual Dom的优势在哪里？</h4><p>Virtual DOM（虚拟DOM）的优势主要体现在以下几个方面：</p>
+<ol>
+<li><p>性能优化</p>
+<p>：</p>
+<ul>
+<li><strong>减少直接DOM操作</strong>：直接操作DOM是昂贵的，因为每次DOM变更都会导致浏览器重新计算布局和重绘。Virtual DOM允许我们先在内存中构建和修改一个轻量级的JavaScript对象树（VNode树），然后再一次性将这个对象树渲染到真实的DOM上。这减少了不必要的DOM操作，提高了性能。</li>
+<li><strong>智能的diff算法</strong>：当数据变更时，Virtual DOM库（如React、Vue等）会使用高效的diff算法来对比新旧VNode树，找出需要变更的部分，并生成一个“补丁”（patch）。然后，这个“补丁”会被应用到真实的DOM上，只更新那些真正需要变更的部分，而不是整个DOM树。</li>
+</ul>
+</li>
+<li><p>跨平台兼容性</p>
+<p>：</p>
+<ul>
+<li>Virtual DOM允许开发者编写一套代码，并在不同的平台（如Web、Native等）上运行。这是因为Virtual DOM库可以针对不同的平台实现不同的渲染器（renderer），将相同的VNode树渲染成不同平台的UI。</li>
+</ul>
+</li>
+<li><p>简化复杂度和开发体验</p>
+<p>：</p>
+<ul>
+<li>开发者可以直接操作JavaScript对象（VNode），而不是直接操作DOM。这使得代码更加直观和易于理解。</li>
+<li>开发者可以使用声明式的方式来描述UI，而不是使用命令式的方式来直接操作DOM。这降低了代码的复杂度和出错的可能性。</li>
+<li>Virtual DOM库通常还提供了丰富的组件生态和工具链，可以进一步提高开发效率和代码质量。</li>
+</ul>
+</li>
+<li><p>更好的可测试性</p>
+<p>：</p>
+<ul>
+<li>由于Virtual DOM是JavaScript对象，所以可以使用JavaScript的测试框架和工具来测试它。这使得UI测试更加容易和可靠。</li>
+</ul>
+</li>
+<li><p>便于实现复杂的UI特性</p>
+<p>：</p>
+<ul>
+<li>Virtual DOM可以方便地实现一些复杂的UI特性，如动画、状态管理、组件化等。这是因为开发者可以在JavaScript层面进行更细粒度的控制和优化。</li>
+</ul>
+</li>
+<li><p>可预测性</p>
+<p>：</p>
+<ul>
+<li>Virtual DOM的渲染过程是可预测的，因为它遵循了先构建VNode树，再diff和patch到真实DOM的流程。这减少了由于直接操作DOM而导致的不确定性和副作用。</li>
+</ul>
+</li>
+</ol>
+<p>需要注意的是，虽然Virtual DOM带来了很多优势，但它并不是所有情况下都是最佳选择。在某些简单的UI场景或性能要求极高的场景中，直接操作DOM可能会更加高效。因此，在选择是否使用Virtual DOM时，需要根据具体的应用场景和需求来权衡利弊。</p>
+<h4 id="虚拟DOM真的比真实DOM性能好吗"><a href="#虚拟DOM真的比真实DOM性能好吗" class="headerlink" title="虚拟DOM真的比真实DOM性能好吗"></a>虚拟DOM真的比真实DOM性能好吗</h4><p>虚拟DOM（Virtual DOM）与真实DOM（Real DOM）的性能比较并非一概而论，因为它们各自有其优势和劣势，具体取决于使用场景和上下文。</p>
+<p>虚拟DOM的优势主要体现在以下几个方面：</p>
+<ol>
+<li><strong>性能优化</strong>：虚拟DOM通过在JavaScript对象上进行计算和比较，减少了对实际DOM的直接操作。当数据发生变化时，它只更新变化的部分，并生成一个描述差异的“补丁”，然后一次性将这个补丁应用到真实DOM上，从而提高了渲染性能。</li>
+<li><strong>跨平台兼容性</strong>：虚拟DOM允许开发者编写一套代码，并在不同的平台（如Web、Native等）上运行。这是因为虚拟DOM库可以针对不同的平台实现不同的渲染器，将相同的VNode树渲染成不同平台的UI。</li>
+<li><strong>简化复杂度和开发体验</strong>：开发者可以直接操作JavaScript对象（VNode），而不是直接操作DOM。这使得代码更加直观和易于理解。同时，开发者可以使用声明式的方式来描述UI，而不是使用命令式的方式来直接操作DOM，这降低了代码的复杂度和出错的可能性。</li>
+</ol>
+<p>然而，虚拟DOM也存在一些劣势：</p>
+<ol>
+<li><strong>额外的内存消耗</strong>：虚拟DOM需要在内存中构建和存储VNode树，这会增加额外的内存消耗。如果页面庞大或复杂，这种内存消耗可能会更加明显。</li>
+<li><strong>初始渲染速度</strong>：在初始渲染时，虚拟DOM需要先构建VNode树，然后再将其渲染到真实DOM上。这个过程可能比直接操作真实DOM要慢一些，尤其是在页面首次加载时。</li>
+<li><strong>diff算法的性能</strong>：虚拟DOM的diff算法虽然高效，但在某些情况下（如大量节点变更、深度嵌套等）可能会产生一定的性能开销。</li>
+</ol>
+<p>相比之下，真实DOM的优势在于：</p>
+<ol>
+<li><strong>直接操作DOM</strong>：真实DOM直接在浏览器中操作实际的DOM元素，确保了可靠的渲染和交互。它提供了各种原生的API和事件处理机制，可以直接操作DOM元素。</li>
+<li><strong>性能较低但直接</strong>：当数据变化较频繁时，真实DOM需要频繁地进行重排、重绘等操作，导致性能下降。然而，在某些情况下（如简单的UI场景或性能要求极高的场景），直接操作DOM可能会更加高效。</li>
+</ol>
+<p>综上所述，虚拟DOM和真实DOM各有其优缺点。在选择使用哪种方式时，需要根据具体的应用场景和需求来权衡利弊。在某些情况下，虚拟DOM可能会提供更好的性能和开发体验；而在其他情况下，真实DOM可能更加适合。</p>
 <h4 id="diff-算法"><a href="#diff-算法" class="headerlink" title="diff 算法"></a>diff 算法</h4><p>​    Diff算法是虚拟DOM更新的核心算法，它用于比较新旧虚拟DOM之间的差异，并根据差异进行最小化的DOM操作，以提高更新效率。</p>
 <p>​    Diff算法的基本原理是通过逐层比较新旧虚拟DOM的节点，找出节点之间的差异，并记录下来。它遵循以下几个基本规则：</p>
 <blockquote>
@@ -1184,6 +1436,178 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <p>​    通过以上规则，Diff算法能够在比较的过程中找出两个虚拟DOM之间的差异，并生成一个差异对象（或称为补丁），记录下需要进行的DOM操作，例如插入、删除、更新等。然后，这个差异对象可以被应用到真实的DOM上，进行最小化的DOM操作，以实现页面的更新。</p>
 <p>​    Diff算法的优点是能够准确地识别差异，并最小化DOM操作，提高页面更新的效率。然而，它也有一些限制和性能方面的考虑，例如当比较的虚拟DOM结构非常复杂时，Diff算法的性能可能会下降，需要合理地设计虚拟DOM结构和优化更新策略来提升性能。</p>
 <p>​    Diff算法是虚拟DOM实现高效更新的核心，它通过比较新旧虚拟DOM之间的差异，实现最小化的DOM操作，从而提高页面更新的效率。</p>
+<h4 id="Vue2中的diff流程"><a href="#Vue2中的diff流程" class="headerlink" title="Vue2中的diff流程"></a>Vue2中的diff流程</h4><p>在Vue2中，diff流程主要指的是当数据发生变化时，Vue如何对比新旧虚拟DOM（VNode）之间的差异，并以最少的DOM操作来更新页面内容。这个流程主要由Vue的diff算法来负责。</p>
+<p>以下是Vue2中diff流程的大致步骤：</p>
+<ol>
+<li>初始化阶段<ul>
+<li>通过Vue实例的构造函数，将data数据转为响应式对象。这包括遍历data的属性，对每个属性使用<code>Object.defineProperty()</code>添加getter和setter方法。</li>
+<li>初始化一个依赖收集器Dep。</li>
+</ul>
+</li>
+<li>模板编译阶段<ul>
+<li>通过解析模板，找到其中绑定的数据，将数据与DOM元素建立关联，并创建对应的Watcher。Watcher作为观察者会在数据变化时触发更新。</li>
+</ul>
+</li>
+<li>依赖收集阶段<ul>
+<li>在Watcher的实例化过程中，会获取模板中绑定的数据，触发数据的getter方法。</li>
+<li>setter方法中会调用依赖收集器Dep的notify方法，通知所有相关的Watcher进行更新操作。</li>
+</ul>
+</li>
+<li>生成新的虚拟DOM<ul>
+<li>当数据发生变化时，相关的Watcher会被触发，重新执行模板编译，生成新的虚拟DOM。</li>
+</ul>
+</li>
+<li>diff算法<ul>
+<li>Vue使用diff算法来对比新旧两个虚拟DOM树之间的差异。这个算法的核心思想是通过同层的树节点进行比较，避免了对树进行逐层搜索遍历。</li>
+<li>Vue首先会比较新旧两个虚拟节点的头部和尾部节点，看是否可以复用。如果可以，则跳过它们，继续比较下一对节点。</li>
+<li>如果头部或尾部的节点不匹配，Vue会尝试以新节点的头部为基准，在旧节点树中查找是否有可以复用的节点。如果有，则复用该节点，并调整真实DOM的位置。</li>
+<li>如果找不到可以复用的节点，Vue会创建新的DOM元素。</li>
+<li>对于每个新旧节点对，Vue都会递归地遍历它们的子节点，进行相同的比较和复用过程。</li>
+</ul>
+</li>
+<li>应用差异<ul>
+<li>根据diff算法的结果，Vue会生成一个描述差异的“补丁”（patch）。</li>
+<li>然后，Vue会根据这个补丁来更新实际的DOM树，只修改那些真正需要改变的部分。</li>
+</ul>
+</li>
+</ol>
+<p>需要注意的是，Vue2中的diff算法在处理列表渲染时，如果列表项没有使用唯一的<code>key</code>属性，可能会导致性能问题。因为Vue会使用一种“就地复用”的策略来复用列表项，这可能会导致一些意外的副作用。因此，在开发过程中，我们应该尽量为列表项提供一个唯一的<code>key</code>属性。</p>
+<h4 id="Vue3中的diff流程"><a href="#Vue3中的diff流程" class="headerlink" title="Vue3中的diff流程"></a>Vue3中的diff流程</h4><p>Vue3中的diff流程相较于Vue2有所改进和优化，特别是在处理组件和列表渲染时。以下是Vue3中diff流程的大致步骤：</p>
+<ol>
+<li>初始化阶段<ul>
+<li>Vue3使用Proxy代替了Vue2中的Object.defineProperty来实现数据的响应式。这使得Vue3在处理数组和对象时更加高效和灵活。</li>
+</ul>
+</li>
+<li>模板编译阶段<ul>
+<li>Vue3的编译器将模板编译为渲染函数，该渲染函数返回描述页面结构的VNode（虚拟节点）树。</li>
+</ul>
+</li>
+<li>diff算法准备阶段<ul>
+<li>在进行diff之前，Vue3会先进行一些准备工作，如标记需要被复用的节点、记录需要移动的节点等。这些准备工作有助于提高diff的效率。</li>
+</ul>
+</li>
+<li>diff算法执行阶段<ul>
+<li>Vue3的diff算法会按照以下步骤执行：<ol>
+<li><strong>比较key</strong>：如果新老VNode的key不同，则认为这两个节点是不同的，直接跳过。</li>
+<li><strong>比较类型</strong>：如果新老VNode的类型不同（例如，一个是元素节点，另一个是组件节点），也认为这两个节点是不同的，直接跳过。</li>
+<li><strong>跳过相同节点</strong>：如果当前新老VNode节点是相同的（基于key和类型判断），则继续递归比较其子节点。</li>
+<li><strong>标记复用节点</strong>：如果找到一个新的VNode节点可以与某个旧的VNode节点复用（例如，节点的key和类型都相同，但内容可能不同），则将该旧节点从节点池中删除并记录复用节点。</li>
+<li><strong>创建新节点</strong>：如果新的VNode节点不能复用任何一个旧的VNode节点，则创建一个新的VNode节点并记录它。</li>
+<li><strong>记录移动节点</strong>：如果新的VNode节点不能复用任何一个旧的VNode节点，并且每个旧节点都不等于新节点，则记录需要移动的节点。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>应用阶段<ul>
+<li>在应用阶段中，Vue3将根据标记阶段中生成的具体操作（如创建、更新、删除节点等）执行patchFn函数，实现对真实DOM的修改和更新。这个过程使用了Vue3的patch函数和相应的优化策略，以最小化DOM操作并提高性能。</li>
+</ul>
+</li>
+</ol>
+<p>需要注意的是，Vue3的diff算法在处理列表渲染时，特别强调了使用唯一的<code>key</code>属性的重要性。使用<code>key</code>可以帮助Vue3更准确地识别哪些节点可以复用，哪些节点需要移动或删除，从而提高列表渲染的性能。</p>
+<h4 id="Vue2与Vue3两者Diff流程的区别"><a href="#Vue2与Vue3两者Diff流程的区别" class="headerlink" title="Vue2与Vue3两者Diff流程的区别"></a>Vue2与Vue3两者Diff流程的区别</h4><p>Vue2与Vue3的Diff流程之间存在一些关键的区别，这些区别主要体现在对节点处理的方式和优化策略上。</p>
+<ol>
+<li><strong>处理剩余节点的方式</strong>：<ul>
+<li>Vue2：在处理完首尾节点后，Vue2会遍历旧节点，将旧节点映射到map里，然后再遍历新节点，看是否有可以复用的节点。如果有，则打上补丁（patch）；如果没有，则执行相应的创建或删除操作。</li>
+<li>Vue3：Vue3在处理完首尾节点后，会建立一个新节点的剩余节点在旧节点中的位置的数组。然后，它通过这个数组找到一个最长递增子序列，这个序列的节点会保持不动。接下来，Vue3会移动剩下的节点，以最小化DOM操作。</li>
+</ul>
+</li>
+<li><strong>对key的处理</strong>：<ul>
+<li>在Vue2中，虽然也推荐使用key来标识列表中的每个节点，但如果不使用key，Vue2会使用一种“就地复用”的策略来复用列表项，这可能会导致一些意外的副作用。</li>
+<li>Vue3更加强调了key的重要性。在Vue3中，如果新老VNode的key不同，则认为这两个节点是不同的，直接跳过比较。这种策略有助于Vue3更准确地识别哪些节点可以复用，哪些节点需要移动或删除。</li>
+</ul>
+</li>
+<li><strong>优化策略</strong>：<ul>
+<li>Vue3在Diff流程中引入了一些新的优化策略，如静态节点提升、静态子树提升和事件监听器的优化等。这些优化策略旨在进一步提高Vue的性能和响应速度。</li>
+<li>Vue2虽然也进行了一些优化，但Vue3的优化更加深入和全面。</li>
+</ul>
+</li>
+<li><strong>比较策略</strong>：<ul>
+<li>Vue2的Diff算法主要使用首尾比较法（头-头、头-尾、尾-头、尾-尾），然后根据比较结果执行相应的创建、更新或删除操作。</li>
+<li>Vue3的Diff算法在比较策略上更加灵活和高效。它通过建立节点位置数组和寻找最长递增子序列来最小化DOM操作，从而提高了性能。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，Vue3的Diff流程相较于Vue2更加高效和优化，特别是在处理复杂列表和组件时。这些改进使得Vue3在性能和响应速度方面都有了显著的提升。</p>
+<h4 id="Vue的diff算法和React的diff算法的异同"><a href="#Vue的diff算法和React的diff算法的异同" class="headerlink" title="Vue的diff算法和React的diff算法的异同"></a>Vue的diff算法和React的diff算法的异同</h4><p>Vue和React都使用了diff算法来优化DOM的更新过程，但它们在实现方式和优化策略上存在一些异同。</p>
+<p>相同点：</p>
+<ol>
+<li><strong>目标</strong>：两者都是为了减少不必要的DOM操作，提高性能。它们都通过比较新旧虚拟DOM（VNode或ReactElement）的差异，然后只更新真正需要改变的部分。</li>
+<li><strong>虚拟DOM</strong>：Vue和React都使用了虚拟DOM（VNode或ReactElement）作为真实DOM的抽象表示。这使得它们可以在不直接操作真实DOM的情况下进行高效的DOM操作模拟。</li>
+<li><strong>同级比较</strong>：两者的diff算法都只会在同层级进行比较，不会跨层级比较。这是因为跨层级比较不仅复杂度高，而且在实际应用中很少发生。</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li><strong>比较策略</strong>：<ul>
+<li>Vue：Vue的diff算法主要使用了双端比较的策略。它会从新旧VNode的头部和尾部开始比较，然后逐渐向中间靠拢。同时，Vue也会使用一些优化策略，如静态节点提升和事件监听器的优化。</li>
+<li>React：React的diff算法则主要使用了深度优先遍历的策略。它会逐层比较新旧ReactElement的子节点，直到找到需要更新的部分。React还使用了独特的key属性来标识列表中的每个子节点，以便更准确地识别哪些节点可以复用。</li>
+</ul>
+</li>
+<li><strong>优化策略</strong>：<ul>
+<li>Vue：Vue在diff过程中使用了许多优化策略，如静态节点提升、静态子树提升和事件监听器的优化。这些策略使得Vue在处理复杂组件和列表时更加高效。</li>
+<li>React：React的diff算法主要使用了ReactElement的type和key属性来进行优化。当ReactElement的type和key都相同时，React会尽可能地复用已有的DOM节点。此外，React还使用了shouldComponentUpdate生命周期方法和React.memo高阶组件来进一步减少不必要的渲染。</li>
+</ul>
+</li>
+<li><strong>列表处理</strong>：<ul>
+<li>Vue：Vue在处理列表时，如果列表项没有使用唯一的key属性，可能会导致性能问题。因为Vue会使用一种“就地复用”的策略来复用列表项，这可能会导致一些意外的副作用。</li>
+<li>React：React在处理列表时，强烈推荐使用唯一的key属性来标识每个列表项。这使得React能够更准确地识别哪些节点可以复用，哪些节点需要移动或删除。因此，React的列表渲染性能通常优于Vue。</li>
+</ul>
+</li>
+<li><strong>补丁过程</strong>：<ul>
+<li>Vue：Vue在diff过程中会生成一个描述差异的“补丁”（patch）。然后，Vue会根据这个补丁来更新真实的DOM树。Vue的补丁过程相对简单直接，主要涉及到节点的增删改操作。</li>
+<li>React：React的diff算法在找到需要更新的部分后，会直接调用React的Reconciliation（协调）算法来更新真实的DOM树。这个过程相对复杂一些，因为它需要处理更多的边界情况和优化策略。但是，React的Reconciliation算法也非常高效和可靠，能够确保DOM更新的正确性和性能。</li>
+</ul>
+</li>
+</ol>
+<h4 id="举例介绍一下双端比较算法"><a href="#举例介绍一下双端比较算法" class="headerlink" title="举例介绍一下双端比较算法"></a>举例介绍一下双端比较算法</h4><p>双端比较算法（也称为双端Diff算法）是一种在数据结构中用于比较两个序列并找出它们之间差异的算法。在Vue等前端框架中，双端比较算法被用于虚拟DOM和实际DOM之间的比较和更新。</p>
+<p>双端比较算法的工作原理是同时从两个序列的起始位置和结束位置开始比较，向中间移动，逐个比较元素，找出不同之处。这种算法相较于单向比较（即只从起始位置开始逐个比较元素）的优势在于，它可以更全面地考虑匹配情况，通过跳过相同的前缀和后缀部分，减少比较的次数，提高算法的效率。</p>
+<p>以下是一个简单的双端比较算法的示例：</p>
+<p>假设我们有两个列表，旧列表（oldList）和新列表（newList）。我们想要找出这两个列表之间的差异，并尽可能复用相同的元素。</p>
+<ol>
+<li><strong>初始化指针</strong>：我们初始化四个指针，分别指向旧列表和新列表的起始位置和结束位置。<ul>
+<li>oldStart：指向旧列表的起始位置。</li>
+<li>oldEnd：指向旧列表的结束位置。</li>
+<li>newStart：指向新列表的起始位置。</li>
+<li>newEnd：指向新列表的结束位置。</li>
+</ul>
+</li>
+<li><strong>从两端开始比较</strong>：<ul>
+<li>首先，我们比较oldStart和newStart指向的元素，看它们是否相同。如果相同，我们可以认为这两个元素没有变化，不需要进行任何操作，然后将oldStart和newStart都向内移动一位。</li>
+<li>接着，我们比较oldEnd和newEnd指向的元素，同样看它们是否相同。如果相同，我们同样不需要进行任何操作，将oldEnd和newEnd都向内移动一位。</li>
+<li>如果oldStart和newStart指向的元素不相同，但oldEnd和newEnd指向的元素相同，那么我们可以考虑将oldEnd指向的元素移动到oldStart的位置（如果可能的话），然后更新相应的引用和索引。</li>
+<li>如果上述比较都没有找到相同的元素，我们可以继续向中间移动指针，并逐个比较元素。</li>
+</ul>
+</li>
+<li><strong>递归或迭代处理</strong>：在比较过程中，如果发现某个子列表发生了变化（即新增、删除或修改了元素），我们可以递归或迭代地对该子列表应用双端比较算法，以找出更详细的差异。</li>
+<li><strong>生成差异补丁</strong>：最后，根据比较结果生成一个描述差异的“补丁”（patch）。这个补丁包含了需要执行的DOM操作，如节点的增删改等。然后，我们可以根据这个补丁来更新实际的DOM树。</li>
+</ol>
+<p>通过双端比较算法，我们可以更高效地找出两个列表之间的差异，并尽可能复用相同的元素，从而提高页面的渲染性能和用户体验。</p>
+<h4 id="举例介绍一下最长递增子序列算法"><a href="#举例介绍一下最长递增子序列算法" class="headerlink" title="举例介绍一下最长递增子序列算法"></a>举例介绍一下最长递增子序列算法</h4><p>最长递增子序列（Longest Increasing Subsequence，简称LIS）算法是计算机科学中的一个经典算法，用于在一个给定的序列中找出最长递增子序列的长度。下面我将通过一个具体的例子来介绍这个算法。</p>
+<p>假设我们有一个序列 <code>&#123; 3, 5, 7, 1, 2, 8 &#125;</code>，我们需要找出这个序列的最长递增子序列。</p>
+<ol>
+<li><strong>初始化</strong>：<ul>
+<li>创建一个与原始序列相同长度的数组 <code>dp</code>，其中 <code>dp[i]</code> 表示以原始序列中第 <code>i</code> 个元素结尾的最长递增子序列的长度。</li>
+<li>初始化 <code>dp</code> 数组的所有元素为 1，因为每个元素本身都可以作为一个长度为 1 的递增子序列。</li>
+</ul>
+</li>
+<li><strong>动态规划</strong>：<ul>
+<li>从左到右遍历原始序列。对于每个元素 <code>nums[i]</code>，再遍历它之前的所有元素 <code>nums[j]</code>（其中 <code>j &lt; i</code>）。</li>
+<li>如果 <code>nums[i]</code> 大于 <code>nums[j]</code>，那么说明我们可以将 <code>nums[i]</code> 添加到以 <code>nums[j]</code> 结尾的递增子序列的末尾，从而得到一个更长的递增子序列。</li>
+<li>更新 <code>dp[i]</code> 为 <code>dp[j] + 1</code> 和之前 <code>dp[i]</code> 的值中的较大者，以确保 <code>dp[i]</code> 总是表示以 <code>nums[i]</code> 结尾的最长递增子序列的长度。</li>
+</ul>
+</li>
+<li><strong>找出最长递增子序列的长度</strong>：<ul>
+<li>在遍历完整个序列后，<code>dp</code> 数组中的最大值就是最长递增子序列的长度。</li>
+<li>在这个例子中，<code>dp</code> 数组的值将会是 <code>&#123;1, 2, 3, 1, 2, 4&#125;</code>，所以最长递增子序列的长度是 4。</li>
+</ul>
+</li>
+<li><strong>构造最长递增子序列</strong>（可选）：<ul>
+<li>如果需要找出具体的最长递增子序列，可以在动态规划的过程中记录每个位置的最长递增子序列的前一个元素的位置。</li>
+<li>从最长递增子序列的最后一个元素开始，根据记录的位置信息向前追溯，直到追溯到第一个元素，从而构造出整个最长递增子序列。</li>
+<li>在这个例子中，最长递增子序列是 <code>&#123;3, 5, 7, 8&#125;</code>。</li>
+</ul>
+</li>
+</ol>
+<p>这就是最长递增子序列算法的基本思想和实现过程。通过动态规划的思想，我们可以在时间复杂度为 O(n^2) 的情况下解决这个问题。</p>
 <h4 id="Vue-中-key-的作用"><a href="#Vue-中-key-的作用" class="headerlink" title="Vue 中 key 的作用"></a>Vue 中 key 的作用</h4><p>在Vue中，key是用于识别VNode（虚拟DOM节点）的特殊属性。它的作用主要有以下几个方面：</p>
 <blockquote>
 <ol>
@@ -1306,8 +1730,494 @@ proxy<span class="token punctuation">.</span>c <span class="token operator">=</s
 <li>调用 <code>next(false)</code> 中止当前导航</li>
 <li>调用 <code>next(&#39;/path&#39;)</code> 或 <code>next(&#123; path: &#39;/path&#39; &#125;)</code> 进行重定向导航</li>
 </ul>
-<p>使用路由守卫可以实现诸如登录验证、权限控制、页面访问限制等功能，提供了灵活且强大的路由导航控制机制。 <a target="_blank" rel="noopener" href="https://router.vuejs.org/guide/advanced/navigation-guards.html">Vue Router 的官方文档</a></p>
-<h3 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h3><h4 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h4><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
+<p>使用路由守卫可以实现诸如登录验证、权限控制、页面访问限制等功能，提供了灵活且强大的路由导航控制机制。</p>
+<p> <a target="_blank" rel="noopener" href="https://router.vuejs.org/guide/advanced/navigation-guards.html">Vue Router 的官方文档</a></p>
+<h4 id="Vue-router中如何实现懒加载？"><a href="#Vue-router中如何实现懒加载？" class="headerlink" title="Vue-router中如何实现懒加载？"></a>Vue-router中如何实现懒加载？</h4><p>在 Vue-router 中实现懒加载（也称为代码分割或异步组件）主要通过动态 <code>import()</code> 语法来完成。这种语法允许你只在需要时才加载和执行 JavaScript 模块。当使用 Vue-router 配置路由时，你可以将组件定义为一个返回 Promise 的函数，该函数内部使用 <code>import()</code> 来异步加载组件。</p>
+<p>下面是一个 Vue-router 中实现懒加载的示例：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>  
+<span class="token keyword">import</span> VueRouter <span class="token keyword">from</span> <span class="token string">'vue-router'</span>  
+  
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>VueRouter<span class="token punctuation">)</span>  
+  
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/home'</span><span class="token punctuation">,</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'Home'</span><span class="token punctuation">,</span>  
+    <span class="token comment" spellcheck="true">// 使用动态 import 语法来懒加载 Home 组件  </span>
+    component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/Home.vue'</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/about'</span><span class="token punctuation">,</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'About'</span><span class="token punctuation">,</span>  
+    <span class="token comment" spellcheck="true">// 使用动态 import 语法来懒加载 About 组件  </span>
+    component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/About.vue'</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// ... 其他路由  </span>
+<span class="token punctuation">]</span>  
+  
+<span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  routes <span class="token comment" spellcheck="true">// （缩写）相当于 routes: routes  </span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>  
+  
+<span class="token keyword">export</span> <span class="token keyword">default</span> router
+</code></pre>
+<p>在这个例子中，<code>import(&#39;./views/Home.vue&#39;)</code> 和 <code>import(&#39;./views/About.vue&#39;)</code> 会被 Webpack（或其他模块打包器）解析，并生成单独的代码块。这些代码块只有在它们对应的路由被访问时才会被加载和执行。</p>
+<p>此外，对于嵌套路由（子路由），你也可以在父路由组件中懒加载子路由的组件：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/parent'</span><span class="token punctuation">,</span>  
+    component<span class="token punctuation">:</span> ParentComponent<span class="token punctuation">,</span>  
+    children<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+      <span class="token punctuation">{</span>  
+        path<span class="token punctuation">:</span> <span class="token string">'child'</span><span class="token punctuation">,</span>  
+        component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/ChildComponent.vue'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 懒加载子组件  </span>
+      <span class="token punctuation">}</span>  
+    <span class="token punctuation">]</span>  
+  <span class="token punctuation">}</span>  
+  <span class="token comment" spellcheck="true">// ... 其他路由  </span>
+<span class="token punctuation">]</span>
+</code></pre>
+<p>通过这种方式，你可以将 Vue 应用程序拆分成多个更小的代码块，从而实现按需加载和更好的首屏加载性能。这对于大型单页面应用程序尤其有用，因为它们可能会包含很多不同的页面和组件。</p>
+<h4 id="Vue-router中如何实现把组件按组分块？"><a href="#Vue-router中如何实现把组件按组分块？" class="headerlink" title="Vue-router中如何实现把组件按组分块？"></a>Vue-router中如何实现把组件按组分块？</h4><p>在 Vue.js 中，Vue Router 主要用于构建单页面应用程序 (SPA) 的路由系统。然而，将组件按组分块（通常指的是代码分割或懒加载）并不是 Vue Router 的直接功能，而是 Webpack、Rollup 或其他模块打包工具的功能。</p>
+<p>不过，Vue Router 和 Webpack（或其他打包工具）可以很好地配合，以实现组件的懒加载或代码分割。</p>
+<p>下面是一个使用 Webpack 和 Vue Router 实现组件懒加载的例子：</p>
+<p>首先，确保你已经安装了 Vue Router 和 Vue。</p>
+<p>然后，在你的 Vue Router 配置中，你可以使用动态导入（<code>import()</code>）语法来按需加载组件。例如：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>  
+<span class="token keyword">import</span> VueRouter <span class="token keyword">from</span> <span class="token string">'vue-router'</span>  
+  
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>VueRouter<span class="token punctuation">)</span>  
+  
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/home'</span><span class="token punctuation">,</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'Home'</span><span class="token punctuation">,</span>  
+    component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/Home.vue'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 懒加载 Home 组件  </span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/about'</span><span class="token punctuation">,</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'About'</span><span class="token punctuation">,</span>  
+    component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/About.vue'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 懒加载 About 组件  </span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// 其他路由...  </span>
+<span class="token punctuation">]</span>  
+  
+<span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  mode<span class="token punctuation">:</span> <span class="token string">'history'</span><span class="token punctuation">,</span>  
+  base<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>BASE_URL<span class="token punctuation">,</span>  
+  routes  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>  
+  
+<span class="token keyword">export</span> <span class="token keyword">default</span> router
+</code></pre>
+<p>在上述示例中，<code>component</code> 选项不再是一个直接的组件对象，而是一个返回 Promise 的函数。当路由被访问时，Webpack 会自动将相应的组件代码分割到一个新的 bundle 中，并仅在需要时加载它。</p>
+<p>此外，如果你希望将多个组件或路由组合到一个“组”中，并一起进行懒加载，你可能需要创建一个更高层次的组件或布局，然后在该组件或布局中动态导入所需的子组件。例如：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// 创建一个高层次的布局组件  </span>
+<span class="token keyword">const</span> DashboardLayout <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./layouts/DashboardLayout.vue'</span><span class="token punctuation">)</span>  
+  
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/dashboard'</span><span class="token punctuation">,</span>  
+    name<span class="token punctuation">:</span> <span class="token string">'Dashboard'</span><span class="token punctuation">,</span>  
+    component<span class="token punctuation">:</span> DashboardLayout<span class="token punctuation">,</span>  
+    children<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+      <span class="token punctuation">{</span>  
+        path<span class="token punctuation">:</span> <span class="token string">'reports'</span><span class="token punctuation">,</span>  
+        name<span class="token punctuation">:</span> <span class="token string">'Reports'</span><span class="token punctuation">,</span>  
+        component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/Dashboard/Reports.vue'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 懒加载 Reports 组件  </span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+      <span class="token punctuation">{</span>  
+        path<span class="token punctuation">:</span> <span class="token string">'settings'</span><span class="token punctuation">,</span>  
+        name<span class="token punctuation">:</span> <span class="token string">'Settings'</span><span class="token punctuation">,</span>  
+        component<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./views/Dashboard/Settings.vue'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 懒加载 Settings 组件  </span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+      <span class="token comment" spellcheck="true">// 其他子路由...  </span>
+    <span class="token punctuation">]</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// 其他路由...  </span>
+<span class="token punctuation">]</span>
+</code></pre>
+<p>在这个例子中，<code>DashboardLayout</code> 是一个更高层次的布局组件，它包含了一些子路由（如 ‘Reports’ 和 ‘Settings’）。这些子路由的组件都是按需加载的。</p>
+<h4 id="SPA与前端路由的关系"><a href="#SPA与前端路由的关系" class="headerlink" title="SPA与前端路由的关系"></a>SPA与前端路由的关系</h4><p>SPA（Single Page Application，单页面应用）与前端路由之间有着密切的关系。</p>
+<p>SPA指的是一个web网站只有唯一的一个HTML页面，所有的组件和功能的展示与切换都在这唯一的一个页面内完成。由于整个应用只有一个页面，所以用户在使用SPA时，页面的整体框架不会发生变化，只是页面的局部内容会进行更新。</p>
+<p>为了实现SPA中不同组件或功能之间的切换，就需要使用前端路由。前端路由主要负责监听URL地址栏中的变化，然后根据这些变化来渲染不同的组件或页面内容。在SPA中，当用户点击一个链接或触发某个事件时，前端路由会捕获到这个变化，然后根据路由配置找到对应的组件，并将其渲染到页面上，从而实现页面的局部更新。</p>
+<p>因此，可以说SPA是前端路由的应用场景之一，而前端路由则是SPA实现不同功能之间切换的关键技术。通过使用前端路由，SPA可以在不刷新页面的情况下实现页面的局部更新和组件的切换，从而提供更好的用户体验和更快的页面加载速度。</p>
+<h4 id="Vue-router中-route-和-router-的区别"><a href="#Vue-router中-route-和-router-的区别" class="headerlink" title="Vue-router中$route 和$router 的区别"></a>Vue-router中$route 和$router 的区别</h4><p>在 Vue.js 的 Vue-router 中，<code>$route</code> 和 <code>$router</code> 是两个常用的对象，它们各自扮演着不同的角色。</p>
+<ol>
+<li><p><strong>$route</strong>：</p>
+<ul>
+<li><p><code>$route</code> 是一个只读的路由信息对象，它包含了当前 URL 解析得到的信息，以及 URL 匹配到的路由记录（route records）。</p>
+</li>
+<li><p>它是一个局部的对象，每个路由都会有一个 <code>$route</code> 对象。</p>
+</li>
+<li><p>你可以通过</p>
+<pre><code>$route
+</code></pre>
+<p>访问到当前路由的许多属性，如：</p>
+<ul>
+<li><code>$route.path</code>：字符串，对应当前路由的路径，总是解析为绝对路径，如 “/foo/bar”。</li>
+<li><code>$route.params</code>：一个 key/value 对象，包含了动态片段和全匹配片段的键值对。</li>
+<li><code>$route.query</code>：一个 key/value 对象，表示 URL 查询参数。例如，对于路径 “/foo?user=1”，则有 <code>$route.query.user == 1</code>。</li>
+<li><code>$route.name</code>：(当前路由的名字，如果有的话)</li>
+<li><code>$route.hash</code>：(当前路由的 hash 值 (带 #) ，如果没有 hash 值，则为空字符串)</li>
+<li><code>$route.fullPath</code>：(完成解析后的 URL，包含查询参数和 hash 的完整路径)</li>
+<li>等等。</li>
+</ul>
+</li>
+<li><p><code>$route</code> 主要用于获取当前路由的信息，但它是只读的，你不能直接修改它。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>$router</strong>：</p>
+<ul>
+<li><p><code>$router</code> 是 Vue-router 的实例对象，它包含了所有的路由配置和路由导航的方法。</p>
+</li>
+<li><p>它是一个全局的路由实例，任何页面都可以调用其方法。</p>
+</li>
+<li><pre><code>$router
+</code></pre>
+<p>提供了许多 API 来控制路由的跳转和导航，如：</p>
+<ul>
+<li><code>push(location, onComplete?, onAbort?)</code>：导航到不同的 URL。 这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。</li>
+<li><code>replace(location, onComplete?, onAbort?)</code>：跟 <code>push</code> 很像，唯一的不同就是，它不会向 history 添加新记录，而是替换掉当前的 history 记录。</li>
+<li><code>go(n)</code>：在 history 记录中向前或者后退多少步，类似 <code>window.history.go(n)</code>。</li>
+<li>等等。</li>
+</ul>
+</li>
+<li><p><code>$router</code> 主要用于进行路由操作，如跳转到指定的路由、前进、后退等。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，<code>$route</code> 和 <code>$router</code> 在 Vue-router 中各有其用，<code>$route</code> 用于获取当前路由的信息，而 <code>$router</code> 用于进行路由的操作和导航。</p>
+<h4 id="Vue-router中路由传递参数以及跳转的方法有哪些"><a href="#Vue-router中路由传递参数以及跳转的方法有哪些" class="headerlink" title="Vue-router中路由传递参数以及跳转的方法有哪些"></a>Vue-router中路由传递参数以及跳转的方法有哪些</h4><p>在Vue-router中，路由传递参数以及跳转的方法有多种。以下是一些主要的方法：</p>
+<p><strong>1. 通过 <code>&lt;router-link&gt;</code> 传递参数</strong></p>
+<p>你可以直接在 <code>&lt;router-link&gt;</code> 组件的 <code>to</code> 属性中传递参数。这有两种方式：</p>
+<ul>
+<li>使用 <code>params</code> 传递参数：</li>
+</ul>
+<pre class=" language-html"><code class="language-html">html复制代码
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">:to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ name: <span class="token punctuation">'</span>user<span class="token punctuation">'</span>, params: { userId: 123 }}<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>User<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>注意，这种方式需要在路由配置中声明对应的参数：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>  
+  path<span class="token punctuation">:</span> <span class="token string">'/user/:userId'</span><span class="token punctuation">,</span>  
+  name<span class="token punctuation">:</span> <span class="token string">'user'</span><span class="token punctuation">,</span>  
+  component<span class="token punctuation">:</span> User  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在目标组件中，你可以通过 <code>this.$route.params.userId</code> 来获取传递的参数。</p>
+<ul>
+<li>使用 <code>query</code> 传递参数：</li>
+</ul>
+<pre class=" language-html"><code class="language-html">html复制代码
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">:to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ path: <span class="token punctuation">'</span>user<span class="token punctuation">'</span>, query: { userId: 123 }}<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>User<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>或者</p>
+<pre class=" language-html"><code class="language-html">html复制代码
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-link</span> <span class="token attr-name">:to</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ name: <span class="token punctuation">'</span>user<span class="token punctuation">'</span>, query: { userId: 123 }}<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>User<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-link</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>在目标组件中，你可以通过 <code>this.$route.query.userId</code> 来获取传递的参数。这种方式的参数会显示在URL中，形如 <code>/user?userId=123</code>。</p>
+<p><strong>2. 通过编程式导航（<code>this.$router.push</code>）传递参数</strong></p>
+<p>与 <code>&lt;router-link&gt;</code> 类似，你也可以在 <code>this.$router.push</code> 方法中传递参数：</p>
+<ul>
+<li>使用 <code>params</code> 传递参数：</li>
+</ul>
+<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+
+<span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'user'</span><span class="token punctuation">,</span> params<span class="token punctuation">:</span> <span class="token punctuation">{</span> userId<span class="token punctuation">:</span> <span class="token number">123</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>注意，这种方式也需要在路由配置中声明对应的参数。</p>
+<ul>
+<li>使用 <code>query</code> 传递参数：</li>
+</ul>
+<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+
+<span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'user'</span><span class="token punctuation">,</span> query<span class="token punctuation">:</span> <span class="token punctuation">{</span> userId<span class="token punctuation">:</span> <span class="token number">123</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>或者</p>
+<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+
+<span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'user'</span><span class="token punctuation">,</span> query<span class="token punctuation">:</span> <span class="token punctuation">{</span> userId<span class="token punctuation">:</span> <span class="token number">123</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>在目标组件中，获取参数的方式与 <code>&lt;router-link&gt;</code> 相同。</p>
+<p><strong>3. 使用 <code>this.$router.replace</code> 替换当前路由</strong></p>
+<p><code>this.$router.replace</code> 的用法与 <code>this.$router.push</code> 基本相同，唯一的区别是 <code>replace</code> 不会向历史记录中添加新条目，而是替换掉当前的条目。</p>
+<p><strong>4. 使用 <code>this.$router.go(n)</code> 进行导航</strong></p>
+<p><code>this.$router.go(n)</code> 方法会根据传入的整数 <code>n</code> 在历史记录中向前或向后跳转。例如，<code>this.$router.go(1)</code> 会向前跳转一个条目，而 <code>this.$router.go(-1)</code> 会向后跳转一个条目。</p>
+<p>以上就是Vue-router中路由传递参数以及跳转的主要方法。</p>
+<h4 id="Vue-router中的命名视图"><a href="#Vue-router中的命名视图" class="headerlink" title="Vue-router中的命名视图"></a>Vue-router中的命名视图</h4><p>Vue-router 中的命名视图（Named Views）允许你在同一个路由的渲染过程中使用多个组件。在常规的路由配置中，一个路由通常映射到一个组件，但是命名视图允许你定义一个路由对应多个组件，并在 <code>&lt;router-view&gt;</code> 中使用 <code>name</code> 属性来指定要渲染哪个组件。</p>
+<p><strong>使用命名视图</strong></p>
+<ol>
+<li><p><strong>在路由配置中定义多个组件</strong>：<br>在路由配置中，你可以使用 <code>components</code>（注意是复数形式）而不是 <code>component</code>，并指定一个带有组件名称的对象。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  routes<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+    <span class="token punctuation">{</span>  
+      path<span class="token punctuation">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span>  
+      components<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">default</span><span class="token punctuation">:</span> Header<span class="token punctuation">,</span>  
+        leftMenu<span class="token punctuation">:</span> Menu<span class="token punctuation">,</span>  
+        rightContent<span class="token punctuation">:</span> Content  
+      <span class="token punctuation">}</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">]</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</li>
+<li><p>**在模板中使用 <code>&lt;router-view&gt;</code>**：<br>在模板中，你可以使用多个 <code>&lt;router-view&gt;</code> 标签，并使用 <code>name</code> 属性来指定要渲染哪个组件。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>  
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- 渲染 default 组件 --></span>  
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>leftMenu<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- 渲染 leftMenu 组件 --></span>  
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>router-view</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>rightContent<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>router-view</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- 渲染 rightContent 组件 --></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>如果没有为 <code>&lt;router-view&gt;</code> 指定 <code>name</code> 属性，则默认渲染 <code>default</code> 组件。</p>
+</li>
+</ol>
+<p><strong>注意事项</strong></p>
+<ul>
+<li>命名视图允许你在同一个路由中渲染多个组件，但它们并不是嵌套的，而是同级展示。</li>
+<li>在路由配置中，你需要使用 <code>components</code> 而不是 <code>component</code>，并以键值对的形式来指定每个组件。</li>
+<li>在模板中，你可以使用多个 <code>&lt;router-view&gt;</code> 标签，并通过 <code>name</code> 属性来指定要渲染的组件。</li>
+</ul>
+<p>命名视图在需要同时展示多个组件的复杂布局中非常有用，比如一个包含侧边栏和主内容的页面。通过使用命名视图，你可以更加灵活地组织你的组件和路由。</p>
+<h4 id="Vue-router中的嵌套路由"><a href="#Vue-router中的嵌套路由" class="headerlink" title="Vue-router中的嵌套路由"></a>Vue-router中的嵌套路由</h4><p>Vue-router中的嵌套路由是指通过路由实现组件的嵌套展示，主要由页面结构决定。在实际项目中，应用界面通常由多层嵌套的组件组合而成，为了使这些多层嵌套的组件能够通过路由访问，路由也需要具有嵌套关系，即在路由里面嵌套它的子路由。</p>
+<p>在Vue Router中，你可以通过在路由配置中嵌套路由对象来定义嵌套路由。每个嵌套的路由对象都会被关联到一个父级路由的组件中。</p>
+<p>以下是嵌套路由的基本配置语法（以Vue Router 3为例）：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueRouter</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  routes<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+    <span class="token punctuation">{</span>  
+      path<span class="token punctuation">:</span> <span class="token string">'/parent'</span><span class="token punctuation">,</span>  
+      component<span class="token punctuation">:</span> ParentComponent<span class="token punctuation">,</span>  
+      children<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+        <span class="token punctuation">{</span>  
+          <span class="token comment" spellcheck="true">// 当 /parent/child 被匹配时  </span>
+          <span class="token comment" spellcheck="true">// ChildComponent 将会被渲染在 ParentComponent 的 &lt;router-view> 中  </span>
+          path<span class="token punctuation">:</span> <span class="token string">'child'</span><span class="token punctuation">,</span>  
+          component<span class="token punctuation">:</span> ChildComponent  
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+        <span class="token comment" spellcheck="true">// 你可以继续嵌套下去...  </span>
+      <span class="token punctuation">]</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">]</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>在上述代码中，<code>/parent/child</code> 路由对应的组件 <code>ChildComponent</code> 将会嵌套在 <code>/parent</code> 路由对应的组件 <code>ParentComponent</code> 中。在 <code>ParentComponent</code> 的模板中，你需要使用 <code>&lt;router-view&gt;</code> 来渲染子路由对应的组件。</p>
+<p>需要注意的是，在定义子路由的 <code>path</code> 属性时，不需要添加 <code>/</code> 前缀，因为子路由的 <code>path</code> 是相对于其父路由的 <code>path</code> 的。</p>
+<p>另外，嵌套路由的匹配是按照顺序进行的，所以你需要确保父路由的匹配规则在子路由之前。如果父路由的匹配规则在子路由之后，那么当访问子路由时，父路由的匹配规则也会被执行，这可能会导致一些不期望的结果。</p>
+<p>总之，Vue-router中的嵌套路由是一种非常强大的功能，它允许你根据页面结构来组织路由和组件，从而构建出更加复杂和灵活的应用界面。</p>
+<h4 id="Vue-router中的路由重定向和404"><a href="#Vue-router中的路由重定向和404" class="headerlink" title="Vue-router中的路由重定向和404"></a>Vue-router中的路由重定向和404</h4><p>在Vue Router中，路由重定向和404页面处理是常见的功能需求。以下是关于如何在Vue Router中实现路由重定向和404页面处理的方法：</p>
+<p><strong>路由重定向</strong></p>
+<p>Vue Router支持通过<code>redirect</code>字段进行基本的重定向配置。你可以将某个路径重定向到另一个路径，从而实现页面的跳转。</p>
+<ol>
+<li><strong>基本重定向</strong>：</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'/home'</span><span class="token punctuation">,</span> redirect<span class="token punctuation">:</span> <span class="token string">'/'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// 其他路由配置...  </span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在上述示例中，当用户访问<code>/home</code>路径时，将会被重定向到根路径<code>/</code>。</p>
+<ol>
+<li><strong>动态重定向</strong>：</li>
+</ol>
+<p>Vue Router还支持通过函数返回值来动态配置重定向。这样你可以根据一定的条件来决定重定向的目标路径。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token punctuation">{</span>  
+    path<span class="token punctuation">:</span> <span class="token string">'/user/:id'</span><span class="token punctuation">,</span>  
+    redirect<span class="token punctuation">:</span> to <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+      <span class="token comment" spellcheck="true">// 如果id为'admin'，则重定向到'/admin'；否则重定向到'/user'  </span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>to<span class="token punctuation">.</span>params<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token string">'admin'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> <span class="token string">'/admin'</span><span class="token punctuation">;</span>  
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> <span class="token string">'/user'</span><span class="token punctuation">;</span>  
+      <span class="token punctuation">}</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  <span class="token comment" spellcheck="true">// 其他路由配置...  </span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>404页面处理</strong></p>
+<p>当用户在浏览器中访问一个不存在的路由时，Vue Router不会默认提供404页面。但是，你可以通过配置一个通配符路由来实现404页面处理。</p>
+<ol>
+<li><strong>配置通配符路由</strong>：</li>
+</ol>
+<p>在路由配置中添加一个通配符路由（例如<code>&#123; path: &#39;*&#39;, component: NotFoundComponent &#125;</code>），当其他路由都无法匹配时，这个通配符路由将被匹配，并渲染相应的组件（NotFoundComponent）。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>  
+  <span class="token comment" spellcheck="true">// 其他路由配置...  </span>
+  <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'*'</span><span class="token punctuation">,</span> component<span class="token punctuation">:</span> NotFoundComponent <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在上面的示例中，NotFoundComponent是你定义的404页面组件。</p>
+<ol>
+<li><strong>服务器配置</strong>：</li>
+</ol>
+<p>如果你的项目部署在服务器上，并且使用了Vue Router的history模式（而不是默认的hash模式），那么你还需要在服务器上配置相应的路由规则。具体来说，你可以将所有未知的路由都指向同一个入口文件（例如index.html），然后由Vue Router来处理相应的路由逻辑。这样，当在浏览器中刷新页面时，服务器会返回index.html，并由Vue Router来处理相应的路由逻辑。</p>
+<p>请注意，以上方法仅适用于前端路由处理。如果你的项目需要后端也处理路由逻辑（例如使用SSR或Nuxt.js等框架），你可能需要在后端也进行相应的配置。</p>
+<h3 id="Vue生态"><a href="#Vue生态" class="headerlink" title="Vue生态"></a>Vue生态</h3><h4 id="Vue项目中如何二次封装axios？"><a href="#Vue项目中如何二次封装axios？" class="headerlink" title="Vue项目中如何二次封装axios？"></a>Vue项目中如何二次封装axios？</h4><p>在Vue项目中，二次封装axios可以帮助我们更好地管理请求和响应，例如添加全局的请求头、错误处理、请求拦截、响应拦截等。以下是一个简单的步骤，说明如何二次封装axios：</p>
+<ol>
+<li><strong>安装axios</strong></li>
+</ol>
+<p>首先，你需要确保你的项目中已经安装了axios。如果还没有安装，你可以通过npm或yarn来安装：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> axios --save  
+<span class="token comment" spellcheck="true"># 或者  </span>
+yarn add axios
+</code></pre>
+<ol>
+<li><strong>创建axios封装文件</strong></li>
+</ol>
+<p>在你的Vue项目中，通常会在<code>src/utils</code>或者<code>src/api</code>目录下创建一个新的文件，例如<code>http.js</code>或<code>axios.js</code>，用于封装axios。</p>
+<ol>
+<li><strong>引入axios并进行配置</strong></li>
+</ol>
+<p>在封装文件中，首先引入axios，并进行一些基本的配置，如baseURL、timeout等。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span><span class="token punctuation">;</span>  
+  
+<span class="token keyword">const</span> service <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  baseURL<span class="token punctuation">:</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>VUE_APP_BASE_API<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// url = base url + request url  </span>
+  <span class="token comment" spellcheck="true">// withCredentials: true, // send cookies when cross-domain requests  </span>
+  timeout<span class="token punctuation">:</span> <span class="token number">5000</span> <span class="token comment" spellcheck="true">// request timeout  </span>
+  <span class="token comment" spellcheck="true">// ... 其他配置项  </span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>注意：<code>process.env.VUE_APP_BASE_API</code>是一个环境变量，你可以在你的<code>.env</code>文件中定义它，以便于在不同的环境中使用不同的API地址。</p>
+<ol>
+<li><strong>请求拦截</strong></li>
+</ol>
+<p>在发送请求之前，你可以添加一些拦截器，用于处理一些全局的逻辑，如添加请求头、修改请求数据等。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// 请求拦截器  </span>
+service<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>  
+  config <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 在发送请求之前做些什么  </span>
+    <span class="token comment" spellcheck="true">// 例如添加请求头  </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      config<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'Authorization'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token template-string"><span class="token string">`Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+    <span class="token keyword">return</span> config<span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 对请求错误做些什么  </span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// for debug  </span>
+    <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li><strong>响应拦截</strong></li>
+</ol>
+<p>在收到响应之后，你也可以添加一些拦截器，用于处理一些全局的逻辑，如判断响应状态码、对响应数据进行处理等。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// 响应拦截器  </span>
+service<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>  
+  response <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+    <span class="token keyword">const</span> res <span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">// 如果自定义的code不是20000，则判断为错误。  </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>code <span class="token operator">!==</span> <span class="token number">20000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>message <span class="token operator">||</span> <span class="token string">'Error'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>  
+      <span class="token keyword">return</span> res<span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'err'</span> <span class="token operator">+</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// for debug  </span>
+    <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li><strong>导出封装的axios</strong></li>
+</ol>
+<p>最后，你需要将封装好的axios导出，以便在其他地方使用。</p>
+<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> service<span class="token punctuation">;</span>
+</code></pre>
+<ol>
+<li><strong>在Vue组件中使用</strong></li>
+</ol>
+<p>现在，你就可以在你的Vue组件中引入并使用这个封装好的axios了。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'@/utils/axios'</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 引入封装好的axios  </span>
+  
+axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/user/list'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>注意：这里的<code>@</code>符号是webpack的一个别名配置，通常指向<code>src</code>目录。如果你的项目中没有这样的配置，你需要使用完整的路径来引入axios。</p>
+<h4 id="Axios的请求拦截和响应拦截底层实现原理是什么？"><a href="#Axios的请求拦截和响应拦截底层实现原理是什么？" class="headerlink" title="Axios的请求拦截和响应拦截底层实现原理是什么？"></a>Axios的请求拦截和响应拦截底层实现原理是什么？</h4><p>Axios的请求拦截和响应拦截的底层实现原理主要基于JavaScript的函数式编程和Promise的特性。以下是具体的实现原理：</p>
+<ol>
+<li><strong>拦截器数组</strong>：<ul>
+<li>Axios内部维护了两个数组，一个用于存储请求拦截器，另一个用于存储响应拦截器。每个拦截器都是一个函数，这些函数按照它们在数组中定义的顺序被依次执行。</li>
+</ul>
+</li>
+<li><strong>拦截器函数的参数</strong>：<ul>
+<li><strong>请求拦截器</strong>：通常接收一个配置对象（通常是请求的配置）作为参数，并返回一个配置对象或Promise。</li>
+<li><strong>响应拦截器</strong>：接收一个响应对象作为参数，并返回一个响应对象或Promise。</li>
+</ul>
+</li>
+<li><strong>拦截器的执行</strong>：<ul>
+<li><strong>请求拦截</strong>：当Axios发起一个请求时，它会首先遍历并执行请求拦截器数组中的每个函数。这些函数可以对请求进行预处理，比如添加请求头、处理错误等。处理后的请求配置会传递给下一个拦截器，直到所有的请求拦截器都执行完毕，然后才会真正发起HTTP请求。</li>
+<li><strong>响应拦截</strong>：一旦请求被发送并得到响应，Axios会遍历并执行响应拦截器数组中的每个函数。这些函数可以对响应进行后处理，比如数据转换、错误处理等。处理后的响应对象会传递给下一个拦截器，直到所有的响应拦截器都执行完毕，然后才会将最终的响应结果返回给调用者。</li>
+</ul>
+</li>
+<li><strong>Promise和异步处理</strong>：<ul>
+<li>Axios使用Promise作为异步处理的基础。这使得拦截器的处理可以支持异步操作，比如从localStorage中读取token、发送异步验证请求等。如果拦截器函数返回的是一个Promise，那么Axios会等待这个Promise解析完毕后再继续执行后续的逻辑。</li>
+</ul>
+</li>
+<li><strong>链式结构和顺序执行</strong>：<ul>
+<li>Axios的拦截器是链式结构的，这意味着你可以同时使用多个拦截器，并且它们会按照添加的顺序依次执行。无论是请求拦截器还是响应拦截器，都会按照它们在数组中定义的顺序被依次执行。这种设计使得你可以灵活地组合不同的拦截器，以满足不同的需求。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，Axios的请求拦截和响应拦截底层实现原理主要依赖于JavaScript的函数式编程和Promise的特性，通过维护两个拦截器数组来实现对请求和响应的预处理和后处理。这种设计使得你可以更加灵活地控制和管理HTTP请求和响应的过程。</p>
+<h4 id="Vue-cli中assets文件夹和static文件夹的区别"><a href="#Vue-cli中assets文件夹和static文件夹的区别" class="headerlink" title="Vue-cli中assets文件夹和static文件夹的区别"></a>Vue-cli中assets文件夹和static文件夹的区别</h4><p>在Vue-cli项目中，<code>assets</code>文件夹和<code>static</code>文件夹都用于存放静态资源，但它们在使用和处理方式上有一些关键的区别。</p>
+<ol>
+<li><strong>处理方式</strong>：<ul>
+<li><strong>assets</strong>：<code>assets</code>文件夹中的文件会被Webpack处理。这意味着你可以使用相对路径来引用这些文件，并且Webpack会将这些文件打包到最终的构建中。因此，如果你修改了<code>assets</code>文件夹中的文件，Webpack会重新处理它们。</li>
+<li><strong>static</strong>：放在<code>static</code>目录下的资源不会被Webpack处理，而是会被直接复制到最终的打包目录（默认是<code>dist/static</code>）下。你必须使用绝对路径来引用这些文件。这意味着，即使你修改了<code>static</code>文件夹中的文件，Webpack也不会重新处理它们，除非你重新运行构建过程。</li>
+</ul>
+</li>
+<li><strong>使用场景</strong>：<ul>
+<li><strong>assets</strong>：通常用于存放那些可能会变动的文件，如组件使用的图片、全局的样式文件或工具类js文件等。由于这些文件会被Webpack处理，所以你可以利用Webpack的加载器（loaders）和插件（plugins）来进一步处理这些文件，如压缩、哈希命名等。</li>
+<li><strong>static</strong>：适用于存放那些不会变动的文件，如一些第三方库、字体文件或图片等。由于这些文件不会被Webpack处理，所以你可以直接引用它们的原始文件名，而不需要担心Webpack会对其进行重命名或哈希处理。</li>
+</ul>
+</li>
+<li><strong>引用方式</strong>：<ul>
+<li><strong>assets</strong>：由于Webpack处理了<code>assets</code>文件夹中的文件，所以你可以使用相对路径来引用它们。例如，如果你有一个在<code>assets/images</code>目录下的图片，你可以在Vue组件中这样引用它：<code>&lt;img src=&quot;./assets/images/my-image.png&quot;&gt;</code>。</li>
+<li><strong>static</strong>：由于<code>static</code>文件夹中的文件不会被Webpack处理，所以你必须使用绝对路径来引用它们。这通常是通过在<code>config.js</code>文件中的<code>build.assetsPublicPath</code>和<code>build.assetsSubDirectory</code>选项来配置的。例如，如果你的<code>static</code>文件夹下的图片路径是<code>/static/images/my-image.png</code>，那么你需要在Vue组件中这样引用它：<code>&lt;img src=&quot;/static/images/my-image.png&quot;&gt;</code>。</li>
+</ul>
+</li>
+</ol>
+<p>总的来说，<code>assets</code>和<code>static</code>文件夹在Vue-cli项目中都用于存放静态资源，但它们在处理方式、使用场景和引用方式上有所不同。选择使用哪个文件夹取决于你的具体需求和资源的特性。</p>
+<h4 id="Vue-cli中的-vue-cli-plugin-babel库"><a href="#Vue-cli中的-vue-cli-plugin-babel库" class="headerlink" title="Vue-cli中的@vue/cli-plugin-babel库"></a>Vue-cli中的@vue/cli-plugin-babel库</h4><p>在Vue CLI项目中，<code>@vue/cli-plugin-babel</code> 是一个插件，用于提供Babel的集成。Babel是一个广泛使用的JavaScript编译器，可以将ES6+代码转换为向后兼容的JavaScript版本，以确保在各种浏览器和环境中都能正常运行。</p>
+<p>以下是关于<code>@vue/cli-plugin-babel</code>的一些关键点：</p>
+<ol>
+<li><strong>安装</strong>：<br>当使用Vue CLI创建项目时，通常会询问你是否需要包含Babel，并默认选择包含。如果你没有选择包含，但之后需要添加它，你可以通过Vue CLI的插件安装命令来添加它：</li>
+</ol>
+<pre class=" language-bash"><code class="language-bash">bash复制代码
+
+vue add @vue/cli-plugin-babel
+</code></pre>
+<p>或者，你也可以通过npm或yarn手动安装：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> --save-dev @vue/cli-plugin-babel  
+<span class="token comment" spellcheck="true"># 或者  </span>
+yarn add --dev @vue/cli-plugin-babel
+</code></pre>
+<ol>
+<li><strong>配置</strong>：<br>一旦安装了<code>@vue/cli-plugin-babel</code>，它会自动为Vue CLI项目配置Babel。但如果你需要自定义配置，你可以通过以下几种方式进行：<ul>
+<li><strong>.babelrc</strong> 或 <strong>babel.config.js</strong>：你可以在项目根目录下创建一个<code>.babelrc</code>文件（JSON格式）或一个<code>babel.config.js</code>文件（JavaScript格式），以指定Babel的配置选项。这些选项可以包括预设（presets）、插件（plugins）等。</li>
+<li><strong>vue.config.js</strong>：你也可以在<code>vue.config.js</code>文件中通过修改webpack的配置来影响Babel的行为。</li>
+<li><strong>package.json</strong>：Vue CLI还支持在<code>package.json</code>文件的<code>browserslist</code>字段中指定目标浏览器范围，这会影响Babel的转译行为。</li>
+</ul>
+</li>
+<li><strong>使用</strong>：<br>在Vue CLI项目中，一旦你安装了<code>@vue/cli-plugin-babel</code>并配置了它，你就可以编写ES6+的代码了。当你运行<code>vue-cli-service build</code>或<code>vue-cli-service serve</code>等命令时，Babel会自动将你的代码转换为向后兼容的版本。</li>
+<li><strong>与Vue CLI的集成</strong>：<br><code>@vue/cli-plugin-babel</code>与Vue CLI紧密集成，使得在Vue项目中使用Babel变得更加简单和方便。它会自动处理Vue文件的单文件组件（SFC）中的<code>&lt;script&gt;</code>部分，确保其中的JavaScript代码得到正确的转译。</li>
+<li><strong>自定义配置</strong>：<br>虽然<code>@vue/cli-plugin-babel</code>提供了默认的配置，但你可能需要根据你的项目需求进行自定义配置。例如，你可能需要添加特定的Babel插件或预设来处理特定的语法或功能。你可以通过上面的配置选项来实现这些自定义配置。</li>
+</ol>
+<h3 id="Vue中的编译流程"><a href="#Vue中的编译流程" class="headerlink" title="Vue中的编译流程"></a>Vue中的编译流程</h3><h3 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h3><h4 id="Vue3中组合式Api对比选项式Api的区别与优势"><a href="#Vue3中组合式Api对比选项式Api的区别与优势" class="headerlink" title="Vue3中组合式Api对比选项式Api的区别与优势"></a>Vue3中组合式Api对比选项式Api的区别与优势</h4><p>Vue 3中引入的组合式API（Composition API）与Vue 2中的选项式API（Options API）在设计和使用上有一些明显的区别与优势。</p>
 <p><strong>区别</strong>：</p>
 <ol>
 <li><strong>结构组织</strong>：选项式API基于对象的设计方式，将Vue实例的各个部分（如data、methods、computed、watch等）拆分成不同的选项，并在创建Vue实例时将它们作为选项传入。而组合式API允许将数据和方法组合在一起，以提供更灵活和可复用的逻辑代码。</li>
@@ -1813,6 +2723,185 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 </ul>
 <p>总的来说，Vue3的Composition API和React Hook都是各自框架中用于提高代码复用性和组织性的重要工具。然而，它们在语法、概念和数据响应性等方面存在差异，这些差异可能会影响开发者在不同框架下的编码习惯和策略。在选择使用哪种技术时，需要根据具体项目的需求和个人偏好来做出决策。</p>
 <h3 id="Vue相关"><a href="#Vue相关" class="headerlink" title="Vue相关"></a>Vue相关</h3><h4 id="vue-内置指令"><a href="#vue-内置指令" class="headerlink" title="vue 内置指令"></a>vue 内置指令</h4><p><img src="/../images/Vue.js%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/vue-command.jpg" alt="vue内置指令"></p>
+<h4 id="Vue2中的自定义指令"><a href="#Vue2中的自定义指令" class="headerlink" title="Vue2中的自定义指令"></a>Vue2中的自定义指令</h4><p>在Vue 2中，你可以创建和使用自定义指令（Custom Directives）来扩展HTML元素的功能。自定义指令提供了一种灵活的方式来在DOM元素上应用低级别的操作，比如元素插入、更新或移除时的行为。</p>
+<h5 id="创建自定义指令"><a href="#创建自定义指令" class="headerlink" title="创建自定义指令"></a>创建自定义指令</h5><p>在Vue中，你可以使用<code>Vue.directive()</code>方法来注册一个全局的自定义指令，或者使用组件的<code>directives</code>选项来注册一个局部的自定义指令。</p>
+<p>以下是一个全局自定义指令的示例，该指令会在元素被插入到DOM时聚焦到该元素上（如果它是一个<code>&lt;input&gt;</code>或<code>&lt;textarea&gt;</code>）：</p>
+<pre class=" language-javascript"><code class="language-javascript">Vue<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">'focus'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// 当被绑定的元素插入到 DOM 中时……  </span>
+  inserted<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>el<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 聚焦元素  </span>
+    el<span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>你也可以定义多个钩子函数，它们会在不同的时间点被调用：</p>
+<ul>
+<li><code>bind</code>：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。</li>
+<li><code>inserted</code>：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。</li>
+<li><code>update</code>：所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前。指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新。</li>
+<li><code>componentUpdated</code>：指令所在组件的 VNode 及其子 VNode 全部更新后调用。</li>
+<li><code>unbind</code>：只调用一次，指令与元素解绑时调用。</li>
+</ul>
+<h5 id="使用自定义指令"><a href="#使用自定义指令" class="headerlink" title="使用自定义指令"></a>使用自定义指令</h5><p>在HTML模板中，你可以通过添加<code>v-</code>前缀和指令名（不需要<code>v-</code>前缀的<code>focus</code>在上面的例子中）来使用自定义指令。如果指令需要值，你可以通过等号（<code>=</code>）来指定一个表达式：</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-focus</span><span class="token punctuation">></span></span>  
+  
+<span class="token comment" spellcheck="true">&lt;!-- 或者，带有参数 --></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name"><span class="token namespace">v-focus:</span>someparam</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>somevalue<span class="token punctuation">'</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>  
+  
+<span class="token comment" spellcheck="true">&lt;!-- 或者，带有修饰符 --></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-focus.modifier</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>在指令的定义中，你可以通过<code>binding</code>参数来访问传递给指令的值、参数和修饰符：</p>
+<pre class=" language-javascript"><code class="language-javascript">Vue<span class="token punctuation">.</span><span class="token function">directive</span><span class="token punctuation">(</span><span class="token string">'example'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>  
+  bind<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>el<span class="token punctuation">,</span> binding<span class="token punctuation">,</span> vnode<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// el 是指令所绑定的元素  </span>
+    <span class="token comment" spellcheck="true">// binding 是一个对象，包含以下属性：  </span>
+    <span class="token comment" spellcheck="true">//   - name：指令名，不包括 v- 前缀。  </span>
+    <span class="token comment" spellcheck="true">//   - value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2。  </span>
+    <span class="token comment" spellcheck="true">//   - oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用。  </span>
+    <span class="token comment" spellcheck="true">//   - expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"。  </span>
+    <span class="token comment" spellcheck="true">//   - arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"。  </span>
+    <span class="token comment" spellcheck="true">//   - modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }。  </span>
+    <span class="token comment" spellcheck="true">// vnode 是 Vue 编译生成的虚拟节点。  </span>
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>注意：在Vue 3中，自定义指令的API和用法有一些变化，如果你正在使用或考虑升级到Vue 3，请查阅相应的文档。</p>
+<h4 id="Vue中的-nextTick及使用场景"><a href="#Vue中的-nextTick及使用场景" class="headerlink" title="Vue中的$nextTick及使用场景"></a>Vue中的$nextTick及使用场景</h4><p>Vue中的<code>$nextTick</code>是一个非常重要的函数，它用于在DOM更新完成后执行回调函数。由于Vue是异步执行DOM更新的，所以当你需要确保在DOM更新后执行某些操作时，就可以使用<code>$nextTick</code>。</p>
+<h5 id="nextTick的定义及理解"><a href="#nextTick的定义及理解" class="headerlink" title="$nextTick的定义及理解"></a>$nextTick的定义及理解</h5><p><code>$nextTick</code>是一个Vue实例方法，它接受一个回调函数作为参数，并在DOM更新完成后执行该回调函数。在修改数据之后立即使用这个方法，可以确保获取到更新后的DOM。</p>
+<h5 id="nextTick的使用原理"><a href="#nextTick的使用原理" class="headerlink" title="$nextTick的使用原理"></a>$nextTick的使用原理</h5><p>Vue是异步执行DOM更新的，一旦观察到数据变化，Vue就会开启一个队列，并把在同一个事件循环中观察到数据变化的watcher推送进这个队列。如果这个watcher被触发多次，只会被推送到队列一次。在下一个事件循环的“tick”中，Vue会刷新队列并执行实际工作（已去重的）。因此，<code>$nextTick</code>将回调函数放到微任务或者宏任务当中以延迟它的执行顺序，确保在DOM更新完成后执行回调函数。</p>
+<h5 id="nextTick的使用场景"><a href="#nextTick的使用场景" class="headerlink" title="$nextTick的使用场景"></a>$nextTick的使用场景</h5><ol>
+<li><strong>确保获取更新后的DOM</strong>：当你修改数据后需要立即获取更新后的DOM时，可以使用<code>$nextTick</code>。例如，你可能需要读取某个DOM元素的文本内容或属性，但由于DOM更新是异步的，直接使用可能会得到旧的值。通过<code>$nextTick</code>，你可以确保在DOM更新后获取到正确的值。</li>
+<li><strong>避免在DOM更新前执行某些操作</strong>：有时候你可能需要在DOM更新之前避免执行某些操作，因为这些操作可能会依赖于更新后的DOM状态。通过使用<code>$nextTick</code>，你可以将这些操作放在回调函数中，确保它们在DOM更新后执行。</li>
+<li><strong>解决事件触发后获取旧值的问题</strong>：在某些情况下，如点击事件触发后，Vue可能会先把对应方法内的任务执行完，再进行页面渲染。这意味着如果你在事件处理函数中直接读取DOM元素的值，可能会得到旧的值。通过使用<code>$nextTick</code>，你可以确保在DOM更新后读取到正确的值。</li>
+<li><strong>切换显示input框时立即获取焦点</strong>：当你需要在切换显示input框时立即让input框获取焦点时，可以使用<code>$nextTick</code>。因为即使你在数据改变后立即尝试让input框获取焦点，但由于DOM更新是异步的，焦点可能会被设置到旧的DOM元素上。通过使用<code>$nextTick</code>，你可以确保在DOM更新后让input框获取焦点。</li>
+</ol>
+<h5 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h5><p>你可以通过<code>this.$nextTick(callback)</code>的方式在Vue实例中使用<code>$nextTick</code>。其中<code>callback</code>是你要在DOM更新后执行的回调函数。例如：</p>
+<pre class=" language-javascript"><code class="language-javascript">methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+  <span class="token function">change</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">this</span><span class="token punctuation">.</span>msg <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'-'</span><span class="token punctuation">;</span>  
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$nextTick</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>continer<span class="token punctuation">.</span>innerText<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在这个例子中，<code>change</code>方法会修改<code>msg</code>的值，并通过<code>$nextTick</code>确保在DOM更新后打印出更新后的文本内容。</p>
+<h4 id="Vue中的过滤器"><a href="#Vue中的过滤器" class="headerlink" title="Vue中的过滤器"></a>Vue中的过滤器</h4><p>在 Vue.js 中，过滤器（Filters）是一种用于在模板中简单处理文本的功能。然而，在 Vue 2.x 中，过滤器主要用于文本格式化，但在 Vue 3.x 中，过滤器已经被移除，因为官方认为它们不如计算属性和方法灵活。不过，由于许多项目可能还在使用 Vue 2.x，因此了解 Vue 2.x 中的过滤器仍然是有用的。</p>
+<p>在 Vue 2.x 中，你可以定义全局过滤器或组件级别的过滤器。过滤器函数总是接收表达式的值（之前的值）作为第一个参数。</p>
+<h5 id="全局过滤器"><a href="#全局过滤器" class="headerlink" title="全局过滤器"></a>全局过滤器</h5><p>你可以使用 <code>Vue.filter()</code> 方法来注册全局过滤器：</p>
+<pre class=" language-javascript"><code class="language-javascript">Vue<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token string">'myFilter'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// 对 value 进行处理并返回  </span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>value<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token string">''</span>  
+  value <span class="token operator">=</span> value<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  
+  <span class="token keyword">return</span> value<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>在模板中，你可以使用双花括号插值或 <code>v-bind</code> 表达式（在 Vue 2.1.0+ 的版本中）来使用这个过滤器：</p>
+<pre class=" language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- 在双花括号中 --></span>  
+{{ message | myFilter }}  
+  
+<span class="token comment" spellcheck="true">&lt;!-- 在 v-bind 表达式中 --></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name"><span class="token namespace">v-bind:</span>title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>message | myFilter<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<h5 id="组件级别的过滤器"><a href="#组件级别的过滤器" class="headerlink" title="组件级别的过滤器"></a>组件级别的过滤器</h5><p>你也可以在组件的选项中定义过滤器：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>  
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    message<span class="token punctuation">:</span> <span class="token string">'hello'</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+  filters<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    <span class="token function">myFilter</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      <span class="token comment" spellcheck="true">// ... 同全局过滤器  </span>
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>然后在该组件的模板中使用这个过滤器。</p>
+<p>在 Vue 3.x 中，过滤器已被移除，但你可以使用以下方法作为替代：</p>
+<ol>
+<li><strong>计算属性</strong>：对于复杂逻辑，计算属性是一个很好的选择。它们允许你根据组件的其他属性动态地计算新值。</li>
+<li><strong>方法</strong>：对于简单的文本格式化，你可以在模板中直接调用一个方法来处理文本。</li>
+<li><strong>自定义指令</strong>：虽然这不是处理文本格式化的首选方法，但自定义指令可以用于在DOM元素上执行更复杂的操作。</li>
+<li><strong>管道函数</strong>：在 Vuex 或其他状态管理库中，你可能会使用“管道”或“链式函数”来处理状态。这可以看作是在 Vue 3 中实现类似过滤器功能的一种方式。</li>
+</ol>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>虽然 Vue 3.x 不再支持过滤器，但你可以使用其他功能强大的工具和技术来替代它们。对于简单的文本格式化，你可以直接在模板中调用方法；对于更复杂的逻辑，计算属性是一个很好的选择。</p>
+<h4 id="Vue中的component动态组件"><a href="#Vue中的component动态组件" class="headerlink" title="Vue中的component动态组件"></a>Vue中的component动态组件</h4><p>在Vue中，<code>component</code> 元素可以作为一个动态组件使用，它允许你在同一个挂载点动态地切换多个组件。<code>&lt;component&gt;</code> 元素有一个特殊的 <code>is</code> 属性，这个属性用于动态地绑定到要渲染的组件上。</p>
+<p><strong>使用场景</strong></p>
+<p>动态组件在很多场景下都非常有用，比如：</p>
+<ul>
+<li>根据用户的交互来切换不同的视图。</li>
+<li>创建一个通用的组件容器，该容器可以根据传入的不同参数来渲染不同的组件。</li>
+<li>在路由系统中，根据路由的不同来动态地渲染不同的页面组件。</li>
+</ul>
+<p><strong>示例</strong></p>
+<p>下面是一个简单的示例，演示了如何使用 <code>&lt;component&gt;</code> 元素来动态地切换组件：</p>
+<pre class=" language-vue"><code class="language-vue"><template>  
+  <div id="app">  
+    <button @click="currentComponent = 'ComponentA'">显示组件A</button>  
+    <button @click="currentComponent = 'ComponentB'">显示组件B</button>  
+    <component :is="currentComponent"></component>  
+  </div>  
+</template>  
+  
+<script>  
+import ComponentA from './components/ComponentA.vue'  
+import ComponentB from './components/ComponentB.vue'  
+  
+export default {  
+  data() {  
+    return {  
+      currentComponent: 'ComponentA'  
+    }  
+  },  
+  components: {  
+    ComponentA,  
+    ComponentB  
+  }  
+}  
+</script>
+</code></pre>
+<p>在上面的示例中，我们有两个按钮，分别用于切换要显示的组件。<code>currentComponent</code> 数据属性用于存储当前要显示的组件的名称。然后，在 <code>&lt;component&gt;</code> 元素上使用 <code>:is</code> 绑定来动态地设置要渲染的组件。</p>
+<p><strong>注意事项</strong></p>
+<ul>
+<li><code>&lt;component&gt;</code> 元素的 <code>is</code> 属性可以是组件的注册名称（字符串形式），也可以是组件的构造函数（对象形式）。在上面的示例中，我们使用了字符串形式的注册名称。</li>
+<li>动态组件在切换时，默认会销毁之前的组件实例，并重新创建新的实例。这意味着，如果你在组件中使用了生命周期钩子（如 <code>created</code>、<code>mounted</code>、<code>destroyed</code> 等），这些钩子会在组件切换时被触发。</li>
+<li>如果你想保留组件的状态或避免重新渲染，可以使用 <code>&lt;keep-alive&gt;</code> 元素来包裹 <code>&lt;component&gt;</code> 元素。这样，当组件切换时，Vue 会缓存被移除的组件实例，而不是销毁它们。当组件再次被使用时，Vue 会从缓存中取出该组件实例，而不是重新创建新的实例。</li>
+</ul>
+<p>希望这可以帮助你理解Vue中的动态组件！</p>
+<h4 id="Vue渲染列表为什么要加key"><a href="#Vue渲染列表为什么要加key" class="headerlink" title="Vue渲染列表为什么要加key?"></a>Vue渲染列表为什么要加key?</h4><p>在Vue中渲染列表时加<code>key</code>的主要原因是为了提高渲染性能和保持组件状态的一致性。具体来说，<code>key</code>的作用主要体现在以下几个方面：</p>
+<ol>
+<li><strong>提高渲染性能</strong>：Vue在渲染列表时，使用了一种称为“虚拟DOM”的技术来优化性能。当数据变化时，Vue会生成一个新的虚拟DOM树，并与旧的虚拟DOM树进行对比，找出需要更新的部分，并只更新这些部分，而不是整个DOM树。而<code>key</code>就是Vue用来标识每个列表项的唯一标识符。当列表数据变化时，Vue会根据<code>key</code>来快速定位到需要更新的列表项，而不是重新渲染整个列表，从而大大提高了渲染性能。</li>
+<li><strong>保持组件状态</strong>：在Vue中，每个组件都有自己的状态。当列表数据变化时，如果不使用<code>key</code>，Vue可能会错误地复用旧的组件实例来渲染新的数据，导致组件状态混乱。而使用<code>key</code>后，Vue可以准确地识别每个组件，确保在重新渲染时能够正确地保持组件的状态。这对于保持页面数据和用户操作的一致性非常重要。</li>
+<li><strong>避免数据混乱</strong>：如果不使用<code>key</code>，当列表数据变化时（如删除、添加或移动列表项），Vue可能会因为无法准确识别每个列表项而导致数据混乱。例如，在删除一个列表项后，如果不使用<code>key</code>，Vue可能会错误地将其他列表项的内容更新为被删除项的内容。而使用<code>key</code>后，Vue可以准确地识别每个列表项，从而避免这种数据混乱的情况。</li>
+</ol>
+<p>因此，在Vue中渲染列表时加<code>key</code>是一个非常重要的优化措施，它可以帮助我们提高渲染性能、保持组件状态的一致性并避免数据混乱。同时，需要注意的是，<code>key</code>的值应该是唯一的且稳定的，最好使用每个列表项的唯一标识符（如ID）作为<code>key</code>的值。</p>
+<h4 id="Vue中常用的修饰符有哪些？"><a href="#Vue中常用的修饰符有哪些？" class="headerlink" title="Vue中常用的修饰符有哪些？"></a>Vue中常用的修饰符有哪些？</h4><p>在Vue中，常用的修饰符主要分为几类：事件修饰符、按键修饰符、系统修饰符以及v-model修饰符。以下是对这些修饰符的简要说明：</p>
+<ol>
+<li><strong>事件修饰符</strong>：<ul>
+<li><code>.stop</code>：阻止事件冒泡。当事件在元素上被触发时，事件将不会进一步冒泡到父元素。</li>
+<li><code>.prevent</code>：阻止默认事件行为。例如，阻止表单的提交或阻止a标签的默认跳转行为。</li>
+<li><code>.capture</code>：添加事件监听器时使用事件捕获模式，即内部元素触发的事件先在此处理，然后才交由内部元素进行处理。</li>
+<li><code>.self</code>：只有元素本身触发时才触发方法，即只有点击元素本身才会触发。</li>
+<li><code>.once</code>：事件只会触发一次，之后就会自动移除事件监听器。</li>
+<li><code>.passive</code>：不阻止默认行为，但告诉浏览器该监听器不会调用<code>preventDefault()</code>。</li>
+</ul>
+</li>
+<li><strong>按键修饰符</strong>：</li>
+</ol>
+<p>这些修饰符通常与键盘事件（如<code>@keyup</code>、<code>@keydown</code>）一起使用，用于监听按了哪个键。常见的按键修饰符有：<code>.enter</code>、<code>.tab</code>、<code>.delete</code>、<code>.esc</code>、<code>.up</code>、<code>.down</code>、<code>.left</code>、<code>.right</code>等。</p>
+<ol start="3">
+<li><strong>系统修饰符</strong>：</li>
+</ol>
+<p>这些修饰符用于监听系统修饰键的状态，如<code>.ctrl</code>、<code>.shift</code>、<code>.alt</code>、<code>.meta</code>（在Mac系统键盘上，meta对应command键）。</p>
+<ol start="4">
+<li><strong>v-model修饰符</strong>：</li>
+</ol>
+<pre><code>* `.lazy`：默认情况下，v-model在每次input事件触发后将输入框的值与数据进行同步。而`.lazy`修饰符则会在光标离开输入框时才进行同步。  
+* `.trim`：自动过滤用户输入的首尾空格。  
+* `.number`：将用户的输入转换为数值类型，如果用户的输入不能转换为有效的数值，则返回原始输入。
+</code></pre>
+<p>这些修饰符可以帮助我们更精细地控制Vue中的事件和输入行为，提高应用的交互性和用户体验。</p>
 <h4 id="v-if-和-v-show-的区别"><a href="#v-if-和-v-show-的区别" class="headerlink" title="v-if 和 v-show 的区别"></a>v-if 和 v-show 的区别</h4><p><code>v-if</code> 和 <code>v-show</code> 都是 Vue 中的条件渲染指令，用于根据条件来控制元素的显示和隐藏。它们之间的区别如下：</p>
 <blockquote>
 <ol>
@@ -1846,6 +2935,94 @@ app<span class="token punctuation">.</span><span class="token function">mount</s
 <h4 id="computed-和-watch-的区别和运用的场景"><a href="#computed-和-watch-的区别和运用的场景" class="headerlink" title="computed 和 watch 的区别和运用的场景"></a>computed 和 watch 的区别和运用的场景</h4><p>​    computed 是<a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">计算属性</a>，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容，它可以设置 getter 和 setter。</p>
 <p>​    <a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">watch</a>监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。</p>
 <p>​    计算属性一般用在模板渲染中，某个值是依赖了其它的响应式对象甚至是计算属性计算而来；而侦听属性适用于观测某个值的变化去完成一段复杂的业务逻辑计算属性原理详解 </p>
+<h4 id="Vue中的异步组件"><a href="#Vue中的异步组件" class="headerlink" title="Vue中的异步组件"></a>Vue中的异步组件</h4><p>在Vue中，异步组件是一种优化手段，用于在需要时才加载组件，从而加快页面的初始加载速度和提高用户体验。Vue提供了两种主要的方式来定义和使用异步组件：</p>
+<ol>
+<li><strong>使用webpack的import()方法</strong>：</li>
+</ol>
+<p>你可以使用webpack提供的<code>import()</code>方法来定义一个异步组件。<code>import()</code>方法允许你在运行时动态加载代码。下面是一个基本的异步组件定义方式：</p>
+<pre class=" language-javascript"><code class="language-javascript">javascript复制代码
+
+Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">'MyComponent'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">import</span><span class="token punctuation">(</span><span class="token string">'./MyComponent.vue'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>注意，异步组件的定义方式必须是一个函数，该函数返回一个Promise对象。当组件被渲染时，Vue.js会自动地检测到该组件是异步组件并进行动态加载。</p>
+<ol start="2">
+<li><strong>使用工厂函数</strong>：</li>
+</ol>
+<p>你也可以使用工厂函数来定义异步组件。工厂函数接收两个参数：<code>resolve</code>和<code>reject</code>，用于异步加载组件。当组件加载成功时，调用<code>resolve</code>并传入组件的定义；当加载失败时，调用<code>reject</code>并传入错误原因。下面是一个示例：</p>
+<pre class=" language-javascript"><code class="language-javascript">Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">'async-component'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// 异步加载组件  </span>
+  <span class="token comment" spellcheck="true">// 例如，使用require或其他异步加载方法  </span>
+  <span class="token function">require</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./AsyncComponent.vue'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> resolve<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在上面的例子中，当<code>AsyncComponent.vue</code>被成功加载后，Vue会将其注册为名为<code>async-component</code>的组件。</p>
+<p><strong>使用异步组件的注意事项</strong>：</p>
+<ul>
+<li>异步组件在加载时会被替换成占位符（如一个空白的<code>&lt;div&gt;</code>），直到加载完成。因此，你需要确保你的异步组件加载过程不会影响用户体验。</li>
+<li>异步组件的加载是异步的，因此你无法确保它们在页面渲染时一定可用。在需要使用异步组件的地方，你需要做好错误处理和降级处理。</li>
+<li>当你的项目达到一定的规模时，使用异步组件可以有效地提高页面的初始加载速度，从而提高用户体验。但是，过度使用异步组件可能会导致代码结构复杂和难以维护。因此，你需要在性能和可维护性之间找到一个平衡点。</li>
+</ul>
+<h4 id="Vue中异步组件与路由懒加载有什么关系"><a href="#Vue中异步组件与路由懒加载有什么关系" class="headerlink" title="Vue中异步组件与路由懒加载有什么关系"></a>Vue中异步组件与路由懒加载有什么关系</h4><p>Vue中的异步组件与路由懒加载是密切相关的。</p>
+<p>异步组件是Vue提供的一种性能优化方案，它允许我们在需要时才加载某些组件，而不是一开始就全部加载。这种方式可以很好地提高用户体验，加快页面的载入速度。</p>
+<p>而路由懒加载（也叫延迟加载或按需加载）是在单页面应用（SPA）中，将页面进行划分，在需要的时候加载页面，从而有效地分担首页所承担的加载压力，减少首页加载用时。在Vue.js中，路由懒加载是通过使用Vue的异步组件和Webpack的代码分割功能来实现的。</p>
+<p>具体来说，当我们配置Vue Router的路由时，可以将路由配置中的component属性改为一个返回Promise的函数，函数的返回值是一个包含要加载的组件的模块。这个模块就是通过动态import语法来异步加载的组件。当路由被访问时，Webpack会自动将相应的组件代码分割到一个新的bundle中，并仅在需要时加载它。</p>
+<p>因此，可以说Vue中的异步组件是实现路由懒加载的一种手段，而路由懒加载则是异步组件在实际应用中的一种应用场景。</p>
+<h4 id="Vue中scoped的作用与原理"><a href="#Vue中scoped的作用与原理" class="headerlink" title="Vue中scoped的作用与原理"></a>Vue中scoped的作用与原理</h4><p>在Vue中，<code>scoped</code>是一个用于<code>&lt;style&gt;</code>标签的特殊属性，其主要作用和原理如下：</p>
+<p><strong>作用</strong></p>
+<ol>
+<li><strong>避免样式冲突</strong>：当在一个大型项目中，多个开发者可能同时编写组件，<code>scoped</code>可以确保每个组件的样式仅作用于当前组件，避免样式冲突。</li>
+<li><strong>提高可维护性</strong>：由于<code>scoped</code>样式仅在当前组件内生效，当需要修改样式时，可以更容易地在组件内定位到相关样式，而不用担心影响其他组件。</li>
+<li><strong>增强安全性</strong>：使用<code>scoped</code>可以增强组件的安全性，避免非预期的样式覆盖或影响到其他组件。</li>
+</ol>
+<p><strong>原理</strong></p>
+<p><code>scoped</code>的实现原理主要依赖于Vue在编译过程中为每个组件的DOM元素添加一个唯一的属性（如<code>data-v-f3f3eg9</code>），然后在CSS选择器后添加该属性来实现样式的局部化。例如，如果你的组件有一个类名为<code>.my-class</code>的元素，Vue在编译后可能会将其转化为类似<code>.my-class[data-v-f3f3eg9]</code>的选择器，这样这个样式就只会应用于当前组件中带有<code>data-v-f3f3eg9</code>属性的<code>.my-class</code>元素。</p>
+<p>然而，需要注意的是，虽然<code>scoped</code>提供了样式隔离的功能，但在某些情况下，你可能需要修改或覆盖引入的外部组件的样式。在这种情况下，你可能需要使用样式穿透（例如使用<code>::v-deep</code>或<code>&gt;&gt;&gt;</code>选择器）来覆盖外部组件的样式。</p>
+<p>总的来说，<code>scoped</code>是Vue提供的一种强大的工具，用于解决样式冲突和提高组件的可维护性和安全性。但在使用时，也需要注意其可能带来的限制和需要额外的处理的情况。</p>
+<h4 id="Vue项目中如何解决跨越问题？"><a href="#Vue项目中如何解决跨越问题？" class="headerlink" title="Vue项目中如何解决跨越问题？"></a>Vue项目中如何解决跨越问题？</h4><p>在Vue项目中，跨域问题（CORS，Cross-Origin Resource Sharing）通常是由于浏览器安全策略限制，阻止前端代码从与其源（协议、域名和端口）不同的后端服务器加载资源。为了解决这个问题，你可以采取以下几种方法：</p>
+<p><strong>1. 后端配置CORS</strong></p>
+<p>在后端服务器配置CORS策略，允许来自特定源（或所有源）的请求。这通常涉及到设置HTTP响应头，如<code>Access-Control-Allow-Origin</code>、<code>Access-Control-Allow-Methods</code>、<code>Access-Control-Allow-Headers</code>等。</p>
+<p>例如，在Express.js中，你可以使用<code>cors</code>中间件来轻松配置CORS：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token keyword">const</span> cors <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'cors'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 允许所有源访问  </span>
+  
+<span class="token comment" spellcheck="true">// 或者指定允许的源  </span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+  origin<span class="token punctuation">:</span> <span class="token string">'http://example.com'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 只允许来自http://example.com的请求  </span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'GET'</span><span class="token punctuation">,</span> <span class="token string">'POST'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 允许的HTTP方法  </span>
+  allowedHeaders<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'Authorization'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 允许的请求头  </span>
+  credentials<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 允许携带凭据（如cookies、HTTP认证及客户端SSL证明等）  </span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  
+<span class="token comment" spellcheck="true">// 其他中间件和路由...</span>
+</code></pre>
+<p><strong>2. 代理服务器（Proxy Server）</strong></p>
+<p>在开发环境中，你可以使用代理服务器来转发请求。Vue CLI项目提供了<code>vue.config.js</code>文件来配置开发服务器的代理设置。你可以在<code>devServer.proxy</code>选项中指定代理规则。</p>
+<p>例如：</p>
+<pre class=" language-javascript"><code class="language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  devServer<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+    proxy<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+      <span class="token string">'/api'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+        target<span class="token punctuation">:</span> <span class="token string">'http://example.com'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 目标服务器地址  </span>
+        changeOrigin<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 开启代理，允许跨域  </span>
+        pathRewrite<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+          <span class="token string">'^/api'</span><span class="token punctuation">:</span> <span class="token string">''</span> <span class="token comment" spellcheck="true">// 重写路径，例如将'/api/users'转换为'/users'  </span>
+        <span class="token punctuation">}</span>  
+      <span class="token punctuation">}</span>  
+    <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>3. JSONP</strong></p>
+<p>对于GET请求，你可以考虑使用JSONP（JSON with Padding）作为一种替代方案。JSONP通过在URL后添加一个回调函数名来绕过浏览器的同源策略限制。但是，JSONP只支持GET请求，并且存在安全风险（如XSS攻击）。</p>
+<p><strong>4. 使用CORS代理插件</strong></p>
+<p>在开发环境中，你可以使用浏览器插件（如Allow CORS: Access-Control-Allow-Origin）来暂时绕过浏览器的CORS限制。但是请注意，这种方法仅适用于开发环境，并且不适用于生产环境。</p>
+<p><strong>5. 检查前端代码</strong></p>
+<p>确保你的前端代码没有错误地设置CORS请求头（如<code>Access-Control-Allow-Origin</code>），因为这些头应该是由后端服务器设置的，而不是前端。</p>
+<p><strong>6. 考虑使用其他技术栈</strong></p>
+<p>如果你经常遇到跨域问题，并且后端服务器不支持CORS或代理设置，你可能需要考虑使用其他技术栈或框架，这些技术栈或框架提供了更好的跨域支持或内置了代理功能。</p>
 <h4 id="vue-中使用了哪些设计模式"><a href="#vue-中使用了哪些设计模式" class="headerlink" title="vue 中使用了哪些设计模式"></a>vue 中使用了哪些设计模式</h4><blockquote>
 <p>1.工厂模式 - 传入参数即可创建实例</p>
 <p>虚拟 DOM 根据参数的不同返回基础标签的 Vnode 和组件 Vnode</p>
