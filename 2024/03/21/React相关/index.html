@@ -532,47 +532,54 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <blockquote>
 <ol>
 <li><p>属性代理（Props Proxy）</p>
-<p>：</p>
 <ul>
 <li>高阶组件接收一个组件并返回一个新的组件，这个新组件将原始组件包裹在一个容器组件中，并控制原始组件接收的props。</li>
+</ul>
+</li>
+</ol>
+<ul>
 <li>示例：<code>withRouter</code>（React Router库提供），它给组件注入<code>history</code>对象，使其具备导航功能。</li>
 </ul>
-</li>
+<ol start="2">
 <li><p>操作props</p>
-<p>：</p>
 <ul>
 <li>高阶组件接收原始组件的props，并对其进行修改、增强或添加新的props，然后将这些props传递给原始组件。</li>
+</ul>
+</li>
+</ol>
+<ul>
 <li>示例：<code>connect</code>（Redux库提供），它用于连接React组件到Redux store，将store中的state作为props注入到组件中，并允许组件触发actions来更新state。</li>
 </ul>
-</li>
+<ol start="3">
 <li><p>抽象state</p>
-<p>：</p>
 <ul>
 <li>高阶组件可以管理原始组件的状态（state），并将其提取到高阶组件中。</li>
-<li>示例：一个自定义的HOC可以接收一个无状态的组件，并为其添加本地状态，以便在不需要使用class组件的情况下管理状态。</li>
 </ul>
 </li>
-<li><p>渲染劫持（Render Highjacking）</p>
-<p>：</p>
+</ol>
+<ul>
+<li>示例：一个自定义的HOC可以接收一个无状态的组件，并为其添加本地状态，以便在不需要使用class组件的情况下管理状态。</li>
+</ul>
+<ol start="4">
+<li>渲染劫持（Render Highjacking）</li>
+</ol>
 <ul>
 <li>高阶组件可以改变原始组件的渲染输出，而不必更改其实际的结构。</li>
 <li>示例：一个HOC可以接收一个组件，并在其渲染结果周围添加额外的元素或样式。</li>
 </ul>
-</li>
-<li><p>包装组件</p>
-<p>：</p>
+<ol start="5">
+<li>包装组件</li>
+</ol>
 <ul>
 <li>高阶组件可以接收一个组件，并返回一个新的组件，这个新组件在原始组件的基础上添加了额外的功能或行为。</li>
 <li>示例：一个HOC可以接收一个组件，并为其添加错误边界（Error Boundaries）功能，以便在子组件树中捕获任何未处理的JavaScript错误。</li>
 </ul>
-</li>
-<li><p>其他场景</p>
-<p>：</p>
+<ol start="6">
+<li>其他场景</li>
+</ol>
 <ul>
 <li>除了上述示例之外，你还可以使用高阶组件来实现许多其他功能，如权限控制、国际化、日志记录等。</li>
 </ul>
-</li>
-</ol>
 </blockquote>
 <p>需要注意的是，虽然高阶组件在React中非常有用，但它们也可能导致组件树变得复杂和难以调试。因此，在使用高阶组件时，请确保你了解其工作原理和潜在的影响，并谨慎使用它们来构建你的应用程序。</p>
 <h3 id="React-Diff-算法与-Fiber-架构"><a href="#React-Diff-算法与-Fiber-架构" class="headerlink" title="React Diff 算法与 Fiber 架构"></a>React Diff 算法与 Fiber 架构</h3><h4 id="react中的虚拟dom"><a href="#react中的虚拟dom" class="headerlink" title="react中的虚拟dom"></a>react中的虚拟dom</h4><p>React中的虚拟DOM（Virtual DOM）是一个关键的概念，它极大地提高了React应用的渲染性能。以下是对React虚拟DOM的详细解释：</p>
@@ -592,22 +599,26 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><p><strong>虚拟DOM的优劣</strong>：</p>
 <ul>
 <li><p>优点</p>
-<p>：</p>
 <ul>
 <li>减少了不必要的DOM操作：通过对比新旧虚拟DOM，React能够精确地知道哪些部分需要更新，从而避免了不必要的DOM重排和重绘。</li>
-<li>提高了渲染性能：由于只在数据发生变化时才会更新Real DOM，相比于直接操作Real DOM，节约了更多的资源消耗。</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<p>：</p>
-<ul>
-<li>需要额外的计算开销：使用虚拟DOM需要进行额外的计算来构建和比较虚拟DOM树，这可能会造成一定的计算开销。</li>
-<li>内存消耗：在内存中维护一个虚拟DOM树需要额外的内存空间。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ol>
+<ul>
+<li><p>提高了渲染性能：由于只在数据发生变化时才会更新Real DOM，相比于直接操作Real DOM，节约了更多的资源消耗。</p>
+<ul>
+<li><p>缺点</p>
+<ul>
+<li>需要额外的计算开销：使用虚拟DOM需要进行额外的计算来构建和比较虚拟DOM树，这可能会造成一定的计算开销。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>内存消耗：在内存中维护一个虚拟DOM树需要额外的内存空间。</p>
+</li>
+</ul>
 </blockquote>
 <p>总的来说，React的虚拟DOM技术使得React能够更高效地处理UI的更新和渲染，从而提高了应用的性能。</p>
 <h4 id="react栈调和、diff算法说一下"><a href="#react栈调和、diff算法说一下" class="headerlink" title="react栈调和、diff算法说一下"></a>react栈调和、diff算法说一下</h4><p>在React中，”调和”（Reconciliation）和”Diff算法”（Diffing Algorithm）是两个紧密相关的概念，它们共同构成了React用于更新DOM的核心机制。以下是对这两个概念的详细解释：</p>
@@ -660,14 +671,14 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>总之，React框架以其声明式设计、组件化、高效和灵活等特点，以及庞大的生态系统和跨平台能力，成为了现代Web开发中的重要一环。</p>
 <h4 id="React框架渲染层面有什么特别，跟document-的方式有什么区别吗？"><a href="#React框架渲染层面有什么特别，跟document-的方式有什么区别吗？" class="headerlink" title="React框架渲染层面有什么特别，跟document 的方式有什么区别吗？"></a>React框架渲染层面有什么特别，跟document 的方式有什么区别吗？</h4><p>React框架在渲染层面的特点主要体现在其独特的虚拟DOM（Virtual DOM）机制和并发渲染机制上，这些机制使得React在处理复杂的UI更新时能够保持高效和可响应性。与直接使用document对象进行DOM操作的方式相比，React的渲染方式具有以下区别和优势：</p>
 <blockquote>
-<blockquote>
-</blockquote>
 <ol>
-<li>虚拟DOM（Virtual DOM）：<ul>
+<li>虚拟DOM（Virtual DOM）：</li>
+</ol>
+<ul>
 <li>React会先将你的代码转换成一个JavaScript对象来模拟DOM中的节点，这个JavaScript对象就是虚拟DOM。当React组件的状态发生变化时，它会重新生成一个新的虚拟DOM树，并与旧的虚拟DOM树进行对比（通过diff算法），找出需要更新的部分。</li>
 <li>与直接使用document对象操作DOM相比，虚拟DOM的优势在于它避免了不必要的DOM操作。因为虚拟DOM的对比和更新是在JavaScript层面进行的，所以速度非常快。只有当需要更新真实的DOM时，React才会将变更应用到实际的DOM上，从而提高了渲染性能。</li>
 </ul>
-</li>
+<ol start="2">
 <li>并发渲染机制：<ul>
 <li>React的并发渲染机制主要目标是根据用户的设备性能和网速对渲染过程进行适当的调整，帮助应用始终保持可响应。它能够优先执行高优先级变更，避免页面出现卡顿或无响应的情况，从而提升用户体验。</li>
 <li>在并发渲染模式下，React可以将渲染任务拆分成多个较小的任务，并在不同的时间片中执行这些任务。这样即使在高负载的情况下，React也能保持应用的流畅性和可交互性。</li>
@@ -685,49 +696,41 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <blockquote>
 <ol>
 <li><p>Props</p>
-<p>：</p>
 <ul>
 <li>这是最常用和基础的组件通信方式。父组件通过props将数据传递给子组件，子组件通过<code>this.props</code>来访问这些数据。</li>
 </ul>
 </li>
 <li><p>回调函数（Callback Functions）</p>
-<p>：</p>
 <ul>
 <li>父组件可以通过在子组件上传递一个回调函数作为props，让子组件在需要时调用该函数，并将数据作为参数传递回去。这样，子组件就能够将数据发送回父组件。</li>
 </ul>
 </li>
 <li><p>Context</p>
-<p>：</p>
 <ul>
 <li>当需要在多个层级的组件之间共享数据时，可以使用React的Context API。它允许你声明性地在组件树之间共享值，而无需显式地通过每一层组件传递props。</li>
 </ul>
 </li>
 <li><p>Redux 或其他状态管理库</p>
-<p>：</p>
 <ul>
 <li>对于更复杂的应用程序，可能需要使用Redux或其他状态管理库来管理全局状态。这些库提供了一个集中的地方来存储和管理应用程序的状态，并提供了一种机制来订阅状态的变化和触发状态更新。</li>
 </ul>
 </li>
 <li><p>事件冒泡（Event Bubbling）</p>
-<p>：</p>
 <ul>
 <li>在DOM中，事件可以通过冒泡机制从子组件传播到父组件。React也支持这种机制，因此你可以通过自定义事件或DOM事件在组件之间传递信息。</li>
 </ul>
 </li>
 <li><p>Refs</p>
-<p>：</p>
 <ul>
 <li>虽然refs主要用于直接访问DOM节点或React元素实例，但也可以用来在父子组件之间建立直接的引用关系。然而，由于这破坏了组件的封装性，通常不建议过度使用refs进行组件通信。</li>
 </ul>
 </li>
 <li><p>Render Props</p>
-<p>：</p>
 <ul>
 <li>Render props是一种在React中共享代码的模式。它允许你将一个组件的渲染逻辑作为子组件传递给另一个组件，并在该组件中渲染它。这可以用于在组件之间传递渲染相关的函数或数据。</li>
 </ul>
 </li>
 <li><p>兄弟组件通信</p>
-<p>：</p>
 <ul>
 <li>对于兄弟组件之间的通信，通常需要使用一个共同的父组件作为中介。父组件可以维护它们共享的状态，并通过props将数据传递给子组件。子组件可以通过回调函数或其他机制将数据发送回父组件，然后由父组件再将数据传递给其他子组件。</li>
 </ul>
@@ -737,15 +740,15 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>请注意，每种方法都有其适用场景和优缺点。在选择适当的通信方法时，请根据你的应用程序的具体需求和结构进行权衡。</p>
 <h4 id="React中的受控组件与非受控组件"><a href="#React中的受控组件与非受控组件" class="headerlink" title="React中的受控组件与非受控组件"></a>React中的受控组件与非受控组件</h4><p>React中的受控组件（Controlled Components）和非受控组件（Uncontrolled Components）是两种处理表单输入数据的不同方式。</p>
 <blockquote>
-<blockquote>
-</blockquote>
 <ol>
-<li><strong>受控组件</strong>：<ul>
+<li><strong>受控组件</strong>：</li>
+</ol>
+<ul>
 <li>受控组件是由React组件完全控制的表单元素。其值由React组件的状态（state）进行管理，这意味着组件的状态会用于存储和更新表单元素的值。</li>
 <li>在受控组件中，你需要在组件的状态中设置表单元素的初始值，并通过监听表单元素的变化事件（如onChange）来更新组件的状态。当表单元素的值改变时，事件处理器会触发，并更新组件的状态。由于值受到状态的控制，你可以在事件处理器中执行验证和处理逻辑，并在状态更新后对值进行处理。</li>
 <li>需要对组件的value值进行修改时，使用受控组件是一个很好的选择。例如，如果你有一个按钮，每次点击时受控组件的值需要增加，那么受控组件是一个合适的选择。</li>
 </ul>
-</li>
+<ol start="2">
 <li><strong>非受控组件</strong>：<ul>
 <li>非受控组件是由DOM自身管理和处理的表单元素。React组件不直接追踪或管理表单元素的状态，而是通过引用（ref）来访问表单元素的值和状态。</li>
 <li>在非受控组件中，你不需要设置value属性，而是直接通过ref来访问DOM元素并获取其值。这使得非受控组件更接近于传统的HTML表单，组件无需为每个用户输入事件创建事件处理函数，而是直接从DOM中读取值。</li>
@@ -757,8 +760,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>总的来说，受控组件和非受控组件在React中都有其应用场景。受控组件提供了更大的灵活性和对表单元素值的控制，而非受控组件则更简洁并更接近传统的HTML表单处理方式。在选择使用哪种组件时，你需要根据具体的应用场景和需求来做出决策。</p>
 <h4 id="React中为什么要劫持事件？"><a href="#React中为什么要劫持事件？" class="headerlink" title="React中为什么要劫持事件？"></a>React中为什么要劫持事件？</h4><p>React中劫持事件（或称为事件代理）的主要原因是为了提高性能和简化事件处理。以下是关于React劫持事件的几个关键点：</p>
 <blockquote>
-<blockquote>
-</blockquote>
 <ol>
 <li><strong>性能优化</strong>：在React中，事件处理程序不是直接绑定到每个DOM元素上的，而是被注册在组件的顶层。这意味着React维护一个事件监听器，而不是在每个DOM元素上都添加监听器。当事件发生时，React使用事件代理技术来确定哪个组件应该接收这个事件，并触发相应的事件处理程序。这种方法减少了内存使用和DOM操作，从而提高了性能。</li>
 <li><strong>简化事件处理</strong>：通过事件代理，React提供了一个统一的接口来处理DOM事件。无论在哪个DOM元素上触发事件，事件处理程序都会以相同的方式接收事件对象，这消除了处理不同浏览器和DOM元素之间事件差异的需要。React的合成事件对象（SyntheticEvent）提供了一致性接口，使开发者能够更容易地访问事件的相关信息。</li>
@@ -1246,10 +1247,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <li><strong>定义核心概念</strong>：</li>
 </ol>
 <p>Redux有三个核心概念：actions、reducers和store。</p>
-<pre><code>* **Actions**：动作对象，包含两个属性。`type`是标识属性，值为唯一字符串，是必要属性；`data`是数据属性，可以包含任意类型的数据，是可选属性。Actions通过action生成器创建，这些生成器仅仅是返回action的函数。  
-* **Reducers**：用于初始化状态、加工状态的纯函数。加工时，根据state和action，产生新的state。  
-* **Store**：将state、action、reducer联系在一起的对象。你可以使用Redux提供的`createStore`函数来创建一个store。
-</code></pre>
+<blockquote>
+<ul>
+<li><strong>Actions</strong>：动作对象，包含两个属性。<code>type</code>是标识属性，值为唯一字符串，是必要属性；<code>data</code>是数据属性，可以包含任意类型的数据，是可选属性。Actions通过action生成器创建，这些生成器仅仅是返回action的函数。  </li>
+<li><strong>Reducers</strong>：用于初始化状态、加工状态的纯函数。加工时，根据state和action，产生新的state。  </li>
+<li><strong>Store</strong>：将state、action、reducer联系在一起的对象。你可以使用Redux提供的<code>createStore</code>函数来创建一个store。</li>
+</ul>
+</blockquote>
 <ol start="3">
 <li><strong>创建Store</strong>：</li>
 </ol>
@@ -1268,48 +1272,44 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h4 id="Redux的实现原理"><a href="#Redux的实现原理" class="headerlink" title="Redux的实现原理"></a>Redux的实现原理</h4><p>Redux的实现原理可以概括为以下几个核心部分：</p>
 <ol>
 <li><p>Store（存储）</p>
-<p>：</p>
 <ul>
 <li>Redux应用程序的状态存储在一个单一的JavaScript对象中，称为Store。这个Store包含了整个应用程序的状态树。</li>
 <li>Store通过<code>dispatch(action)</code>方法来更新状态。每当一个action被分发（dispatch）时，Redux都会将当前的state和该action一起传递给reducer。</li>
 </ul>
 </li>
 <li><p>Action（动作）</p>
-<p>：</p>
 <ul>
 <li>Action是一个描述状态变化的纯JavaScript对象。它必须包含一个<code>type</code>字段，用于指定要执行的操作类型。</li>
 <li>根据需要，Action还可以包含其他字段来传递数据。例如，你可以有一个<code>&#123; type: &#39;INCREMENT&#39;, amount: 1 &#125;</code>的Action来表示一个增加计数的操作。</li>
 </ul>
 </li>
 <li><p>Reducer（规约器）</p>
-<p>：</p>
 <ul>
 <li>Reducer是一个纯函数，它接收当前的state和一个action作为参数，并返回一个新的state。</li>
 <li>Reducer负责根据传入的action来更新state。由于reducer是纯函数，所以相同的输入总是产生相同的输出，这有助于保持应用程序的状态是可预测和可调试的。</li>
 </ul>
 </li>
 <li><p>Dispatch（分发）</p>
-<p>：</p>
 <ul>
 <li>Dispatch是一个方法，用于触发状态的更新。当你调用<code>dispatch(action)</code>时，Redux会将当前的state和该action一起传递给reducer。</li>
 <li>Reducer会处理这个action并返回一个新的state。然后，Redux会用这个新的state来更新Store中的状态。</li>
 </ul>
 </li>
 <li><p>Subscribe（订阅）</p>
-<p>：</p>
 <ul>
 <li>Subscribe是一个方法，用于订阅Store中状态的变化。当一个组件或其他部分需要知道Store中的状态何时发生变化时，它们可以调用<code>store.subscribe(listener)</code>来注册一个监听器。</li>
 <li>当Store中的状态发生变化时，Redux会调用所有注册的监听器，并将新的state作为参数传递给它们。这样，监听器就可以知道状态何时发生变化，并可以根据需要更新自己。</li>
 </ul>
 </li>
 <li><p>Middleware（中间件）</p>
-<p>：</p>
 <ul>
 <li>虽然Middleware不是Redux的核心部分，但它是Redux生态系统中非常重要的一部分。Middleware允许你在action被发送到reducer之前对其进行拦截、修改或处理。</li>
-<li>例如，你可以使用middleware来实现异步操作、日志记录、异常处理等功能。</li>
 </ul>
 </li>
 </ol>
+<ul>
+<li>例如，你可以使用middleware来实现异步操作、日志记录、异常处理等功能。</li>
+</ul>
 <p>通过这些核心部分，Redux提供了一个可预测、可维护的状态管理解决方案，使得在React等前端框架中管理复杂的应用程序状态变得更加容易和可靠。</p>
 <h4 id="Redux中间件了解过吗？"><a href="#Redux中间件了解过吗？" class="headerlink" title="Redux中间件了解过吗？"></a>Redux中间件了解过吗？</h4><p>Redux中间件是一种拦截Redux的派发过程，并对派发的action进行一系列处理的机制。它允许我们在action到达reducer之前或之后执行自定义的逻辑，例如日志记录、异步操作、路由等。Redux中间件提供了一种机制，让我们可以在Redux的派发过程中进行额外的操作，从而更加灵活地处理各种场景下的状态管理需求。</p>
 <p>在Redux中，中间件可以改变数据流，实现如异步action、action过滤、日志输出、异常报告等功能。中间件的本质是对dispatch的功能做了扩展，使得action -&gt; reducer的过程变为action -&gt; middlewares -&gt; reducer。</p>
@@ -1384,54 +1384,46 @@ yarn add redux redux-thunk
 <p>在这个例子中，当<code>MyComponent</code>组件挂载时，它会调用<code>fetchData</code> action。由于<code>fetchData</code>返回一个函数，<code>redux-thunk</code>中间件会拦截这个action，并执行这个函数。在函数内部，我们执行了一个异步的fetch操作，并在操作成功或失败时派发了相应的action。这些action随后被<code>dataReducer</code> reducer处理，并更新了Redux store中的状态。</p>
 <h4 id="React中状态管理的方式除了redux，还有哪些？"><a href="#React中状态管理的方式除了redux，还有哪些？" class="headerlink" title="React中状态管理的方式除了redux，还有哪些？"></a>React中状态管理的方式除了redux，还有哪些？</h4><ol>
 <li><p>React的内置状态（State）和Hooks</p>
-<p>：</p>
 <ul>
 <li>React组件可以使用<code>useState</code>钩子来管理内部的状态。它允许你在函数组件中定义和更新状态。</li>
 <li>通过<code>createContext</code>和<code>useContext</code>钩子，你可以在组件树中共享数据，避免通过多层嵌套传递props的繁琐过程。</li>
 </ul>
 </li>
 <li><p>React Context API</p>
-<p>：</p>
 <ul>
 <li>React Context API是React官方提供的一种状态管理方案。</li>
 <li>通过创建一个Context对象，你可以在需要共享状态的组件中使用<code>Provider</code>提供状态，并在其他组件中使用<code>Consumer</code>或<code>useContext</code>钩子来获取状态。</li>
 </ul>
 </li>
 <li><p>MobX</p>
-<p>：</p>
 <ul>
 <li>MobX是一个可扩展的状态管理库，通过透明的函数式响应式编程（TFRP：Transparent Functional Reactive Programming）使得状态管理变得非常简单。</li>
 <li>它使用可观察对象来封装状态，并在状态发生变化时自动更新相关的组件。</li>
 </ul>
 </li>
 <li><p>Zustand</p>
-<p>：</p>
 <ul>
 <li>Zustand是一个轻量级的、可扩展的状态管理库，专为React和React Native设计。</li>
 <li>它提供了简单直观的API来创建和管理状态，并支持TypeScript和React Hooks。</li>
 </ul>
 </li>
 <li><p>Recoil</p>
-<p>：</p>
 <ul>
 <li>Recoil是Facebook推出的一款新型状态管理库，旨在通过提供一种更加直观和简洁的方式来简化React应用中的状态管理。</li>
 <li>它使用了JavaScript的Proxy和React的并发特性来实现快速和高效的状态更新。</li>
 </ul>
 </li>
 <li><p>多个状态提供者</p>
-<p>：</p>
 <ul>
 <li>在大型应用中，可以在多个层级上设置提供者（Provider），而不是仅仅在应用的顶层。这样可以控制渲染发生的具体位置和范围。</li>
 </ul>
 </li>
 <li><p>状态选择</p>
-<p>：</p>
 <ul>
 <li>在使用Context时，可以通过传递一个函数给Consumer（或<code>useContext</code>），而不是直接传递整个状态对象。这个函数可以从全局状态中选择组件特定需要的部分状态。这样可以避免组件不必要的更新，并使组件的意图更加明显。</li>
 </ul>
 </li>
 <li><p>避免在Context Value中传递新对象或函数</p>
-<p>：</p>
 <ul>
 <li>这会在每次Provider渲染时创建新的引用，导致所有消费者组件重新渲染。你可以通过使用<code>useCallback</code>来缓存函数，以及使用<code>useMemo</code>来缓存计算得出的值。</li>
 </ul>
@@ -1621,21 +1613,18 @@ yarn add redux redux-thunk
 <h4 id="React的渲染原理"><a href="#React的渲染原理" class="headerlink" title="React的渲染原理"></a>React的渲染原理</h4><p>React的渲染原理主要基于其独特的虚拟DOM（Virtual DOM）和Diffing算法，以及近年来引入的Fiber架构。以下是React渲染原理的简要概述：</p>
 <ol>
 <li><p>虚拟DOM（Virtual DOM）</p>
-<p>：</p>
 <ul>
 <li>React在内存中维护了一个虚拟DOM树，这是真实DOM树的一个轻量级副本。当状态或属性发生变化时，React会生成一个新的虚拟DOM树。</li>
 <li>这个新的虚拟DOM树会与旧的虚拟DOM树进行比较（Diffing），以确定需要更新的最小数量的真实DOM节点。</li>
 </ul>
 </li>
 <li><p>Diffing算法</p>
-<p>：</p>
 <ul>
 <li>React使用了一种高效的Diffing算法（也称为“调和”算法）来比较新旧虚拟DOM树之间的差异。</li>
 <li>该算法通过一些策略（如深度优先遍历、节点标记等）来减少不必要的DOM操作，从而提高性能。</li>
 </ul>
 </li>
 <li><p>Fiber架构</p>
-<p>：</p>
 <ul>
 <li>随着React版本的发展，React团队引入了Fiber架构来改进其内部渲染机制。</li>
 <li>Fiber将渲染任务分解为可中断的小块（称为“工作单元”），使得React能够在不影响用户体验的情况下进行部分重渲染。</li>
@@ -1643,7 +1632,6 @@ yarn add redux redux-thunk
 </ul>
 </li>
 <li><p>渲染过程</p>
-<p>：</p>
 <ul>
 <li>React的渲染过程可以分为三个阶段：计算阶段（Compute Phase）、渲染阶段（Render Phase）和提交阶段（Commit Phase）。<ul>
 <li>在计算阶段，React会根据组件的更新优先级和调度策略，将工作单元分成多个批次进行处理。</li>
@@ -1654,88 +1642,99 @@ yarn add redux redux-thunk
 </ul>
 </li>
 <li><p>并发模式（Concurrency Mode）</p>
-<p>：</p>
 <ul>
 <li>React的并发模式是一种用于处理大型和复杂应用程序的特性，旨在提高应用程序的性能和响应能力。</li>
-<li>并发模式允许React在不影响用户体验的情况下进行部分重渲染，并且提供了更多的控制和灵活性。</li>
 </ul>
 </li>
 </ol>
+<ul>
+<li>并发模式允许React在不影响用户体验的情况下进行部分重渲染，并且提供了更多的控制和灵活性。</li>
+</ul>
 <p>总的来说，React的渲染原理是通过虚拟DOM和Diffing算法来减少不必要的DOM操作，提高性能；同时，Fiber架构和并发模式进一步改进了React的内部渲染机制，使其能够更好地处理大型和复杂的应用程序。</p>
 <h4 id="React-中组件的优化方法"><a href="#React-中组件的优化方法" class="headerlink" title="React 中组件的优化方法"></a>React 中组件的优化方法</h4><p>在React中，组件的优化方法有多种，以下是一些常用的优化技巧：</p>
 <blockquote>
 <ol>
 <li><p>减少不必要的渲染</p>
-<p>：</p>
 <ul>
 <li>使用<code>React.memo</code>或<code>PureComponent</code>来减少不必要的重新渲染。这些工具通过浅比较props或state来避免不必要的渲染。</li>
+</ul>
+</li>
+</ol>
+<ul>
 <li>对于函数组件，可以使用<code>React.memo</code>进行包裹，这样只有当传入的props发生变化时，组件才会重新渲染。</li>
 <li>对于类组件，可以继承<code>React.PureComponent</code>或使用<code>shouldComponentUpdate</code>生命周期方法来进行手动比较和控制是否重新渲染。</li>
 </ul>
-</li>
+<ol start="2">
 <li><p>列表渲染性能优化</p>
-<p>：</p>
 <ul>
 <li>在列表渲染中，为每个列表项提供一个唯一的<code>key</code>属性。这有助于React识别列表项的变化，减少不必要的渲染。</li>
+</ul>
+</li>
+</ol>
+<ul>
 <li>使用<code>React.Fragment</code>或空的占位元素（如<code>&lt;&gt;&lt;/&gt;</code>）来避免额外的DOM节点，从而减少渲染的复杂度。</li>
 </ul>
-</li>
+<ol start="3">
 <li><p>避免多层级的嵌套组件</p>
-<p>：</p>
 <ul>
 <li>减少组件的嵌套层级，可以降低React的diff算法的复杂度和渲染时间。</li>
-<li>使用高阶组件（HOC）或Render Props模式来替代深层嵌套的组件。</li>
 </ul>
 </li>
-<li><p>懒加载组件</p>
-<p>：</p>
+</ol>
+<ul>
+<li>使用高阶组件（HOC）或Render Props模式来替代深层嵌套的组件。</li>
+</ul>
+<ol start="4">
+<li>懒加载组件</li>
+</ol>
 <ul>
 <li>对于不是立即需要的组件，可以使用React的懒加载（lazy loading）功能来按需加载它们。这可以减少初始渲染的体积和提高首屏加载速度。</li>
 <li>使用<code>React.lazy</code>和<code>Suspense</code>组件来实现懒加载。</li>
 </ul>
-</li>
-<li><p>利用缓存</p>
-<p>：</p>
+<ol start="5">
+<li>利用缓存</li>
+</ol>
 <ul>
 <li>使用React的<code>useMemo</code>和<code>useCallback</code> Hooks来缓存昂贵的计算结果和函数，避免在每次渲染时都重新计算。</li>
 <li>这些Hooks允许你提供一个计算函数和依赖项数组，只有当依赖项发生变化时，才会重新计算结果或函数。</li>
 </ul>
-</li>
-<li><p>代码分割</p>
-<p>：</p>
+<ol start="6">
+<li>代码分割</li>
+</ol>
 <ul>
 <li>使用Webpack或其他打包工具进行代码分割，将代码拆分成多个小的包，并在需要时按需加载它们。这可以加快初始加载速度并减少内存使用。</li>
 </ul>
-</li>
-<li><p>优化state更新</p>
-<p>：</p>
+<ol start="7">
+<li>优化state更新</li>
+</ol>
 <ul>
 <li>避免在事件处理程序中直接修改state，而是使用setState方法。</li>
 <li>批量更新state，以减少不必要的渲染和重新计算。</li>
 </ul>
-</li>
-<li><p>使用Profiler API</p>
-<p>：</p>
+<ol start="8">
+<li>使用Profiler API</li>
+</ol>
 <ul>
 <li>React Profiler API可以帮助你分析组件的渲染性能，找出性能瓶颈并进行优化。</li>
 </ul>
-</li>
-<li><p>优化第三方库和依赖</p>
-<p>：</p>
+<ol start="9">
+<li>优化第三方库和依赖</li>
+</ol>
 <ul>
 <li>检查项目中使用的第三方库和依赖，确保它们是最新版本且性能良好。</li>
 <li>尽量避免使用过大或性能较差的库，或者寻找替代方案。</li>
 </ul>
-</li>
+<ol start="10">
 <li><p>其他前端通用优化</p>
-<p>：</p>
 <ul>
 <li>使用CSS3动画代替JavaScript动画，以提高性能。</li>
 <li>减少DOM操作，尽量使用React的声明式语法来描述UI。</li>
-<li>压缩和优化图片资源，减少网络传输时间。</li>
 </ul>
 </li>
 </ol>
+<ul>
+<li>压缩和优化图片资源，减少网络传输时间。</li>
+</ul>
 </blockquote>
 <p>请注意，以上优化方法并非一成不变，应根据具体的应用场景和需求进行选择和调整。</p>
 

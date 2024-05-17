@@ -855,16 +855,22 @@ a <span class="token operator">=</span> <span class="token keyword">new</span> <
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'end'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">//p1 -> undefined -> end -> p2 -> p3 -> p4 -> p{pending} -> after1</span>
+<span class="token comment" spellcheck="true">//p1 -> undefined -> p2 -> p3 -> p4 -> p{pending} -> after1 -> end </span>
 </code></pre>
 <blockquote>
-<p>第一个输出 p1，是因为 Promise 里的方法立即执行。接着调用 resolve，只不过 then 里的方法等下一个周期</p>
-<p>第二个输出 undefined，是因为立即执行执行 a 内部的方法，先 console.log(a)，但此时的 a 还没赋值给左边的变量，所以只能是 undefined。然后 await b 就得等下一个周期执行了。</p>
-<p>第三个输出 end，自然不意外。</p>
-<p>接着输出 p2，p3，p4，是因为 await b 等待他执行完了，才轮到 a 内部继续执行。</p>
-<p>输出 Promise { pending }，事件都进入了循环，a 肯定已经被赋值成了 Promise 对象。所以第二遍 console.log(a)，自然就输出这个了。</p>
-<p>输出 after1 不奇怪。</p>
-<p>await a 时，a 是必须等待 Promise 的状态从 pending 到 fullfilled 才会继续往下执行，可 a 的状态是一直得不到更改的，所以无法执行下面的逻辑。只要在 await a 上面加一行 resolve() 就能让后面的 after 2 得到输出</p>
+<ol>
+<li><code>const b = new Promise(...)</code> 开始执行，并立即打印 <code>&#39;p1&#39;</code>。</li>
+<li>由于 <code>b</code> 的 Promise 立即解析，<code>then</code> 链中的回调函数（<code>&#39;p2&#39;</code>, <code>&#39;p3&#39;</code>, <code>&#39;p4&#39;</code>）被添加到微任务队列中，但此时它们还没有执行。</li>
+<li><code>a = new Promise(async (resolve, reject) =&gt; &#123;...&#125;)</code> 开始执行，但 <code>async</code> 函数内部的代码是异步的。</li>
+<li>在 <code>async</code> 函数内部，首先执行 <code>console.log(a);</code>，但由于 <code>a</code> 在这一行之前还没有被赋予 Promise 值，所以输出 <code>undefined</code>。</li>
+<li>然后，<code>await b;</code> 会暂停 <code>async</code> 函数的执行，等待 <code>b</code> 的 Promise 解析完成。但由于 <code>b</code> 的 Promise 已经解析，所以这里的等待是瞬间的。</li>
+<li>接下来，<code>console.log(a);</code> 再次被执行，但由于此时 <code>a</code> 已经被赋予了 Promise 值，它将会输出 Promise 对象的字符串表示（类似于 <code>[Promise]</code>）。</li>
+<li>然后，<code>&#39;after1&#39;</code> 被打印。</li>
+<li>接下来的 <code>await a;</code> 会导致问题，因为 <code>a</code> 是一个正在执行的 <code>async</code> 函数返回的 Promise，而这个 Promise 试图在其执行过程中等待它自己（即 <code>await a</code>）。这是一个死锁情况，JavaScript 运行时不会允许这种情况发生，所以实际上 <code>await a;</code> 会被忽略或者导致运行时错误（取决于具体实现）。但在这里，我们假设它只是被忽略。</li>
+<li>接下来，<code>resolve(true);</code> 调用会解析 <code>a</code> 的 Promise，但由于 <code>a</code> 的 Promise 已经在之前被 <code>await</code> 暂停的 <code>async</code> 函数内部使用了，所以这一步实际上不会立即触发任何 <code>then</code> 回调。</li>
+<li><code>&#39;after2&#39;</code> 不会被打印，因为 <code>resolve(true);</code> 之后的代码是在 <code>a</code> 的 Promise 解析后的回调中执行的，但由于没有为 <code>a</code> 添加 <code>then</code> 回调，这部分代码不会被执行。</li>
+<li>最后，<code>&#39;end&#39;</code> 被打印，因为这是同步代码块中的最后一行代码。</li>
+</ol>
 </blockquote>
 <p><strong>2..如何限制并行 Promise？</strong></p>
 <p>要做到这一点，我们需要以某种方式限制<code>Promise.all</code>。假设你有许多并发请求要执行。 如果使用 <code>Promise.all</code> 是不好的（特别是在API受到速率限制时）。 因此，我们需要一个方法来限制 Promise 个数， 我们称其为<code>promiseAllThrottled</code>。</p>
@@ -1346,6 +1352,11 @@ require（<span class="token punctuation">[</span>module<span class="token punct
 <h4 id="ES6-模块和Common-js-模块的差异："><a href="#ES6-模块和Common-js-模块的差异：" class="headerlink" title="ES6 模块和Common js 模块的差异："></a>ES6 模块和Common js 模块的差异：</h4><p>1、CommonJS 输出的是一个值的拷贝；ES6 模块输出的是值的引用；</p>
 <p>2、CommonJS 模块是运行时加载；ES6模块是编译时输出接口；</p>
 <p>由于ES6 模块是编译时输出接口，所以可以做到 tree shaking；</p>
+<h4 id="Tree-shaking"><a href="#Tree-shaking" class="headerlink" title="Tree shaking"></a>Tree shaking</h4><p>Tree shaking（摇树优化）是一种优化技术，主要用于在打包过程中删除未使用的代码，以减少最终生成的包的大小。这种技术是通过静态分析代码中的模块依赖关系来确定哪些代码可以安全地删除的。</p>
+<p>具体来说，Tree shaking利用了ES6的模块化语法（import和export），通过静态分析代码之间的引用关系，来判断哪些模块未被引用，进而删除对应代码。这样，最终生成的代码只包含应用程序中实际使用的部分，从而减小了代码体积，提高了加载性能。</p>
+<p>在前端开发中，特别是在使用模块化工具（如Webpack、Rollup等）构建应用程序时，通常会引入许多库和模块。然而，应用程序可能只使用了这些库的一小部分功能，导致最终生成的代码包含了大量未被使用的代码。Tree shaking技术通过静态分析代码来确定哪些代码是可到达的并且被使用的，然后去除那些未被使用的部分。</p>
+<p>Tree shaking的实现原理是基于ESModule规范的Dead Code Elimination技术，它会在运行过程中静态分析模块之间的导入导出，确定ESM模块中哪些导出值未曾被其他模块使用，并将其删除，以此实现打包产物的优化。</p>
+<p>总之，Tree shaking是一种重要的前端性能优化手段，通过删除未使用的代码来减小代码体积，提高应用程序的加载性能。</p>
 <h4 id="import-和-require-导入的区别"><a href="#import-和-require-导入的区别" class="headerlink" title="import 和 require 导入的区别"></a><strong>import 和 require 导入的区别</strong></h4><p>import 的ES6 标准模块：是编译时调用，所以必须放在文件开头，是解构过程。</p>
 <p>require 是 AMD规范引入方式：是运行时调用，所以require理论上可以运用在代码的任何地方，是赋值过程。</p>
 <p>其实require的结果就是对象、数字、字符串、函数等，再把require的结果赋值给某个变量。</p>
