@@ -964,7 +964,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 </li>
 </ul>
 <h5 id="Module-与-Module-子类"><a href="#Module-与-Module-子类" class="headerlink" title="Module 与 Module 子类"></a><code>Module</code> 与 <code>Module</code> 子类</h5><p>​        从上文可以看出，webpack 构建阶段的核心流程基本上都围绕着 <code>module</code> 展开，相信接触过、用过 Webpack 的读者对 <code>module</code> 应该已经有一个感性认知，但是实现上 <code>module</code> 的逻辑是非常复杂繁重的。</p>
-<p>​        以 <a href="mailto:&#119;&#x65;&#98;&#112;&#x61;&#x63;&#x6b;&#64;&#x35;&#46;&#x32;&#x36;&#46;&#51;">&#119;&#x65;&#98;&#112;&#x61;&#x63;&#x6b;&#64;&#x35;&#46;&#x32;&#x36;&#46;&#51;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
+<p>​        以 <a href="mailto:&#x77;&#101;&#98;&#x70;&#97;&#99;&#x6b;&#64;&#x35;&#x2e;&#x32;&#x36;&#x2e;&#x33;">&#x77;&#101;&#98;&#x70;&#97;&#99;&#x6b;&#64;&#x35;&#x2e;&#x32;&#x36;&#x2e;&#x33;</a> 为例，直接或间接继承自 <code>Module</code> (<code>webpack/lib/Module.js</code> 文件) 的子类有54个：</p>
 <p>​        要一个一个捋清楚这些类的作用实在太累了，我们需要抓住本质：<code>module</code> 的作用是什么？</p>
 <p>​        <code>module</code> 是 webpack 资源处理的基本单位，可以认为 webpack 对资源的路径解析、读入、转译、分析、打包输出，所有操作都是围绕着 module 展开的。有很多文章会说 <strong>module = 文件</strong>， 其实这种说法并不准确，比如子类 <code>AsyncModuleRuntimeModule</code> 就只是一段内置的代码，是一种资源而不能简单等价于实际文件。</p>
 <p>​        Webpack 扩展性很强，包括模块的处理逻辑上，比如说入口文件是一个普通的 js，此时首先创建 NormalModule 对象，在解析 AST 时发现这个文件里还包含了异步加载语句。</p>
@@ -1553,6 +1553,50 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <h3 id="什么是神奇注释或者魔术注释？"><a href="#什么是神奇注释或者魔术注释？" class="headerlink" title="什么是神奇注释或者魔术注释？"></a>什么是神奇注释或者魔术注释？</h3><p><strong>神奇注释或魔术注释（Magic Comment）是一种特殊的注释，用于在代码中嵌入特定的指令或元数据</strong>。这些注释通常被特定的工具或库识别并处理，以实现一些特殊的功能或效果。</p>
 <p>在Webpack中，魔术注释被用于为动态导入的模块指定特定的名字，以方便Webpack在编译过程中进行优化和分割。例如，通过在import语句中添加特定格式的注释，可以为动态导入的模块指定一个chunk名，以便在打包后生成具有特定名称的bundle文件。</p>
 <p>请注意，魔术注释并不是一种通用的编程概念，而是特定于某些工具或库的特定功能。因此，在不同的上下文或环境中，魔术注释的具体含义和用法可能会有所不同。</p>
+<h3 id="Webpack模块联邦"><a href="#Webpack模块联邦" class="headerlink" title="Webpack模块联邦"></a>Webpack模块联邦</h3><p>Webpack模块联邦（Module Federation）是Webpack 5中引入的一项革命性特性，它彻底改变了微前端架构的实现方式。以下是关于Webpack模块联邦的详细解释：</p>
+<h4 id="1-基础概念"><a href="#1-基础概念" class="headerlink" title="1. 基础概念"></a>1. 基础概念</h4><ul>
+<li><strong>容器应用（Container）</strong>：作为微前端架构的宿主，负责加载和协调各个微应用。</li>
+<li><strong>远程应用（Remote）</strong>：独立的微应用，可以暴露自己的模块给其他应用使用，也可以消费来自其他应用的模块。</li>
+</ul>
+<h4 id="2-实现步骤"><a href="#2-实现步骤" class="headerlink" title="2. 实现步骤"></a>2. 实现步骤</h4><h4 id="2-1-容器应用配置"><a href="#2-1-容器应用配置" class="headerlink" title="2.1 容器应用配置"></a>2.1 容器应用配置</h4><ul>
+<li>在容器应用的<code>webpack.config.js</code>中，使用<code>ModuleFederationPlugin</code>来声明远程微应用的来源。例如：</li>
+</ul>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> ModuleFederationPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack/lib/container/ModuleFederationPlugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>  
+  <span class="token comment" spellcheck="true">// ...其他配置  </span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>  
+    <span class="token keyword">new</span> <span class="token class-name">ModuleFederationPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
+      name<span class="token punctuation">:</span> <span class="token string">'container'</span><span class="token punctuation">,</span>  
+      remotes<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+        app1<span class="token punctuation">:</span> <span class="token string">'app1@http://localhost:3001/remoteEntry.js'</span><span class="token punctuation">,</span>  
+        app2<span class="token punctuation">:</span> <span class="token string">'app2@http://localhost:3002/remoteEntry.js'</span><span class="token punctuation">,</span>  
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+      shared<span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+        react<span class="token punctuation">:</span> <span class="token punctuation">{</span> singleton<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+        <span class="token string">'react-dom'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> singleton<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>  
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>  
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<ul>
+<li>其中，<code>remotes</code>字段指定了远程微应用的名称和其远程入口文件URL；<code>shared</code>配置则指明了哪些模块应该作为单例共享，以避免重复加载。</li>
+</ul>
+<h4 id="2-2-远程应用配置"><a href="#2-2-远程应用配置" class="headerlink" title="2.2 远程应用配置"></a>2.2 远程应用配置</h4><ul>
+<li>在每个远程应用的<code>webpack.config.js</code>中，同样使用<code>ModuleFederationPlugin</code>，但这次是来暴露自己的模块。</li>
+</ul>
+<h4 id="3-优势"><a href="#3-优势" class="headerlink" title="3. 优势"></a>3. 优势</h4><ul>
+<li><strong>实现模块之间的共享和通信</strong>：提高了团队协作的效率。</li>
+<li><strong>动态加载共享模块</strong>：减少了代码冗余，提高了项目的性能。</li>
+<li><strong>灵活的代码拆分和组织</strong>：使项目的代码结构更清晰，更易于维护和扩展。</li>
+<li><strong>支持多个构建的共享</strong>：减少了不同构建之间的重复编译，提高了构建的速度。</li>
+</ul>
+<h4 id="4-应用场景"><a href="#4-应用场景" class="headerlink" title="4. 应用场景"></a>4. 应用场景</h4><ul>
+<li><strong>跨团队协作</strong>：不同团队可以独立开发、构建和部署微应用，同时通过模块联邦实现模块共享和协作。</li>
+<li><strong>动态加载共享模块</strong>：根据项目需求，动态加载所需的模块，减少初始加载时间，提高用户体验。</li>
+<li><strong>灵活的代码组织和拆分</strong>：根据项目规模和复杂度，灵活拆分和组织代码，提高代码的可维护性和扩展性。</li>
+</ul>
+<p>Webpack模块联邦为微前端架构提供了一种新的实现方式，使得不同的Web应用程序可以更加灵活地共享代码和组件，提高了开发效率和项目性能。</p>
 <h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><blockquote>
 <p>webpack Proxy , 即wepack提供的代理服务，将客户端发送的请求转发给其他服务器。目的是为了解决开发模式下的跨域问题。想要实现代理首先需要一个中间服务器，webpack中提供服务器的工具为webpack-dev-server。webpack-dev-server是webpack官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能集成在了一起。【只适用在开发阶段】</p>
 </blockquote>
