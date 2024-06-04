@@ -980,41 +980,62 @@ btn<span class="token punctuation">.</span>onclick <span class="token operator">
 <p>事件移除监听函数的方式如下:</p>
 <pre class=" language-js"><code class="language-js"><span class="token function">detachEvent</span><span class="token punctuation">(</span>eventType<span class="token punctuation">,</span> handler<span class="token punctuation">)</span>
 </code></pre>
-<h3 id="js预加载怎么做"><a href="#js预加载怎么做" class="headerlink" title="js预加载怎么做"></a>js预加载怎么做</h3><p>JavaScript预加载（Preloading）是指将页面或应用程序所需资源（如图片、脚本、样式等）提前加载到浏览器缓存中，以便在用户需要时能够迅速从缓存中获取，从而提高页面加载速度和用户体验。以下是JavaScript预加载的实现步骤和示例：</p>
-<h4 id="1-图片预加载"><a href="#1-图片预加载" class="headerlink" title="1. 图片预加载"></a>1. <strong>图片预加载</strong></h4><p>图片预加载是预加载技术中最常见的应用之一。其基本原理是通过创建一个新的Image对象，并设置其src属性为要预加载的图片的URL，从而触发浏览器加载图片并将其存储在缓存中。</p>
-<p><strong>代码示例</strong>：</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">preloadImages</span><span class="token punctuation">(</span>imageURLs<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
-    <span class="token keyword">const</span> images <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> imageURLs<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
-        <span class="token keyword">const</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-        img<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
-            <span class="token comment" spellcheck="true">// 图片加载完成后的处理（可选）  </span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> has been loaded.`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-        <span class="token punctuation">}</span><span class="token punctuation">;</span>  
-        img<span class="token punctuation">.</span>onerror <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
-            <span class="token comment" spellcheck="true">// 图片加载失败的处理（可选）  </span>
-            console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>src<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> failed to load.`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-        <span class="token punctuation">}</span><span class="token punctuation">;</span>  
-        img<span class="token punctuation">.</span>src <span class="token operator">=</span> imageURLs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>  
-        images<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-    <span class="token punctuation">}</span>  
-<span class="token punctuation">}</span>  
-  
-<span class="token comment" spellcheck="true">// 使用方法  </span>
-<span class="token keyword">const</span> imageURLs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'./img/img1.jpg'</span><span class="token punctuation">,</span> <span class="token string">'./img/img2.jpg'</span><span class="token punctuation">,</span> <span class="token string">'./img/img3.jpg'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
-<span class="token function">preloadImages</span><span class="token punctuation">(</span>imageURLs<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<h4 id="2-其他资源预加载"><a href="#2-其他资源预加载" class="headerlink" title="2. 其他资源预加载"></a>2. <strong>其他资源预加载</strong></h4><p>除了图片外，你还可以预加载其他类型的资源，如脚本、样式等。但需要注意的是，由于浏览器的同源策略和安全限制，预加载某些类型的资源可能会受到限制或无法正常工作。</p>
-<h4 id="3-使用HTML预加载标签"><a href="#3-使用HTML预加载标签" class="headerlink" title="3. 使用HTML预加载标签"></a>3. <strong>使用HTML预加载标签</strong></h4><p>HTML5引入了<code>&lt;link rel=&quot;preload&quot;&gt;</code>标签，用于指定浏览器应预先加载的资源。这可以帮助确保在用户需要时资源已经可用，但请注意，这并不会阻止页面的其他内容加载。</p>
-<p><strong>代码示例</strong>：</p>
+<h3 id="js预加载怎么做"><a href="#js预加载怎么做" class="headerlink" title="js预加载怎么做"></a>js预加载怎么做</h3><p>在JavaScript中，预加载（preloading）通常是指在需要之前加载资源，以便在用户需要时能够立即使用它们，从而减少加载时间和提升用户体验。以下是几种常见的JavaScript预加载资源的方式：</p>
+<ol>
+<li><p>**使用<code>&lt;link rel=&quot;preload&quot;&gt;</code>**：<br>这是HTML5引入的一个新特性，允许你指定浏览器应该预加载哪些资源。例如，你可以预加载CSS、JavaScript、字体或其他资源。</p>
 <pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path/to/your/script.js<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>script<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>  
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path/to/your/style.css<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path/to/your/style.css<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>  
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>preload<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>path/to/your/font.woff2<span class="token punctuation">"</span></span> <span class="token attr-name">as</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>font<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>font/woff2<span class="token punctuation">"</span></span> <span class="token attr-name">crossorigin</span><span class="token punctuation">></span></span>
 </code></pre>
-<h4 id="4-注意事项"><a href="#4-注意事项" class="headerlink" title="4. 注意事项"></a>4. <strong>注意事项</strong></h4><ul>
-<li>预加载会增加初始加载时间，因此应谨慎使用，确保预加载的资源确实对用户体验有帮助。</li>
-<li>对于大型资源或数量较多的资源，可以考虑使用懒加载（Lazy Loading）技术来进一步优化加载性能。</li>
-<li>注意浏览器的兼容性问题，确保你的预加载策略能够在目标浏览器上正常工作。</li>
-</ul>
+<p>注意：<code>as</code>属性告诉浏览器资源的类型，<code>crossorigin</code>属性在某些情况下（如跨域字体）可能是必要的。</p>
+</li>
+<li><p><strong>使用JavaScript动态创建Image对象</strong>：<br>你可以通过创建新的<code>Image</code>对象来预加载图片。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">let</span> img <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+img<span class="token punctuation">.</span>src <span class="token operator">=</span> <span class="token string">'path/to/your/image.jpg'</span><span class="token punctuation">;</span>  
+img<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 图片已加载完成，可以进行后续操作  </span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>  
+img<span class="token punctuation">.</span>onerror <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token comment" spellcheck="true">// 图片加载失败的处理  </span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+<li><p><strong>使用XMLHttpRequest或Fetch API</strong>：<br>你也可以使用<code>XMLHttpRequest</code>或<code>fetch</code> API来预加载JavaScript、CSS或其他文本文件。不过，请注意，使用这些方法加载的资源不会自动添加到DOM中，你需要手动处理。</p>
+<p>使用<code>fetch</code> API的例子：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'path/to/your/script.js'</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>text <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+      <span class="token comment" spellcheck="true">// 这里只是获取了文本内容，并未执行。  </span>
+      <span class="token comment" spellcheck="true">// 如果需要执行JavaScript，你可能需要借助其他工具或方法来执行。  </span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>  
+  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>  
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'Fetch failed:'</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>但请注意，预加载JavaScript文件后直接执行可能存在风险，因为可能会与当前页面的其他脚本发生冲突。</p>
+</li>
+<li><p><strong>使用预加载库</strong>：<br>有些库提供了更高级别的预加载功能，如<code>preloadjs</code>（来自CreateJS套件）或<code>lazyload</code>（尽管它主要关注懒加载，但也可以用于预加载）。</p>
+</li>
+<li><p><strong>在CSS中预加载字体和背景图片</strong>：<br>在CSS中，你可以通过声明字体或背景图片来预加载它们，即使这些样式当前并未应用到任何元素上。</p>
+<pre class=" language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@font-face</span></span> <span class="token punctuation">{</span>  
+    <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'MyFont'</span><span class="token punctuation">;</span>  
+    <span class="token property">src</span><span class="token punctuation">:</span> <span class="token url">url('path/to/your/font.woff2')</span> <span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'woff2'</span><span class="token punctuation">)</span>,  
+         <span class="token url">url('path/to/your/font.woff')</span> <span class="token function">format</span><span class="token punctuation">(</span><span class="token string">'woff'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>  
+ 
+<span class="token selector">body<span class="token pseudo-element">::before</span> </span><span class="token punctuation">{</span>  
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">;</span>  
+    <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url('path/to/your/bg-image.jpg')</span> no-repeat -<span class="token number">9999</span>px -<span class="token number">9999</span>px<span class="token punctuation">;</span>  
+    <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>  
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">1</span>px<span class="token punctuation">;</span>  
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">1</span>px<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>注意：使用CSS预加载字体和背景图片可能会增加页面的初始加载时间，因为浏览器会尝试立即加载这些资源，即使它们可能不会被立即使用。</p>
+</li>
+<li><p><strong>在服务器级别进行预加载</strong>：<br>在某些情况下，你可能希望在服务器级别进行资源预加载，例如通过CDN的缓存机制或服务器端的缓存策略来确保资源在用户请求之前就已经准备好了。这通常涉及到服务器配置和网络优化，而不是直接通过JavaScript实现。</p>
+</li>
+</ol>
 <h3 id="事件循环："><a href="#事件循环：" class="headerlink" title="事件循环："></a>事件循环：</h3><h4 id="浏览器中的事件循环："><a href="#浏览器中的事件循环：" class="headerlink" title="浏览器中的事件循环："></a>浏览器中的事件循环：</h4><blockquote>
 <p>JavaScript 是单线程的语言，所谓单线程无非就是同步队列和异步队列，js代码是自上向下执行的，在主线程中立即执行的就是同步任务，比如简单的逻辑操作及函数，而异步任务不会立马立马执行，会挪步放到到异步队列中，而不同的异步操作添加到任务队列的时机也不同，比如onclick（事件）, setTimeout（计时器）, ajax ，promise处理的方式都不同，总的说就是<strong>等待主线程中任务全部完成后，再回来把异步队列中任务放到主程序中运行，这样反复的循环，就是事件循环。</strong></p>
 <p>这些异步操作是由浏览器内核来执行的,浏览器内核上包含 3 种 webAPI,分别是 DOM Binding(DOM绑定)、network(网络请求)、timer(定时器)模块</p>
@@ -2552,7 +2573,6 @@ utils<span class="token punctuation">.</span><span class="token function">doSome
 <h3 id="Electron加载缓慢怎么办"><a href="#Electron加载缓慢怎么办" class="headerlink" title="Electron加载缓慢怎么办"></a>Electron加载缓慢怎么办</h3><p>Electron 加载缓慢的问题可能由多种因素导致。以下是一些建议的解决方案，结合参考文章中的相关信息进行归纳和补充：</p>
 <ol>
 <li><p>优化 Electron 应用程序的打包</p>
-<p>：</p>
 <ul>
 <li>使用 asar 打包方式：asar 是一种将应用程序打包为单个归档文件的方法，可以有效减少文件数量和大小，从而减小应用程序的打包体积。在应用程序的 <code>package.json</code> 文件中，将 <code>&quot;asar&quot;: true</code> 添加到 <code>&quot;build&quot;</code> 配置中即可启用。</li>
 <li>移除不必要的依赖：检查应用程序依赖的模块和库是否真正需要使用，如果不需要，可以将其从项目中移除。可以使用 <code>npm prune</code> 命令或 <code>npm prune --force</code> 来删除未使用的依赖项。</li>
@@ -2560,41 +2580,35 @@ utils<span class="token punctuation">.</span><span class="token function">doSome
 </ul>
 </li>
 <li><p>优化 Electron 窗口的创建</p>
-<p>：</p>
 <ul>
 <li>Electron 在创建 <code>BrowserWindow</code> 对象时会进行大量的初始化工作，这可能会导致加载缓慢。如果可能，尽量减少不必要的初始化步骤。</li>
 <li>对于首次加载并渲染 HTML 页面较慢的问题，可以考虑使用预加载的页面模板，或者使用异步加载的方式来减少页面首次加载的时间。</li>
 </ul>
 </li>
 <li><p>优化 Electron 的网络请求</p>
-<p>：</p>
 <ul>
 <li>如果 Electron 应用程序在加载时需要进行大量的网络请求，这可能会导致加载缓慢。优化网络请求，例如使用缓存、减少请求数量、合并请求等，可以提高加载速度。</li>
 <li>考虑设置 Electron 的网络代理或使用国内的镜像源来加速 npm 安装和 Electron 的下载。例如，可以设置 npm 的默认 Electron 安装路径的环境变量 <code>ELECTRON_MIRROR</code> 为国内的镜像源。</li>
 </ul>
 </li>
 <li><p>使用预加载脚本（Preload Scripts）</p>
-<p>：</p>
 <ul>
 <li>在 Electron 中，预加载脚本允许你在渲染进程加载之前运行代码，从而可以更早地开始初始化过程。你可以利用预加载脚本来加载必要的资源或执行必要的初始化任务。</li>
 </ul>
 </li>
 <li><p>优化渲染进程的性能</p>
-<p>：</p>
 <ul>
 <li>检查渲染进程中的代码，优化性能瓶颈，例如减少不必要的计算和渲染，使用更高效的数据结构和算法等。</li>
 <li>考虑使用 web workers 或其他多线程技术来并行处理计算密集型任务，以避免阻塞主渲染线程。</li>
 </ul>
 </li>
 <li><p>硬件和配置优化</p>
-<p>：</p>
 <ul>
 <li>如果 Electron 应用程序在低配机型上运行缓慢，考虑优化应用程序的硬件和配置要求。例如，减少内存和 CPU 的使用量，优化图形渲染等。</li>
 <li>如果可能，对 Electron 应用程序进行性能测试和分析，找出性能瓶颈并进行优化。</li>
 </ul>
 </li>
 <li><p>考虑使用其他框架</p>
-<p>：</p>
 <ul>
 <li>如果 Electron 的性能问题无法解决，或者你对 Electron 的架构不满意，可以考虑使用其他框架来构建跨平台的桌面应用程序。例如，NW.js、Tauri 或 Flutter 等都是流行的选择。</li>
 </ul>

@@ -522,6 +522,50 @@
 </blockquote>
 <p>注意，域名查询时有可能是经过了CDN调度器的（如果有cdn存储功能的话）</p>
 <p>而且，需要知道dns解析是很耗时的，因此如果解析域名过多，会让首屏加载变得过慢，可以考虑<code>dns-prefetch</code>优化</p>
+<p>DNS（Domain Name System）查询是互联网中用于将域名（如 <code>www.example.com</code>）转换为IP地址（如 <code>192.0.2.1</code>）的过程。以下是关于DNS查询的一些基本知识和步骤：</p>
+<h4 id="DNS查询的基本步骤："><a href="#DNS查询的基本步骤：" class="headerlink" title="DNS查询的基本步骤："></a>DNS查询的基本步骤：</h4><ol>
+<li><strong>客户端发起查询</strong>：<br>当用户在浏览器中输入一个域名时，浏览器会向本地DNS解析器（通常是ISP提供的DNS服务器或操作系统内置的DNS服务器）发起查询请求。</li>
+<li><strong>本地DNS解析器查询</strong>：<br>本地DNS解析器会首先查看其缓存中是否有该域名的记录。如果有，它会直接返回IP地址给客户端；如果没有，它会继续向其他DNS服务器发起查询。</li>
+<li><strong>递归查询或迭代查询</strong>：<ul>
+<li><strong>递归查询</strong>：本地DNS解析器会向根DNS服务器发起查询，然后根DNS服务器会返回顶级域（TLD）服务器的地址。本地DNS解析器会再向TLD服务器发起查询，以此类推，直到找到正确的IP地址。在这个过程中，本地DNS解析器会一直等待并接收最终的IP地址作为响应。</li>
+<li><strong>迭代查询</strong>：本地DNS解析器向根DNS服务器发起查询，根DNS服务器返回TLD服务器的地址。然后本地DNS解析器会向TLD服务器发起查询，TLD服务器返回下一级DNS服务器的地址，如此迭代，直到找到正确的IP地址。在这个过程中，本地DNS解析器需要自己处理多个查询请求和响应。</li>
+</ul>
+</li>
+<li><strong>返回IP地址</strong>：<br>一旦找到正确的IP地址，DNS服务器会将其返回给本地DNS解析器，然后本地DNS解析器会将其缓存起来，并返回给客户端。</li>
+<li><strong>客户端访问网站</strong>：<br>客户端使用返回的IP地址来访问网站。</li>
+</ol>
+<h4 id="DNS查询的类型："><a href="#DNS查询的类型：" class="headerlink" title="DNS查询的类型："></a>DNS查询的类型：</h4><ul>
+<li><strong>A记录</strong>：将域名映射到IPv4地址。</li>
+<li><strong>AAAA记录</strong>：将域名映射到IPv6地址。</li>
+<li><strong>CNAME记录</strong>：将一个域名映射到另一个域名。</li>
+<li><strong>MX记录</strong>：指定用于接收电子邮件的邮件交换服务器。</li>
+<li><strong>NS记录</strong>：指定哪个DNS服务器负责解析某个域名。</li>
+<li><strong>SOA记录</strong>：指定DNS区域的主要服务器和区域管理员的电子邮件地址。</li>
+<li><strong>PTR记录</strong>：将IP地址映射到域名（反向DNS查找）。</li>
+</ul>
+<h4 id="如何进行DNS查询："><a href="#如何进行DNS查询：" class="headerlink" title="如何进行DNS查询："></a>如何进行DNS查询：</h4><p>你可以使用多种工具来执行DNS查询，如<code>nslookup</code>、<code>dig</code>（在Linux和macOS上）或在线DNS查询工具。这些工具允许你输入域名并查看其DNS记录。</p>
+<p>例如，在Linux或macOS终端中，你可以使用<code>dig</code>命令来查询一个域名的A记录：</p>
+<pre class=" language-bash"><code class="language-bash">bash复制代码
+
+<span class="token function">dig</span> www.example.com A
+</code></pre>
+<p>这将会返回与<code>www.example.com</code>相关的A记录信息。</p>
+<h4 id="CDN调度"><a href="#CDN调度" class="headerlink" title="CDN调度"></a>CDN调度</h4><p>CDN调度是内容分发网络（Content Delivery Network）中的一个关键环节，它负责将用户的访问请求智能地导向离用户最近的、工作正常的缓存服务器上，以提高用户访问响应速度和命中率。以下是对CDN调度的详细解释：</p>
+<h4 id="CDN调度的基本原理"><a href="#CDN调度的基本原理" class="headerlink" title="CDN调度的基本原理"></a>CDN调度的基本原理</h4><p>CDN调度的基本原理是广泛采用各种缓存服务器，并将这些缓存服务器分布到用户访问相对集中的地区或网络中。当用户访问网站时，CDN系统会根据一系列因素（如用户地理位置、运营商网络、边缘节点负载情况等）进行智能调度，将用户的访问请求指向最合适的缓存服务器。</p>
+<h4 id="CDN调度的关键因素"><a href="#CDN调度的关键因素" class="headerlink" title="CDN调度的关键因素"></a>CDN调度的关键因素</h4><ol>
+<li><strong>用户地理位置</strong>：CDN系统会根据用户的IP地址确定其地理位置，并查找距离用户最近的边缘节点。</li>
+<li><strong>运营商网络</strong>：为了优化网络访问路径，CDN系统还会考虑用户所在的运营商网络，并优先选择与用户所在网络相同的边缘节点。</li>
+<li><strong>边缘节点负载情况</strong>：CDN系统会实时监测各边缘节点的负载情况，并选择负载较轻的节点进行服务，以确保用户请求的及时处理。</li>
+<li><strong>其他因素</strong>：除了上述因素外，CDN调度还会考虑其他因素，如节点的“健康状况”、服务能力、带宽、响应时间等，以综合评估并选择最合适的边缘节点。</li>
+</ol>
+<h4 id="CDN调度的过程"><a href="#CDN调度的过程" class="headerlink" title="CDN调度的过程"></a>CDN调度的过程</h4><ol>
+<li><strong>请求接收</strong>：当用户访问网站时，CDN系统会接收到用户的访问请求。</li>
+<li><strong>智能调度</strong>：CDN系统会根据用户请求中的信息（如域名、请求类型等）以及上述关键因素进行智能调度，确定最佳的边缘节点。</li>
+<li><strong>请求转发</strong>：一旦确定了最佳边缘节点，CDN系统会将用户的访问请求转发给该节点。</li>
+<li><strong>内容响应</strong>：边缘节点在接收到请求后，会检查本地缓存中是否有用户请求的内容。如果有，则直接返回给用户；如果没有，则向源站发起请求，并将获取到的内容缓存到本地，再返回给用户。</li>
+</ol>
+<h4 id="CDN调度的效果"><a href="#CDN调度的效果" class="headerlink" title="CDN调度的效果"></a>CDN调度的效果</h4><p>通过智能调度，CDN系统能够使用户就近访问缓存服务器，降低网络拥塞，提高用户访问响应速度和命中率。同时，CDN系统还能够根据各节点的负载情况和网络状况进行动态调整，确保服务质量和稳定性。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>CDN调度是CDN系统中至关重要的一个环节，它通过智能地选择最佳边缘节点来优化用户访问体验。在实际应用中，CDN调度需要结合多种因素进行综合考虑，以确保服务质量和稳定性。</p>
 <h4 id="tcp-ip请求"><a href="#tcp-ip请求" class="headerlink" title="tcp/ip请求"></a>tcp/ip请求</h4><p>http的本质就是 tcp/ip 请求,且tcp/ip协议是传输层面向连接的一个安全可靠的连接协议。tcp将http长报文划分为短报文，通过三次握手与服务端建立连接，进行可靠传输，这里需要了解3次握手规则建立连接以及断开连接时的四次挥手。</p>
 <h4 id="TCP报文格式"><a href="#TCP报文格式" class="headerlink" title="TCP报文格式"></a>TCP报文格式</h4><p><img src="/../images/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/tcp-message-format.jpg" alt="tcp报文格式"></p>
 <blockquote>
